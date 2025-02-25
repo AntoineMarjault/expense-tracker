@@ -37,6 +37,14 @@ module Api
                 end
             end
 
+            def destroy
+                transaction = Transaction.find_by(id: params[:id])
+
+                return render json: transaction, status: :not_found unless transaction
+
+                transaction.destroy!
+            end
+
             private
 
             def transaction_params

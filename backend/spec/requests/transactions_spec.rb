@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Transactions', type: :request do
     describe 'GET /transactions' do
-        it 'returns all transactions' do
+        it 'returns 200 and all transactions' do
             2.times{FactoryBot.create(:transaction)}
 
             get '/api/v1/transactions'
@@ -13,7 +13,7 @@ RSpec.describe 'Transactions', type: :request do
     end
 
     describe 'POST /transactions' do
-        it 'creates a new transaction' do
+        it 'returns 201 and creates a new transaction' do
             transaction_params = {
                 name: 'train Paris - Nantes',
                 amount: 58.62,
@@ -30,7 +30,7 @@ RSpec.describe 'Transactions', type: :request do
             expect(Transaction.count).to eq(1)
         end
 
-        it 'returns an error if the transaction is invalid' do
+        it 'returns 422 if the transaction is invalid' do
             transaction_params_without_amount = {
                 name: 'train Paris - Nantes',
                 category: 'transport',
@@ -46,7 +46,7 @@ RSpec.describe 'Transactions', type: :request do
             expect(Transaction.count).to eq(0)
         end
 
-        it 'creates a transaction with EUR as a default currency if none is provided' do
+        it 'returns 201 and creates a transaction with EUR as a default currency if none is provided' do
             transaction_params = {
                 name: 'train Paris - Nantes',
                 amount: '10',
@@ -67,7 +67,7 @@ RSpec.describe 'Transactions', type: :request do
     end
 
     describe 'GET /transactions/:id' do
-        it 'returns the transaction with the given id' do
+        it 'returns 200 and the transaction with the given id' do
             transaction = FactoryBot.create(:transaction)
 
             get "/api/v1/transactions/#{transaction.id}"
@@ -76,7 +76,7 @@ RSpec.describe 'Transactions', type: :request do
             expect(JSON.parse(response.body)['id']).to eq(transaction.id)
         end
 
-        it 'returns a 404 if the transaction does not exist' do
+        it 'returns 404 if the transaction does not exist' do
             get '/api/v1/transactions/999'
 
             expect(response).to have_http_status(:not_found)
@@ -85,7 +85,7 @@ RSpec.describe 'Transactions', type: :request do
     end
 
     describe 'PUT /transactions/:id' do
-        it 'updates the transaction with the given id and returns the updated version' do
+        it 'returns 200 and updates the transaction with the given id and returns the updated version' do
             transaction = FactoryBot.create(:transaction, name: 'Initial name')
             transaction_params = { name: 'New name' }
 
@@ -96,7 +96,7 @@ RSpec.describe 'Transactions', type: :request do
             expect(JSON.parse(response.body)['name']).to eq('New name')
         end
 
-        it 'returns a 404 if the transaction does not exist' do
+        it 'returns 404 if the transaction does not exist' do
             transaction_params = { name: 'new name' }
 
             headers = { "CONTENT_TYPE" => "application/json" }
@@ -106,7 +106,7 @@ RSpec.describe 'Transactions', type: :request do
             expect(JSON.parse(response.body)).to eq(nil)
         end
 
-        it 'returns an error if the transaction is invalid' do
+        it 'returns 400 if the transaction is invalid' do
             transaction = FactoryBot.create(:transaction)
             transaction_params = { invalid: 'field' }
 
@@ -114,6 +114,24 @@ RSpec.describe 'Transactions', type: :request do
             put "/api/v1/transactions/#{transaction.id}", :params => transaction_params.to_json, :headers => headers
 
             expect(response).to have_http_status(:bad_request)
+        end
+    end
+
+    describe 'PUT /transactions/:id' do
+        it 'returns 204 and deletes the transaction with given ID from DB' do
+            transaction = FactoryBot.create(:transaction)
+            expect(Transaction.count).to eq(1)
+
+            delete "/api/v1/transactions/#{transaction.id}"
+
+            expect(response).to have_http_status(:no_content)
+            expect(Transaction.count).to eq(0)
+        end
+
+        it 'returns a 404 if the transaction does not exist' do
+            delete "/api/v1/transactions/999"
+
+            expect(response).to have_http_status(:not_found)
         end
     end
 end
