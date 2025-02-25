@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Transactions', type: :request do
     describe 'GET /transactions' do
         it 'returns all transactions' do
-            FactoryBot.create(:transaction, name: 'train Paris - Nantes', amount: 58.62, category: 'transport', date: Time.now)
-            FactoryBot.create(:transaction, name: 'restaurant Nantes', amount: 60.62, category: 'food', date: Time.now)
+            2.times{FactoryBot.create(:transaction)}
 
             get '/api/v1/transactions'
 
@@ -64,6 +63,24 @@ RSpec.describe 'Transactions', type: :request do
                         expect(Transaction.count).to eq(1)
                         expect(Transaction.last.amount).to eq(10)
                         expect(Transaction.last.currency).to eq('EUR')
+        end
+    end
+
+    describe 'GET /transactions/:id' do
+        it 'returns the transaction with the given id' do
+            transaction = FactoryBot.create(:transaction)
+
+            get "/api/v1/transactions/#{transaction.id}"
+
+            expect(response).to have_http_status(:success)
+            expect(JSON.parse(response.body)['id']).to eq(transaction.id)
+        end
+
+        it 'returns a 404 if the transaction does not exist' do
+            get '/api/v1/transactions/999'
+
+            expect(response).to have_http_status(:not_found)
+            expect(JSON.parse(response.body)).to eq(nil)
         end
     end
 end

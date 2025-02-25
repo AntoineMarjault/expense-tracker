@@ -5,6 +5,16 @@ module Api
                 render json: Transaction.all
             end
 
+            def show
+                transaction = Transaction.find_by(id: params[:id])
+
+                if transaction
+                    render json: transaction
+                else
+                    render json: transaction, status: :not_found
+                end
+            end
+
             def create
                 transaction = Transaction.new(transaction_params)
 
