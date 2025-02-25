@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       get "transactions/index"
     end
       namespace :v1 do
-        resources :transactions, only: %i[index]
+        resources :transactions, only: %i[index create]
         end
     end
 end
