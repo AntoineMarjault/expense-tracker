@@ -12,8 +12,5 @@ test:
   database: backend_test
 
 production:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
-  cable:
+  primary: &primary_production
     <<: *default
-    url: <%= ENV['DATABASE_URL'] %>
