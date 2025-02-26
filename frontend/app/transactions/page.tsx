@@ -1,5 +1,9 @@
 const TransactionsPage = () => {
-  return <>HELLO WORLD</>
+  return (
+    <div>
+      <p>Hello</p>
+    </div>
+  )
 }
 
 export default TransactionsPage
