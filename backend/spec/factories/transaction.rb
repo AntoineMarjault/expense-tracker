@@ -3,7 +3,7 @@ FactoryBot.define do
         sequence(:name) { |n| "Transaction #{n}" }
         amount { 10 }
         currency { 'EUR' }
-        category { 'transport' }
+        association :category
         date { Time.now }
     end
 end

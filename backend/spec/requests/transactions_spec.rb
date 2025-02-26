@@ -17,7 +17,7 @@ RSpec.describe 'Transactions', type: :request do
             transaction_params = {
                 name: 'train Paris - Nantes',
                 amount: 58.62,
-                category: 'transport',
+                category_id: FactoryBot.create(:category).id,
                 date: Time.now
             }
 
@@ -33,7 +33,7 @@ RSpec.describe 'Transactions', type: :request do
         it 'returns 422 if the transaction is invalid' do
             transaction_params_without_amount = {
                 name: 'train Paris - Nantes',
-                category: 'transport',
+                category_id: FactoryBot.create(:category).id,
                 date: Time.now
             }
 
@@ -50,7 +50,7 @@ RSpec.describe 'Transactions', type: :request do
             transaction_params = {
                 name: 'train Paris - Nantes',
                 amount: '10',
-                category: 'transport',
+                category_id: FactoryBot.create(:category).id,
                 date: Time.now
             }
 
