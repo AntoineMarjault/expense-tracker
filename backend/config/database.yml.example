@@ -7,10 +7,6 @@ development:
   <<: *default
   database: backend_development
 
-test:
-  <<: *default
-  database: backend_test
-
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
