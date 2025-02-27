@@ -1,5 +1,3 @@
-'use client'
-
 import { BiHomeAlt2 } from 'react-icons/bi'
 import { BiPieChartAlt2 } from 'react-icons/bi'
 import Link from 'next/link'
