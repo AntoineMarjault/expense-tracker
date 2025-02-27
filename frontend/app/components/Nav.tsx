@@ -1,32 +1,44 @@
-import Image from 'next/image'
+'use client'
+
+import { BiHomeAlt2 } from 'react-icons/bi'
+import { BiPieChartAlt2 } from 'react-icons/bi'
+import Link from 'next/link'
+import { ReactNode } from 'react'
+
+const iconSize = 20
 
 const Nav = () => {
   return (
     <nav className="flex justify-around p-3 bg-white border-t-gray-200 border-t">
-      <NavItem iconFileName="/icons/pie-chart.svg" name="Transactions" />
-      <NavItem iconFileName="/icons/home.svg" name="Budgets" />
+      <NavItem
+        icon={<BiHomeAlt2 size={iconSize} />}
+        name="Transactions"
+        href="/transactions"
+      />
+      <NavItem
+        icon={<BiPieChartAlt2 size={iconSize} />}
+        name="Budgets"
+        href="/budgets"
+      />
     </nav>
   )
 }
 
 interface NavItemProps {
-  iconFileName: string
+  icon: ReactNode
   name: string
+  href: string
 }
 
-const NavItem = ({ iconFileName, name }: NavItemProps) => {
+const NavItem = ({ icon, name, href }: NavItemProps) => {
   return (
-    <div className="flex flex-col items-center fill-gray-500 hover:cursor-pointer hover:fill-blue-500 ">
-      <Image
-        aria-hidden
-        src={iconFileName}
-        alt={name}
-        width={24}
-        height={24}
-        className="hover:fill-current"
-      />
-      <p className="text-gray-500 text-xs">{name}</p>
-    </div>
+    <Link
+      href={href}
+      className="flex flex-col items-center text-gray-500 hover:text-blue-500 transition-colors duration-300"
+    >
+      <div className="mb-1">{icon}</div>
+      <span className="text-xs">{name}</span>
+    </Link>
   )
 }
 
