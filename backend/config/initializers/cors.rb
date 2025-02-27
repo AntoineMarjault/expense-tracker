@@ -10,7 +10,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     if Rails.env.development?
       origins 'http://localhost:3001'
     else
-      origins 'https://expense-tracker-three-ivory.vercel.app/'  # Replace with your actual domain
+      origins 'https://expense-tracker-three-ivory.vercel.app'  # Replace with your actual domain
     end
 
     resource "*",
