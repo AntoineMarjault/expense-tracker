@@ -7,9 +7,15 @@ import { ReactNode } from 'react'
 
 const iconSize = 20
 
-const Nav = () => {
+interface NavProps {
+  className: string
+}
+
+const Nav = ({ className }: NavProps) => {
   return (
-    <nav className="flex justify-around p-3 bg-white border-t-gray-200 border-t">
+    <nav
+      className={`${className} flex justify-around p-3 bg-white border-t border-t-gray-200`}
+    >
       <NavItem
         icon={<BiHomeAlt2 size={iconSize} />}
         name="Transactions"
