@@ -2,27 +2,37 @@
 
 import TransactionCard from '@/app/transactions/TransactionCard'
 import { useTransactionIndex } from '@/hooks/transactions'
-
-// Transformations API:
-// Get the category name and emoji -> GET route on the API
-// Change amount from string to numer -> change in the /GET transactions :id route
-// Return currency symbol instead of currency ?
-// Format the date to JJ/MM/AA -> I think we can change that in the frontend
+import { useCategoryIndex } from '@/hooks/categories'
 
 const TransactionsPage = () => {
-  const { data: transactions = [], isLoading } = useTransactionIndex()
+  const { data: transactions = [], isLoading: transactionsLoading } =
+    useTransactionIndex()
+  const { data: categories = [], isLoading: categoriesLoading } =
+    useCategoryIndex()
+
+  const isLoading = transactionsLoading || categoriesLoading
+
+  const transactionsWithCategory = transactions.map((transaction) => {
+    const category = categories.find(
+      (category) => category.id === transaction.category_id
+    )
+    return {
+      ...transaction,
+      category: category || { name: '', emoji: '' },
+    }
+  })
 
   return (
     <div className="">
       {isLoading && <p>Loading...</p>}
-      {transactions.map((transaction) => (
+      {transactionsWithCategory.map((transactionWithCategory) => (
         <TransactionCard
-          key={transaction.id}
-          amount={transaction.amount}
-          name={transaction.name}
-          date={transaction.date}
-          categoryName="food"
-          categoryEmoji="🚆"
+          key={transactionWithCategory.id}
+          amount={transactionWithCategory.amount}
+          name={transactionWithCategory.name}
+          date={transactionWithCategory.date}
+          categoryName={transactionWithCategory.category.name}
+          categoryEmoji={transactionWithCategory.category.emoji}
         />
       ))}
     </div>

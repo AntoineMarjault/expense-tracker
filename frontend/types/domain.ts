@@ -6,3 +6,10 @@ export interface Transaction {
   date: string
   category_id: number
 }
+
+export interface Category {
+  id: number
+  name: string
+  color: string
+  emoji: string
+}
