@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       get "transactions/index"
     end
       namespace :v1 do
+            post '/login', to: 'authentications#create'
+            post '/signup', to: 'users#create'
+
             resources :categories, only: %i[index show]
             resources :transactions, only: %i[index show create update destroy]
         end
