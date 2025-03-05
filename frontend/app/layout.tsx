@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import { authOptions } from './api/auth/[...nextauth]/route'
 import { ReactNode } from 'react'
+import { authOptions } from '@/lib/auth'
 
 export default async function RootLayout({
   children,
