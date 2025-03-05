@@ -1,8 +1,18 @@
-import NextAuth from 'next-auth'
+import NextAuth, { Session, User } from 'next-auth'
+import { JWT } from 'next-auth/jwt'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
 declare module 'next-auth' {
   interface Session {
+    jwt?: string
+  }
+  interface User {
+    token: string
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
     jwt?: string
   }
 }
@@ -34,13 +44,13 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: { token: any; user: any }) {
+    async jwt({ token, user }: { token: JWT; user: User | undefined }) {
       if (user?.token) {
         token.jwt = user.token // Store Rails JWT
       }
       return token
     },
-    async session({ session, token }: { session: any; token: any }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       session.jwt = token.jwt // Make Rails JWT available in session
       return session
     },
