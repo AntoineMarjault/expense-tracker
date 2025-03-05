@@ -1,39 +1,50 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+import { getSession } from 'next-auth/react'
 
 export const api = {
-  async get(endpoint: string) {
-    console.log('API_URL', API_URL)
-    console.log('endpoint', endpoint)
-    const response = await fetch(`${API_URL}${endpoint}`)
-    if (!response.ok) throw new Error('API Error')
+  async fetch(endpoint: string, options: RequestInit = {}) {
+    const session = await getSession()
+
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      ...(options.headers as Record<string, string>),
+    }
+
+    if (session?.jwt) {
+      headers['Authorization'] = `Bearer ${session.jwt}`
+    }
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}${endpoint}`,
+      {
+        ...options,
+        headers,
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error('API request failed')
+    }
+
     return response.json()
   },
-
-  async post(endpoint: string, data: unknown) {
-    const response = await fetch(`${API_URL}${endpoint}`, {
+  get(endpoint: string) {
+    return this.fetch(endpoint)
+  },
+  post(endpoint: string, data: unknown) {
+    return this.fetch(endpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     })
-    if (!response.ok) throw new Error('API Error')
-    return response.json()
   },
-
-  async put(endpoint: string, data: unknown) {
-    const response = await fetch(`${API_URL}${endpoint}`, {
+  put(endpoint: string, data: unknown) {
+    return this.fetch(endpoint, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     })
-    if (!response.ok) throw new Error('API Error')
-    return response.json()
   },
-
-  async delete(endpoint: string) {
-    const response = await fetch(`${API_URL}${endpoint}`, {
+  delete(endpoint: string) {
+    return this.fetch(endpoint, {
       method: 'DELETE',
     })
-    if (!response.ok) throw new Error('API Error')
-    return response.json()
   },
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import TransactionCard from '@/app/transactions/TransactionCard'
+import TransactionCard from '@/app/dashboard/transactions/TransactionCard'
 import { useTransactionIndex } from '@/hooks/transactions'
 import { useCategoryIndex } from '@/hooks/categories'
 
