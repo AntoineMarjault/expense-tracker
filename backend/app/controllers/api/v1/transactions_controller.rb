@@ -2,11 +2,11 @@ module Api
     module V1
         class TransactionsController < ApplicationController
             def index
-                render json: Transaction.all
+                render json: current_user.transactions
             end
 
             def show
-                transaction = Transaction.find_by(id: params[:id])
+                transaction = current_user.transactions.find_by(id: params[:id])
 
                 if transaction
                     render json: transaction
@@ -16,7 +16,7 @@ module Api
             end
 
             def create
-                transaction = Transaction.new(transaction_params)
+                transaction = current_user.transactions.build(transaction_params)
 
                 if transaction.save
                     render json: transaction, status: :created
@@ -26,7 +26,7 @@ module Api
             end
 
             def update
-                transaction = Transaction.find_by(id: params[:id])
+                transaction = current_user.transactions.find_by(id: params[:id])
 
                 return render json: transaction, status: :not_found unless transaction
 
@@ -38,7 +38,7 @@ module Api
             end
 
             def destroy
-                transaction = Transaction.find_by(id: params[:id])
+                transaction = current_user.transactions.find_by(id: params[:id])
 
                 return render json: transaction, status: :not_found unless transaction
 

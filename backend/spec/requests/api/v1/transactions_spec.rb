@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Transactions', type: :request do
+    let(:user) { FactoryBot.create(:user) }
+    before { login_as(user) }
+
     describe 'GET /transactions' do
         it 'returns 200 and all transactions' do
-            2.times{FactoryBot.create(:transaction)}
+            2.times{FactoryBot.create(:transaction, user: user)}
 
             get '/api/v1/transactions'
 
@@ -68,7 +71,7 @@ RSpec.describe 'Transactions', type: :request do
 
     describe 'GET /transactions/:id' do
         it 'returns 200 and the transaction with the given id' do
-            transaction = FactoryBot.create(:transaction)
+            transaction = FactoryBot.create(:transaction, user: user)
 
             get "/api/v1/transactions/#{transaction.id}"
 
@@ -86,7 +89,7 @@ RSpec.describe 'Transactions', type: :request do
 
     describe 'PUT /transactions/:id' do
         it 'returns 200 and updates the transaction with the given id and returns the updated version' do
-            transaction = FactoryBot.create(:transaction, name: 'Initial name')
+            transaction = FactoryBot.create(:transaction, name: 'Initial name', user: user)
             transaction_params = { name: 'New name' }
 
             headers = { "CONTENT_TYPE" => "application/json" }
@@ -94,6 +97,16 @@ RSpec.describe 'Transactions', type: :request do
 
             expect(response).to have_http_status(:success)
             expect(JSON.parse(response.body)['name']).to eq('New name')
+        end
+
+        it 'returns 400 if the transaction is invalid' do
+            transaction = FactoryBot.create(:transaction, user: user)
+            transaction_params = { invalid: 'field' }
+
+            headers = { "CONTENT_TYPE" => "application/json" }
+            put "/api/v1/transactions/#{transaction.id}", :params => transaction_params.to_json, :headers => headers
+
+            expect(response).to have_http_status(:bad_request)
         end
 
         it 'returns 404 if the transaction does not exist' do
@@ -105,21 +118,11 @@ RSpec.describe 'Transactions', type: :request do
             expect(response).to have_http_status(:not_found)
             expect(JSON.parse(response.body)).to eq(nil)
         end
-
-        it 'returns 400 if the transaction is invalid' do
-            transaction = FactoryBot.create(:transaction)
-            transaction_params = { invalid: 'field' }
-
-            headers = { "CONTENT_TYPE" => "application/json" }
-            put "/api/v1/transactions/#{transaction.id}", :params => transaction_params.to_json, :headers => headers
-
-            expect(response).to have_http_status(:bad_request)
-        end
     end
 
     describe 'PUT /transactions/:id' do
         it 'returns 204 and deletes the transaction with given ID from DB' do
-            transaction = FactoryBot.create(:transaction)
+            transaction = FactoryBot.create(:transaction, user: user)
             expect(Transaction.count).to eq(1)
 
             delete "/api/v1/transactions/#{transaction.id}"

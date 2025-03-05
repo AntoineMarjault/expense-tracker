@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Api::V1::Categories", type: :request do
+    let(:user) { FactoryBot.create(:user) }
+    before { login_as(user) }
+
     describe "GET /index" do
         it "returns 200 and all categories" do
             2.times{FactoryBot.create(:category)}
