@@ -1,16 +1,16 @@
-import { ApiTransaction } from '@/types/api'
+import { BaseTransaction } from '@/types/api'
 import { Transaction } from '@/types/domain'
 
 export function transformTransaction(
-  apiTransaction: ApiTransaction
+  baseTransaction: BaseTransaction
 ): Transaction {
   return {
-    id: apiTransaction.id,
-    amount: parseFloat(apiTransaction.amount),
-    name: apiTransaction.name,
-    currency: apiTransaction.currency,
-    date: formatDate(apiTransaction.date),
-    category_id: apiTransaction.category_id,
+    id: baseTransaction.id,
+    amount: baseTransaction.amount,
+    name: baseTransaction.name,
+    currency: baseTransaction.currency,
+    date: formatDate(baseTransaction.date),
+    category_id: baseTransaction.category_id,
   }
 }
 

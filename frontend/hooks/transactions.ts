@@ -1,7 +1,13 @@
-import { useQuery, useMutation, useQueryClient, UseQueryResult } from '@tanstack/react-query';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  UseQueryResult,
+} from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 import { transformTransaction } from '@/lib/transforms'
-import { Transaction } from '@/types/domain';
+import { Transaction } from '@/types/domain'
+import { TransactionCreate } from '@/types/api'
 
 export function useTransactionIndex(): UseQueryResult<Transaction[]> {
   return useQuery({
@@ -25,7 +31,7 @@ export function useTransactionCreate() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: unknown) => api.post('/transactions', data),
+    mutationFn: (data: TransactionCreate) => api.post('/transactions', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
     },

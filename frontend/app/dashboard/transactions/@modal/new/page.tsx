@@ -10,9 +10,25 @@ import {
   DrawerTitle,
 } from '@/components/ui/drawer'
 import TransactionForm from '@/components/TransactionForm'
+import { useCategoryIndex } from '@/hooks/categories'
+import { useTransactionCreate } from '@/hooks/transactions'
+import { TransactionCreate } from '@/types/api'
 
 const NewTransactionDrawer = () => {
   const router = useRouter()
+  const { data: categories = [] } = useCategoryIndex()
+  const { mutate: createTransaction } = useTransactionCreate()
+
+  const handleOnSubmit = (values: TransactionCreate) => {
+    createTransaction(values, {
+      onSuccess: () => {
+        router.back()
+        setTimeout(() => {
+          router.replace('/dashboard/transactions')
+        }, 100)
+      },
+    })
+  }
 
   return (
     <Drawer
@@ -28,7 +44,10 @@ const NewTransactionDrawer = () => {
         </DrawerHeader>
         <DrawerFooter>
           <div className="px-4">
-            <TransactionForm />
+            <TransactionForm
+              categories={categories}
+              onSubmitAction={handleOnSubmit}
+            />
           </div>
         </DrawerFooter>
       </DrawerContent>
