@@ -7,7 +7,7 @@ import {
 import { api } from '@/lib/api-client'
 import { transformTransaction } from '@/lib/transforms'
 import { Transaction } from '@/types/domain'
-import { TransactionCreate } from '@/types/api'
+import { TransactionCreate, TransactionUpdate } from '@/types/api'
 
 export function useTransactionIndex(): UseQueryResult<Transaction[]> {
   return useQuery({
@@ -34,6 +34,19 @@ export function useTransactionCreate() {
     mutationFn: (data: TransactionCreate) => api.post('/transactions', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
+    },
+  })
+}
+
+export function useTransactionUpdate(id: string) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (data: TransactionUpdate) =>
+      api.patch(`/transactions/${id}`, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['transactions'] })
+      queryClient.invalidateQueries({ queryKey: ['transactions', id] })
     },
   })
 }

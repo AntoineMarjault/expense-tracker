@@ -36,9 +36,9 @@ export const api = {
       body: JSON.stringify(data),
     })
   },
-  put(endpoint: string, data: unknown) {
+  patch(endpoint: string, data: unknown) {
     return this.fetch(endpoint, {
-      method: 'PUT',
+      method: 'PATCH',
       body: JSON.stringify(data),
     })
   },

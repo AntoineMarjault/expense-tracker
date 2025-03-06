@@ -1,22 +1,12 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/components/ui/drawer'
-import TransactionForm from '@/components/features/transactions/TransactionForm'
-import { useCategoryIndex } from '@/hooks/categories'
 import { useTransactionCreate } from '@/hooks/transactions'
 import { TransactionCreate } from '@/types/api'
+import TransactionDrawer from '@/components/features/transactions/TransactionDrawer'
 
 const NewTransactionDrawer = () => {
   const router = useRouter()
-  const { data: categories = [] } = useCategoryIndex()
   const { mutate: createTransaction } = useTransactionCreate()
 
   const handleOnSubmit = (values: TransactionCreate) => {
@@ -31,27 +21,11 @@ const NewTransactionDrawer = () => {
   }
 
   return (
-    <Drawer
-      open={true}
-      onOpenChange={(open) => {
-        if (!open) router.back()
-      }}
-    >
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>New Expense</DrawerTitle>
-          <DrawerDescription>Add a new expense to your list.</DrawerDescription>
-        </DrawerHeader>
-        <DrawerFooter>
-          <div className="px-4">
-            <TransactionForm
-              categories={categories}
-              onSubmitAction={handleOnSubmit}
-            />
-          </div>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+    <TransactionDrawer<TransactionCreate>
+      onSubmitAction={handleOnSubmit}
+      title="Create expense"
+      submitButtonText="Create"
+    />
   )
 }
 

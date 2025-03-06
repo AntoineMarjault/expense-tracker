@@ -30,7 +30,7 @@ import { BiCalendar } from 'react-icons/bi'
 import { Category } from '@/types/domain'
 import { cn } from '@/lib/utils'
 import { PopoverClose } from '@radix-ui/react-popover'
-import { TransactionCreate } from '@/types/api'
+import { TransactionCreate, TransactionUpdate } from '@/types/api'
 
 const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat('fr-FR', {
@@ -62,23 +62,32 @@ const formSchema = z.object({
   currency: z.literal('EUR').default('EUR'),
 })
 
-interface TransactionFormProps {
-  categories: Category[]
-  onSubmitAction: (values: TransactionCreate) => void
-}
-
-export default function TransactionForm({
+export default function TransactionForm<
+  T extends TransactionCreate | TransactionUpdate,
+>({
   categories,
+  defaultValues,
   onSubmitAction,
-}: TransactionFormProps) {
+  submitButtonText,
+}: {
+  categories: Category[]
+  defaultValues?: T
+  onSubmitAction: (values: T) => void
+  submitButtonText: string
+}) {
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      amount: 0,
-      name: '',
-      category_id: undefined,
-      date: new Date(),
-    },
+    defaultValues: defaultValues
+      ? {
+          ...defaultValues,
+          date: new Date(defaultValues.date),
+        }
+      : {
+          amount: 0,
+          name: '',
+          category_id: undefined,
+          date: new Date(),
+        },
   })
 
   const handleSubmit = form.handleSubmit((values) => {
@@ -193,7 +202,7 @@ export default function TransactionForm({
           )}
         />
         <div className="flex justify-center">
-          <Button type="submit">Create expense</Button>
+          <Button type="submit">{submitButtonText}</Button>
         </div>
       </form>
     </Form>
