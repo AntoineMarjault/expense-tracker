@@ -20,8 +20,8 @@ const TransactionCard = ({
       <div className="flex gap-2">
         <div className="flex self-center text-2xl">{categoryEmoji}</div>
         <div className="flex flex-col">
-          <span className="font-bold">{categoryName}</span>
-          <span className="text-xs text-gray-500">{name}</span>
+          <span className="font-bold">{name}</span>
+          <span className="text-xs text-gray-500">{categoryName}</span>
         </div>
       </div>
       <span className="font-bold">{amount}€</span>

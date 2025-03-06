@@ -9,7 +9,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
-import TransactionForm from '@/components/TransactionForm'
+import TransactionForm from '@/components/features/transactions/TransactionForm'
 import { useCategoryIndex } from '@/hooks/categories'
 import { useTransactionCreate } from '@/hooks/transactions'
 import { TransactionCreate } from '@/types/api'
