@@ -13,6 +13,19 @@ RSpec.describe 'Transactions', type: :request do
             expect(response).to have_http_status(:success)
             expect(JSON.parse(response.body).size).to eq(2)
         end
+
+        it 'returns transactions ordered by date' do
+            transaction1 = FactoryBot.create(:transaction, date: 2.days.ago, user: user)
+            transaction2 = FactoryBot.create(:transaction, date: 1.day.ago, user: user)
+            transaction3 = FactoryBot.create(:transaction, date: 3.day.ago, user: user)
+
+            get '/api/v1/transactions'
+
+            expect(response).to have_http_status(:success)
+            expect(JSON.parse(response.body).first['id']).to eq(transaction2.id)
+            expect(JSON.parse(response.body).second['id']).to eq(transaction1.id)
+            expect(JSON.parse(response.body).last['id']).to eq(transaction3.id)
+        end
     end
 
     describe 'POST /transactions' do
