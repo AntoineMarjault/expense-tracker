@@ -19,7 +19,12 @@ const TransactionDrawer = <T extends TransactionCreate | TransactionUpdate>({
   submitButtonText,
   title,
 }: {
-  defaultValues?: T
+  defaultValues?: {
+    amount: number
+    name: string
+    category_id: number
+    date: string
+  }
   onSubmitAction: (values: T) => void
   submitButtonText: string
   title: string

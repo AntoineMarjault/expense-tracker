@@ -62,6 +62,8 @@ const formSchema = z.object({
   currency: z.literal('EUR').default('EUR'),
 })
 
+type FormValues = z.infer<typeof formSchema>
+
 export default function TransactionForm<
   T extends TransactionCreate | TransactionUpdate,
 >({
@@ -71,30 +73,31 @@ export default function TransactionForm<
   submitButtonText,
 }: {
   categories: Category[]
-  defaultValues?: T
+  defaultValues?: {
+    amount: number
+    name: string
+    category_id: number
+    date: string
+  }
   onSubmitAction: (values: T) => void
   submitButtonText: string
 }) {
-  const form = useForm({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: defaultValues
-      ? {
-          ...defaultValues,
-          date: new Date(defaultValues.date),
-        }
-      : {
-          amount: 0,
-          name: '',
-          category_id: undefined,
-          date: new Date(),
-        },
+    defaultValues: {
+      amount: defaultValues?.amount ?? 0,
+      name: defaultValues?.name ?? '',
+      category_id: defaultValues?.category_id ?? undefined,
+      date: defaultValues?.date ? new Date(defaultValues.date) : new Date(),
+      currency: 'EUR',
+    },
   })
 
   const handleSubmit = form.handleSubmit((values) => {
     onSubmitAction({
       ...values,
-      date: values.date.toISOString(),
-    })
+      date: values.date?.toISOString(),
+    } as T)
   })
 
   return (
