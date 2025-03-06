@@ -2,7 +2,7 @@ module Api
     module V1
         class TransactionsController < ApplicationController
             def index
-                render json: current_user.transactions
+                render json: current_user.transactions.order(date: :desc)
             end
 
             def show

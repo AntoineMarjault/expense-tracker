@@ -18,8 +18,6 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
   const { mutate: updateTransaction } = useTransactionUpdate(id)
   const router = useRouter()
 
-  console.log(transaction)
-
   if (!transaction) return null
 
   const handleOnSubmit = (values: TransactionUpdate) => {
