@@ -55,6 +55,12 @@ export const authOptions = {
       return session
     },
   },
+  session: {
+    maxAge: 24 * 60 * 60,
+  },
+  jwt: {
+    maxAge: 24 * 60 * 60,
+  },
 }
 
 export const publicPages = ['/api/auth/signin', '/api/auth/signup']
