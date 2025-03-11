@@ -27,10 +27,10 @@ import {
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { BiCalendar } from 'react-icons/bi'
-import { Category } from '@/types/domain'
 import { cn } from '@/lib/utils'
 import { PopoverClose } from '@radix-ui/react-popover'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
+import { useCategoryIndex } from '@/hooks/categories'
 
 const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat('fr-FR', {
@@ -67,12 +67,10 @@ type FormValues = z.infer<typeof formSchema>
 export default function TransactionForm<
   T extends TransactionCreate | TransactionUpdate,
 >({
-  categories,
   defaultValues,
   onSubmitAction,
   submitButtonText,
 }: {
-  categories: Category[]
   defaultValues?: {
     amount: number
     name: string
@@ -82,6 +80,7 @@ export default function TransactionForm<
   onSubmitAction: (values: T) => void
   submitButtonText: string
 }) {
+  const { data: categories = [] } = useCategoryIndex()
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {

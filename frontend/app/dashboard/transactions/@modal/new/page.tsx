@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useTransactionCreate } from '@/hooks/transactions'
 import { TransactionCreate } from '@/types/api'
 import TransactionDrawer from '@/components/features/transactions/TransactionDrawer'
+import TransactionForm from '@/components/features/transactions/TransactionForm'
 
 const NewTransactionDrawer = () => {
   const router = useRouter()
@@ -21,11 +22,12 @@ const NewTransactionDrawer = () => {
   }
 
   return (
-    <TransactionDrawer<TransactionCreate>
-      onSubmitAction={handleOnSubmit}
-      title="Create expense"
-      submitButtonText="Create"
-    />
+    <TransactionDrawer title="Create expense">
+      <TransactionForm
+        onSubmitAction={handleOnSubmit}
+        submitButtonText="Create"
+      />
+    </TransactionDrawer>
   )
 }
 

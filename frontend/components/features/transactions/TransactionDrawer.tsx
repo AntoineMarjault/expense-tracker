@@ -9,28 +9,15 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
-import TransactionForm from '@/components/features/transactions/TransactionForm'
-import { useCategoryIndex } from '@/hooks/categories'
-import { TransactionCreate, TransactionUpdate } from '@/types/api'
+import { ReactNode } from 'react'
 
-const TransactionDrawer = <T extends TransactionCreate | TransactionUpdate>({
-  defaultValues,
-  onSubmitAction,
-  submitButtonText,
-  title,
-}: {
-  defaultValues?: {
-    amount: number
-    name: string
-    category_id: number
-    date: string
-  }
-  onSubmitAction: (values: T) => void
-  submitButtonText: string
+interface TransactionDrawerProps {
   title: string
-}) => {
+  children: ReactNode
+}
+
+const TransactionDrawer = ({ title, children }: TransactionDrawerProps) => {
   const router = useRouter()
-  const { data: categories = [] } = useCategoryIndex()
 
   return (
     <Drawer
@@ -45,14 +32,7 @@ const TransactionDrawer = <T extends TransactionCreate | TransactionUpdate>({
           <DrawerDescription></DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <div className="px-4">
-            <TransactionForm
-              categories={categories}
-              defaultValues={defaultValues}
-              onSubmitAction={onSubmitAction}
-              submitButtonText={submitButtonText}
-            />
-          </div>
+          <div className="px-4">{children}</div>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

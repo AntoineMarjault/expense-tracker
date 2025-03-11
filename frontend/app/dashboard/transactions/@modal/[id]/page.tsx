@@ -5,6 +5,7 @@ import TransactionDrawer from '@/components/features/transactions/TransactionDra
 import { useTransactionShow, useTransactionUpdate } from '@/hooks/transactions'
 import { useRouter } from 'next/navigation'
 import { use } from 'react'
+import TransactionForm from '@/components/features/transactions/TransactionForm'
 
 interface EditTransactionDrawerProps {
   params: Promise<{
@@ -32,12 +33,18 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
   }
 
   return (
-    <TransactionDrawer<TransactionUpdate>
-      onSubmitAction={handleOnSubmit}
-      title="Update expense"
-      defaultValues={transaction}
-      submitButtonText="Update"
-    />
+    <TransactionDrawer title="Update expense">
+      <TransactionForm
+        defaultValues={{
+          amount: transaction.amount,
+          name: transaction.name,
+          category_id: transaction.category_id,
+          date: transaction.date,
+        }}
+        onSubmitAction={handleOnSubmit}
+        submitButtonText="Update"
+      />
+    </TransactionDrawer>
   )
 }
 
