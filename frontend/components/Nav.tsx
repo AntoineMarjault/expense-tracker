@@ -17,12 +17,12 @@ const Nav = ({ className }: NavProps) => {
       <NavItem
         icon={<BiHomeAlt2 size={iconSize} />}
         name="Transactions"
-        href="/transactions"
+        href="/dashboard/transactions"
       />
       <NavItem
         icon={<BiPieChartAlt2 size={iconSize} />}
         name="Budgets"
-        href="/budgets"
+        href="/dashboard/budgets"
       />
     </nav>
   )
