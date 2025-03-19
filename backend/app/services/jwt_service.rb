@@ -1,5 +1,5 @@
 class JwtService
-  EXPIRY = 24.hours.to_i
+  EXPIRY = 30.days.to_i
 
   def self.encode(payload)
     payload[:exp] = Time.now.to_i + EXPIRY
