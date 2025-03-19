@@ -50,3 +50,15 @@ export function useTransactionUpdate(id: string) {
     },
   })
 }
+
+export function useTransactionDelete() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: string) => api.delete(`/transactions/${id}`),
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: ['transactions'] })
+      queryClient.invalidateQueries({ queryKey: ['transactions', id] })
+    },
+  })
+}

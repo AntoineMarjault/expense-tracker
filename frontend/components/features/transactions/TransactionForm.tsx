@@ -31,6 +31,7 @@ import { cn } from '@/lib/utils'
 import { PopoverClose } from '@radix-ui/react-popover'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
 import { useCategoryIndex } from '@/hooks/categories'
+import { ReactNode } from 'react'
 
 const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat('fr-FR', {
@@ -67,10 +68,11 @@ type FormValues = z.infer<typeof formSchema>
 export default function TransactionForm<
   T extends TransactionCreate | TransactionUpdate,
 >({
+  children,
   defaultValues,
   onSubmitAction,
-  submitButtonText,
 }: {
+  children: ReactNode
   defaultValues?: {
     amount: number
     name: string
@@ -78,7 +80,6 @@ export default function TransactionForm<
     date: string
   }
   onSubmitAction: (values: T) => void
-  submitButtonText: string
 }) {
   const { data: categories = [] } = useCategoryIndex()
   const form = useForm<FormValues>({
@@ -203,9 +204,7 @@ export default function TransactionForm<
             </FormItem>
           )}
         />
-        <div className="flex justify-center">
-          <Button type="submit">{submitButtonText}</Button>
-        </div>
+        {children}
       </form>
     </Form>
   )

@@ -25,6 +25,10 @@ export const api = {
       throw new Error('API request failed')
     }
 
+    if (response.status === 204) {
+      return null
+    }
+
     return response.json()
   },
   get(endpoint: string) {
