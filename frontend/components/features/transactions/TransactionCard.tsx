@@ -6,7 +6,6 @@ interface TransactionCardProps {
   date: string
   categoryName: string
   categoryEmoji: string
-  onClick: () => void
 }
 
 const TransactionCard = ({
@@ -15,9 +14,8 @@ const TransactionCard = ({
   date,
   categoryName,
   categoryEmoji,
-  onClick,
 }: TransactionCardProps) => (
-  <Card className="mb-2 px-6 py-2" onClick={onClick}>
+  <Card className="mb-2 px-6 py-2">
     <div className="flex justify-between">
       <div className="flex gap-2">
         <div className="flex self-center text-2xl">{categoryEmoji}</div>

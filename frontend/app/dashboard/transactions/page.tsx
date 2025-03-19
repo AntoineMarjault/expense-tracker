@@ -4,13 +4,13 @@ import TransactionCard from '@/components/features/transactions/TransactionCard'
 import { useTransactionIndex } from '@/hooks/transactions'
 import { useCategoryIndex } from '@/hooks/categories'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const TransactionsPage = () => {
   const { data: transactions = [], isLoading: transactionsLoading } =
     useTransactionIndex()
   const { data: categories = [], isLoading: categoriesLoading } =
     useCategoryIndex()
-  const router = useRouter()
 
   const isLoading = transactionsLoading || categoriesLoading
 
@@ -28,17 +28,18 @@ const TransactionsPage = () => {
     <div className="">
       {isLoading && <p>Loading...</p>}
       {transactionsWithCategory.map((transactionWithCategory) => (
-        <TransactionCard
+        <Link
           key={transactionWithCategory.id}
-          amount={transactionWithCategory.amount}
-          name={transactionWithCategory.name}
-          date={transactionWithCategory.date}
-          categoryName={transactionWithCategory.category.name}
-          categoryEmoji={transactionWithCategory.category.emoji}
-          onClick={() =>
-            router.push(`/dashboard/transactions/${transactionWithCategory.id}`)
-          }
-        />
+          href={`/dashboard/transactions/${transactionWithCategory.id}`}
+        >
+          <TransactionCard
+            amount={transactionWithCategory.amount}
+            name={transactionWithCategory.name}
+            date={transactionWithCategory.date}
+            categoryName={transactionWithCategory.category.name}
+            categoryEmoji={transactionWithCategory.category.emoji}
+          />
+        </Link>
       ))}
     </div>
   )
