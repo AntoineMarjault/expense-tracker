@@ -3,7 +3,6 @@
 import TransactionCard from '@/components/features/transactions/TransactionCard'
 import { useTransactionIndex } from '@/hooks/transactions'
 import { useCategoryIndex } from '@/hooks/categories'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 const TransactionsPage = () => {

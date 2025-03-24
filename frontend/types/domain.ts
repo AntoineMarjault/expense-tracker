@@ -13,3 +13,11 @@ export interface Category {
   color: string
   emoji: string
 }
+
+export interface Budget {
+  id: number
+  name: string
+  target_amount: number
+  start_date: string
+  end_date: string
+}
