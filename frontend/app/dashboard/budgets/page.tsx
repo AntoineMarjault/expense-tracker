@@ -1,6 +1,7 @@
 'use client'
 
 import { useBudgetIndex } from '@/hooks/budgets'
+import BudgetCard from '@/components/features/budgets/BudgetCard'
 
 const BudgetsPage = () => {
   const { data, isLoading } = useBudgetIndex()
@@ -10,9 +11,7 @@ const BudgetsPage = () => {
       {isLoading && <p>Loading...</p>}
       {!isLoading &&
         data?.map((budget) => (
-          <div key={budget.id}>
-            <p>{budget.name}</p>
-          </div>
+          <BudgetCard key={budget.id} name={budget.name} />
         ))}
     </>
   )

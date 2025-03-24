@@ -15,7 +15,7 @@ const TransactionCard = ({
   categoryName,
   categoryEmoji,
 }: TransactionCardProps) => (
-  <Card className="mb-2 px-6 py-2">
+  <Card className="cursor-pointer hover:shadow-md transition-all duration-200 mb-2 px-6 py-2">
     <div className="flex justify-between">
       <div className="flex gap-2">
         <div className="flex self-center text-2xl">{categoryEmoji}</div>

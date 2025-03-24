@@ -1,9 +1,8 @@
 import { ReactNode } from 'react'
 import FloatingActionButton from '@/components/ui/custom/FloatingActionButton'
 
-export default function TransactionsLayout({
+export default function BudgetsLayout({
   children,
-  modal,
 }: {
   children: ReactNode
   modal: ReactNode
@@ -11,8 +10,7 @@ export default function TransactionsLayout({
   return (
     <>
       {children}
-      <FloatingActionButton href="/dashboard/transactions/new" />
-      {modal}
+      <FloatingActionButton href="/dashboard/budgets/new" />
     </>
   )
 }
