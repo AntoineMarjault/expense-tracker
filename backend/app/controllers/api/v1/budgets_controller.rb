@@ -9,7 +9,7 @@ module Api
           end
 
           def show
-            render json: @budget
+            render json: @budget.as_json()
           end
 
           def create
