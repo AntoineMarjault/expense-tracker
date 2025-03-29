@@ -4,6 +4,22 @@ import TransactionCard from '@/components/features/transactions/TransactionCard'
 import { useTransactionIndex } from '@/hooks/transactions'
 import { useCategoryIndex } from '@/hooks/categories'
 import Link from 'next/link'
+import { Skeleton } from '@/components/ui/skeleton'
+
+const TransactionSkeleton = () => (
+  <div className="p-4 mb-2 bg-white rounded-lg shadow">
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <Skeleton className="h-8 w-8 rounded-full" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[150px]" />
+          <Skeleton className="h-3 w-[100px]" />
+        </div>
+      </div>
+      <Skeleton className="h-4 w-[80px]" />
+    </div>
+  </div>
+)
 
 const TransactionsPage = () => {
   const { data: transactions = [], isLoading: transactionsLoading } =
@@ -25,7 +41,13 @@ const TransactionsPage = () => {
 
   return (
     <div className="">
-      {isLoading && <p>Loading...</p>}
+      {isLoading && (
+        <>
+          <TransactionSkeleton />
+          <TransactionSkeleton />
+          <TransactionSkeleton />
+        </>
+      )}
       {transactionsWithCategory.map((transactionWithCategory) => (
         <Link
           key={transactionWithCategory.id}
