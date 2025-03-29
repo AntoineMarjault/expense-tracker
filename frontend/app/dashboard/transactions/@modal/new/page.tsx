@@ -23,10 +23,10 @@ const NewTransactionDrawer = () => {
   }
 
   return (
-    <TransactionDrawer title="Create expense">
+    <TransactionDrawer title="Ajouter une dépense">
       <TransactionForm onSubmitAction={handleOnSubmit}>
         <div className="flex justify-center">
-          <Button type="submit">Create</Button>
+          <Button type="submit">Ajouter</Button>
         </div>
       </TransactionForm>
     </TransactionDrawer>

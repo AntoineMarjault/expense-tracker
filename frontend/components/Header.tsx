@@ -9,8 +9,8 @@ const Header = () => {
 
   const getTitle = () => {
     if (pathname?.includes('/budgets')) return 'Budgets'
-    if (pathname?.includes('/transactions')) return 'Expenses'
-    return 'Expenses'
+    if (pathname?.includes('/transactions')) return 'Dépenses'
+    return 'Dépenses'
   }
 
   const displayBackButton = pathname?.match(/^\/dashboard\/budgets\/\d+$/)

@@ -50,7 +50,7 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
   }
 
   return (
-    <TransactionDrawer title="Update expense">
+    <TransactionDrawer title="Modifier la dépense">
       <TransactionForm
         defaultValues={{
           amount: transaction.amount,
@@ -69,9 +69,9 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
               handleOnDelete()
             }}
           >
-            Delete
+            Supprimer
           </Button>
-          <Button type="submit">Update</Button>
+          <Button type="submit">Modifier</Button>
         </div>
       </TransactionForm>
     </TransactionDrawer>

@@ -108,7 +108,7 @@ export default function TransactionForm<
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Nom</FormLabel>
               <FormControl>
                 <Input placeholder="Restaurant Paris" {...field} />
               </FormControl>
@@ -121,7 +121,7 @@ export default function TransactionForm<
           name="amount"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Amount</FormLabel>
+              <FormLabel>Montant</FormLabel>
               <div className="relative">
                 <Input
                   type="number"
@@ -144,14 +144,14 @@ export default function TransactionForm<
           name="category_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Category</FormLabel>
+              <FormLabel>Catégorie</FormLabel>
               <Select
                 onValueChange={(value) => field.onChange(Number(value))}
                 value={String(field.value)}
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
+                    <SelectValue placeholder="Choisir une catégorie" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
