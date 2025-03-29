@@ -20,4 +20,7 @@ export interface Budget {
   target_amount: number
   start_date: string
   end_date: string
+  spent_amount?: number
+  remaining_amount?: number
+  progress_percentage?: number
 }

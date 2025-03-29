@@ -11,7 +11,7 @@ const BudgetsPage = () => {
       {isLoading && <p>Loading...</p>}
       {!isLoading &&
         data?.map((budget) => (
-          <BudgetCard key={budget.id} name={budget.name} />
+          <BudgetCard key={budget.id} id={budget.id} name={budget.name} />
         ))}
     </>
   )

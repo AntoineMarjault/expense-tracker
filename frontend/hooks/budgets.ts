@@ -8,3 +8,11 @@ export function useBudgetIndex(): UseQueryResult<Budget[]> {
     queryFn: async () => api.get('/budgets'),
   })
 }
+
+// todo: fix id type (and in transaction hooks as well)
+export function useBudgetShow(id: string): UseQueryResult<Budget> {
+  return useQuery({
+    queryKey: ['budgets', id],
+    queryFn: async () => api.get(`/budgets/${id}`),
+  })
+}
