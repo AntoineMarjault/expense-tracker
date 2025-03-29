@@ -23,4 +23,6 @@ export interface Budget {
   spent_amount?: number
   remaining_amount?: number
   progress_percentage?: number
+  average_daily_spending?: number
+  target_daily_amount?: number
 }

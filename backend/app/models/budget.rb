@@ -23,8 +23,12 @@ class Budget < ApplicationRecord
     (spent_amount / (today_or_end_date - start_date).to_i).round(2)
   end
 
+  def target_daily_amount
+    ((target_amount || 0) / (end_date - start_date).to_i).round(2).to_f
+  end
+
   def as_json(options = {})
-    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending]))
+    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending target_daily_amount]))
   end
 
   private

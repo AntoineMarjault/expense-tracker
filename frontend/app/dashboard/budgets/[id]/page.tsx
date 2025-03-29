@@ -44,6 +44,23 @@ const BudgetDetailPage = ({ params }: BudgetDetailPageProps) => {
                   {budget.target_amount.toLocaleString('fr-FR')} €
                 </p>
               </div>
+              <div>
+                <p className="text-sm text-gray-500">Moyenne / jour</p>
+                <p className="font-medium">
+                  <span
+                    className={`${
+                      (budget.average_daily_spending || 0) >
+                      (budget.target_daily_amount || 0)
+                        ? 'text-red-600'
+                        : 'text-green-600'
+                    }`}
+                  >
+                    {budget.average_daily_spending?.toLocaleString('fr-FR')} €
+                  </span>
+                  {' / '}
+                  {budget.target_daily_amount?.toLocaleString('fr-FR')} €
+                </p>
+              </div>
             </div>
             <Progress value={budget.progress_percentage} className="h-3 mb-4" />
             <div className="flex justify-between text-sm">
