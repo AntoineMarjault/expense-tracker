@@ -3,7 +3,6 @@ import { Card } from '@/components/ui/card'
 interface TransactionCardProps {
   amount: number
   name: string
-  date: string
   categoryName: string
   categoryEmoji: string
 }
@@ -11,7 +10,6 @@ interface TransactionCardProps {
 const TransactionCard = ({
   amount,
   name,
-  date,
   categoryName,
   categoryEmoji,
 }: TransactionCardProps) => (
@@ -26,7 +24,6 @@ const TransactionCard = ({
       </div>
       <span className="font-bold">{amount}€</span>
     </div>
-    <p className="mt-2 text-xs text-gray-500">{date}</p>
   </Card>
 )
 

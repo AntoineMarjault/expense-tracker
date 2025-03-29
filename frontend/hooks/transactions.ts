@@ -5,17 +5,13 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
-import { transformTransaction } from '@/lib/transforms'
 import { Transaction } from '@/types/domain'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
 
 export function useTransactionIndex(): UseQueryResult<Transaction[]> {
   return useQuery({
     queryKey: ['transactions'],
-    queryFn: async () => {
-      const data = await api.get('/transactions')
-      return data.map(transformTransaction)
-    },
+    queryFn: async () => api.get('/transactions'),
   })
 }
 
