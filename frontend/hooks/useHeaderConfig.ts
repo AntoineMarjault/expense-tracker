@@ -9,16 +9,16 @@ export const useHeaderConfig = (): HeaderConfig => {
   if (pathname.match(/^\/dashboard\/budgets\/\d+$/)) {
     const budgetId = pathname.split('/').pop()
     return {
-      title: 'Budget',
+      title: 'Détails du budget',
       showBack: true,
       menuActions: [
         {
-          label: 'Edit',
+          label: 'Modifier',
           icon: BiEdit,
           onClick: () => router.push(`/dashboard/budgets/${budgetId}/edit`),
         },
         {
-          label: 'Delete',
+          label: 'Supprimer',
           icon: BiTrash,
           onClick: () => console.log('Delete budget', budgetId),
         },
@@ -29,7 +29,15 @@ export const useHeaderConfig = (): HeaderConfig => {
   // Budget edit page
   if (pathname.match(/^\/dashboard\/budgets\/\d+\/edit$/)) {
     return {
-      title: 'Edit Budget',
+      title: 'Modifier le budget',
+      showBack: true,
+    }
+  }
+
+  // Budget new page
+  if (pathname.match(/^\/dashboard\/budgets\/new/)) {
+    return {
+      title: 'Créer un budget',
       showBack: true,
     }
   }
