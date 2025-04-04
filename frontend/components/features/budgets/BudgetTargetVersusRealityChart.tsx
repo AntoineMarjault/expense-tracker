@@ -19,15 +19,32 @@ interface BudgetTargetVersusRealityChartProps {
 const BudgetTargetVersusRealityChart = ({
   budget,
 }: BudgetTargetVersusRealityChartProps) => {
-  const data = budget.daily_cumulative_spending?.map((day) => ({
-    date: new Date(day.date).toLocaleDateString('fr-FR', {
-      day: '2-digit',
-      month: '2-digit',
-    }),
-    target: day.target_amount,
-    spent: day.cumulative_amount,
-    isOverBudget: day.cumulative_amount > day.target_amount,
-  }))
+  const today = new Date().toISOString().split('T')[0]
+  const data = budget.daily_cumulative_spending?.map((day) => {
+    const isToday = day.date >= today
+    const daysFromToday = isToday
+      ? Math.floor(
+          (new Date(day.date).getTime() - new Date(today).getTime()) /
+            (1000 * 60 * 60 * 24)
+        )
+      : 0
+
+    return {
+      date: new Date(day.date).toLocaleDateString('fr-FR', {
+        day: '2-digit',
+        month: '2-digit',
+      }),
+      target: day.target_amount,
+      spent: isToday ? null : day.cumulative_amount,
+      prediction:
+        day.date >= today && budget?.average_daily_spending
+          ? day.cumulative_amount +
+            budget.average_daily_spending * daysFromToday
+          : null,
+      isOverBudget: day.cumulative_amount > day.target_amount,
+      today: isToday && daysFromToday === 0 ? day.cumulative_amount : null,
+    }
+  })
 
   return (
     <BudgetDetailCard title="Évolution">
@@ -74,6 +91,23 @@ const BudgetTargetVersusRealityChart = ({
               strokeWidth={2}
               dot={false}
               name="Dépenses"
+            />
+            <Line
+              type="monotone"
+              dataKey="prediction"
+              stroke="#3181FF"
+              strokeWidth={2}
+              strokeDasharray="5 5"
+              dot={false}
+              name="Prévision"
+            />
+            <Line
+              type="monotone"
+              dataKey="today"
+              stroke="#3181FF"
+              strokeWidth={2}
+              dot={{ r: 4 }}
+              name="Aujourd'hui"
             />
           </LineChart>
         </ResponsiveContainer>
