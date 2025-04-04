@@ -14,6 +14,12 @@ export interface Category {
   emoji: string
 }
 
+export interface DailyCumulativeSpending {
+  date: string
+  cumulative_amount: number
+  target_amount: number
+}
+
 export interface Budget {
   id: number
   name: string
@@ -25,4 +31,5 @@ export interface Budget {
   progress_percentage?: number
   average_daily_spending?: number
   target_daily_amount?: number
+  daily_cumulative_spending?: DailyCumulativeSpending[]
 }

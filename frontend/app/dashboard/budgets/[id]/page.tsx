@@ -5,6 +5,7 @@ import { useBudgetShow } from '@/hooks/budgets'
 import { use } from 'react'
 import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import BudgetTargetVersusRealityChart from '@/components/features/budgets/BudgetTargetVersusRealityChart'
 
 interface BudgetDetailPageProps {
   params: Promise<{
@@ -114,6 +115,7 @@ const BudgetDetailPage = ({ params }: BudgetDetailPageProps) => {
               </div>
             </div>
           </Card>
+          <BudgetTargetVersusRealityChart budget={budget} />
         </>
       )}
     </>

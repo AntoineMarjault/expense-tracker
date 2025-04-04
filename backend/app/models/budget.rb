@@ -27,8 +27,36 @@ class Budget < ApplicationRecord
     ((target_amount || 0) / (end_date - start_date).to_i).round(2).to_f
   end
 
+  def daily_cumulative_spending
+    daily_amounts = Transaction
+      .where(user_id: user_id, date: start_date..end_date)
+      .group(:date)
+      .sum(:amount)
+      .transform_keys { |date| date.to_date }
+
+      cumulative_amounts = 0
+      cumulative_spending = []
+
+      (start_date..end_date).each do |date|
+        if daily_amounts[date]
+          cumulative_amounts += daily_amounts[date].to_f
+        end
+
+        days_elapsed = (date - start_date).to_i + 1
+        target_at_date = (target_daily_amount * days_elapsed).round(2)
+
+        cumulative_spending << {
+          date: date,
+          cumulative_amount: cumulative_amounts,
+          target_amount: target_at_date
+        }
+    end
+
+    cumulative_spending
+  end
+
   def as_json(options = {})
-    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending target_daily_amount]))
+    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending target_daily_amount daily_cumulative_spending]))
   end
 
   private
