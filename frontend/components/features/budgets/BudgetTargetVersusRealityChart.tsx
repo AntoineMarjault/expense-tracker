@@ -10,7 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts'
-import { Card } from '@/components/ui/card'
+import BudgetDetailCard from '@/components/features/budgets/BudgetDetailCard'
 
 interface BudgetTargetVersusRealityChartProps {
   budget: Budget
@@ -30,8 +30,7 @@ const BudgetTargetVersusRealityChart = ({
   }))
 
   return (
-    <Card className="p-6 mt-4">
-      <h2 className="text-lg font-semibold mb-4">Progression du budget</h2>
+    <BudgetDetailCard title="Évolution">
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
@@ -79,7 +78,7 @@ const BudgetTargetVersusRealityChart = ({
           </LineChart>
         </ResponsiveContainer>
       </div>
-    </Card>
+    </BudgetDetailCard>
   )
 }
 
