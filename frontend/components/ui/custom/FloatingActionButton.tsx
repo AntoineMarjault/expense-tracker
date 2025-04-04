@@ -11,7 +11,7 @@ const FloatingActionButton = ({ href }: FloatingActionButtonProps) => {
   return (
     <Link
       href={href}
-      className="fixed bottom-24 right-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500 text-white shadow-lg transition-transform hover:scale-110"
+      className="fixed bottom-20 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-lg transition-transform hover:scale-110"
     >
       <BiPlus className="h-6 w-6" />
     </Link>
