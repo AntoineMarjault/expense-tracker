@@ -21,7 +21,7 @@ const Nav = ({ className }: NavProps) => {
     >
       <NavItem
         icon={<BiHomeAlt2 size={iconSize} />}
-        name="Transactions"
+        name="Dépenses"
         href="/dashboard/transactions"
         active={pathname === '/dashboard/transactions'}
       />

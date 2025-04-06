@@ -50,7 +50,7 @@ export const useHeaderConfig = (): HeaderConfig => {
   // All transaction pages
   if (pathname.startsWith('/dashboard/transactions')) {
     return {
-      title: 'Transactions',
+      title: 'Dépenses',
     }
   }
 
