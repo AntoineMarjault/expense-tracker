@@ -55,8 +55,26 @@ class Budget < ApplicationRecord
     cumulative_spending
   end
 
+  def expenses_per_category
+    Transaction
+      .where(user_id: user_id, date: start_date..end_date)
+      .joins(:category)
+      .group('categories.id', 'categories.name', 'categories.emoji', 'categories.color')
+      .sum(:amount)
+      .map { |key, total|
+        id, name, emoji, color = key
+        {
+          category_id: id,
+          category_name: name,
+          category_emoji: emoji,
+          category_color: color,
+          total_expense: total.to_f
+        }
+      }
+  end
+
   def as_json(options = {})
-    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending target_daily_amount daily_cumulative_spending]))
+    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending target_daily_amount daily_cumulative_spending expenses_per_category]))
   end
 
   private

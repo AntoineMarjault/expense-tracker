@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import BudgetProgress from '@/components/features/budgets/BudgetProgress'
 import BudgetSummary from '@/components/features/budgets/BudgetSummary'
+import BudgetCategoryRepartition from '@/components/features/budgets/BudgetCategoryRepartition'
 
 interface BudgetDetailPageProps {
   params: Promise<{
@@ -62,6 +63,7 @@ const BudgetDetailPage = ({ params }: BudgetDetailPageProps) => {
           <div className="flex flex-col gap-4">
             <BudgetSummary budget={budget} />
             <BudgetProgress budget={budget} />
+            <BudgetCategoryRepartition budget={budget} />
           </div>
         </>
       )}

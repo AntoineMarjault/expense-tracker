@@ -20,6 +20,14 @@ export interface DailyCumulativeSpending {
   target_amount: number
 }
 
+export interface ExpenseForCategory {
+  category_id: number
+  category_name: string
+  category_emoji: string
+  category_color: string
+  total_expense: number
+}
+
 export interface Budget {
   id: number
   name: string
@@ -32,4 +40,5 @@ export interface Budget {
   average_daily_spending?: number
   target_daily_amount?: number
   daily_cumulative_spending?: DailyCumulativeSpending[]
+  expenses_per_category?: ExpenseForCategory[]
 }
