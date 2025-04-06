@@ -33,6 +33,8 @@ import { TransactionCreate, TransactionUpdate } from '@/types/api'
 import { useCategoryIndex } from '@/hooks/categories'
 import { ReactNode } from 'react'
 
+const DEFAULT_CATEGORY_ID = 6 // Divers
+
 const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat('fr-FR', {
     year: 'numeric',
@@ -87,7 +89,7 @@ export default function TransactionForm<
     defaultValues: {
       amount: defaultValues?.amount ?? 0,
       name: defaultValues?.name ?? '',
-      category_id: defaultValues?.category_id ?? undefined,
+      category_id: defaultValues?.category_id ?? DEFAULT_CATEGORY_ID,
       date: defaultValues?.date ? new Date(defaultValues.date) : new Date(),
       currency: 'EUR',
     },
