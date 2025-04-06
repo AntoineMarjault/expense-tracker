@@ -30,7 +30,7 @@ const BudgetCategoryRepartition = ({ budget }: BudgetCategoryRepartition) => {
               cx="50%"
               cy="50%"
               innerRadius={40}
-              outerRadius={100}
+              outerRadius={80}
               labelLine={false}
               label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
             >
