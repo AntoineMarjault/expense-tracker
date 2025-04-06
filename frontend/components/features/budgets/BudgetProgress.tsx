@@ -16,9 +16,7 @@ interface BudgetTargetVersusRealityChartProps {
   budget: Budget
 }
 
-const BudgetTargetVersusRealityChart = ({
-  budget,
-}: BudgetTargetVersusRealityChartProps) => {
+const BudgetProgress = ({ budget }: BudgetTargetVersusRealityChartProps) => {
   const today = new Date().toISOString().split('T')[0]
   const data = budget.daily_cumulative_spending?.map((day) => {
     const isToday = day.date >= today
@@ -116,4 +114,4 @@ const BudgetTargetVersusRealityChart = ({
   )
 }
 
-export default BudgetTargetVersusRealityChart
+export default BudgetProgress

@@ -4,7 +4,7 @@ import { useBudgetShow } from '@/hooks/budgets'
 import { use } from 'react'
 import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import BudgetTargetVersusRealityChart from '@/components/features/budgets/BudgetTargetVersusRealityChart'
+import BudgetProgress from '@/components/features/budgets/BudgetProgress'
 import BudgetSummary from '@/components/features/budgets/BudgetSummary'
 
 interface BudgetDetailPageProps {
@@ -61,7 +61,7 @@ const BudgetDetailPage = ({ params }: BudgetDetailPageProps) => {
           <h1 className="text-2xl font-bold mb-2">{budget.name}</h1>
           <div className="flex flex-col gap-4">
             <BudgetSummary budget={budget} />
-            <BudgetTargetVersusRealityChart budget={budget} />
+            <BudgetProgress budget={budget} />
           </div>
         </>
       )}
