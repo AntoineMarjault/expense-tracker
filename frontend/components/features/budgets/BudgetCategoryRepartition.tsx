@@ -10,6 +10,8 @@ import {
   Tooltip,
   Legend,
 } from 'recharts'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Card } from '@/components/ui/card'
 
 interface BudgetCategoryRepartition {
   budget: Budget
@@ -49,6 +51,19 @@ const renderCustomizedLabel = ({
     </text>
   )
 }
+
+export const BudgetCategoryRepartitionSkeleton = () => (
+  <Card className="p-6">
+    <Skeleton className="h-5 w-36 mb-6" />
+    <div className="flex justify-center">
+      <div className="relative w-[300px] h-[300px]">
+        <div className="absolute inset-0 rounded-full overflow-hidden">
+          <Skeleton className="w-full h-full rounded-full" />
+        </div>
+      </div>
+    </div>
+  </Card>
+)
 
 const BudgetCategoryRepartition = ({ budget }: BudgetCategoryRepartition) => {
   const data = budget.expenses_per_category || []

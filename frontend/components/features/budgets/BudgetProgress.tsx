@@ -11,10 +11,18 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import BudgetDetailCard from '@/components/features/budgets/BudgetDetailCard'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Card } from '@/components/ui/card'
 
 interface BudgetTargetVersusRealityChartProps {
   budget: Budget
 }
+
+export const BudgetProgressSkeleton = () => (
+  <Card className="p-6">
+    <Skeleton className="h-[300px] w-full" />
+  </Card>
+)
 
 const BudgetProgress = ({ budget }: BudgetTargetVersusRealityChartProps) => {
   const today = new Date().toISOString().split('T')[0]

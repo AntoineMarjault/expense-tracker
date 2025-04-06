@@ -1,10 +1,40 @@
 import BudgetDetailCard from '@/components/features/budgets/BudgetDetailCard'
 import { Progress } from '@/components/ui/progress'
 import { Budget } from '@/types/domain'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Card } from '@/components/ui/card'
 
 interface BudgetSummaryProps {
   budget: Budget
 }
+
+export const BudgetSummarySkeleton = () => (
+  <Card className="p-6">
+    <div className="grid grid-cols-2 gap-4 mb-6">
+      <div>
+        <Skeleton className="h-4 w-20 mb-2" />
+        <Skeleton className="h-5 w-36" />
+      </div>
+      <div>
+        <Skeleton className="h-4 w-20 mb-2" />
+        <Skeleton className="h-5 w-24" />
+      </div>
+      <div>
+        <Skeleton className="h-4 w-24 mb-2" />
+        <Skeleton className="h-5 w-32" />
+      </div>
+    </div>
+    <Skeleton className="h-3 w-full mb-4" />
+    <div className="flex justify-between">
+      <div>
+        <Skeleton className="h-4 w-28" />
+      </div>
+      <div>
+        <Skeleton className="h-4 w-28" />
+      </div>
+    </div>
+  </Card>
+)
 
 const BudgetSummary = ({ budget }: BudgetSummaryProps) => {
   const remaining = budget?.remaining_amount || 0

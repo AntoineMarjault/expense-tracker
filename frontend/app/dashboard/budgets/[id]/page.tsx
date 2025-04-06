@@ -2,11 +2,16 @@
 
 import { useBudgetShow } from '@/hooks/budgets'
 import { use } from 'react'
-import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import BudgetProgress from '@/components/features/budgets/BudgetProgress'
-import BudgetSummary from '@/components/features/budgets/BudgetSummary'
-import BudgetCategoryRepartition from '@/components/features/budgets/BudgetCategoryRepartition'
+import BudgetProgress, {
+  BudgetProgressSkeleton,
+} from '@/components/features/budgets/BudgetProgress'
+import BudgetSummary, {
+  BudgetSummarySkeleton,
+} from '@/components/features/budgets/BudgetSummary'
+import BudgetCategoryRepartition, {
+  BudgetCategoryRepartitionSkeleton,
+} from '@/components/features/budgets/BudgetCategoryRepartition'
 
 interface BudgetDetailPageProps {
   params: Promise<{
@@ -18,34 +23,9 @@ const BudgetDetailSkeleton = () => (
   <>
     <Skeleton className="h-8 w-48 mb-2" />
     <div className="flex flex-col gap-4">
-      <Card className="p-6">
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div>
-            <Skeleton className="h-4 w-20 mb-2" />
-            <Skeleton className="h-5 w-36" />
-          </div>
-          <div>
-            <Skeleton className="h-4 w-20 mb-2" />
-            <Skeleton className="h-5 w-24" />
-          </div>
-          <div>
-            <Skeleton className="h-4 w-24 mb-2" />
-            <Skeleton className="h-5 w-32" />
-          </div>
-        </div>
-        <Skeleton className="h-3 w-full mb-4" />
-        <div className="flex justify-between">
-          <div>
-            <Skeleton className="h-4 w-28" />
-          </div>
-          <div>
-            <Skeleton className="h-4 w-28" />
-          </div>
-        </div>
-      </Card>
-      <Card className="p-6">
-        <Skeleton className="h-[300px] w-full" />
-      </Card>
+      <BudgetSummarySkeleton />
+      <BudgetProgressSkeleton />
+      <BudgetCategoryRepartitionSkeleton />
     </div>
   </>
 )
