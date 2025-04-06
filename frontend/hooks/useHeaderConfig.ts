@@ -1,10 +1,12 @@
 import { useRouter, usePathname } from 'next/navigation'
 import { HeaderConfig } from '@/types/header'
 import { BiEdit, BiTrash } from 'react-icons/bi'
+import { useBudgetDelete } from '@/hooks/budgets'
 
 export const useHeaderConfig = (): HeaderConfig => {
   const router = useRouter()
   const pathname = usePathname()
+  const { mutate: deleteBudget } = useBudgetDelete()
 
   if (pathname.match(/^\/dashboard\/budgets\/\d+$/)) {
     const budgetId = pathname.split('/').pop()
@@ -20,7 +22,10 @@ export const useHeaderConfig = (): HeaderConfig => {
         {
           label: 'Supprimer',
           icon: BiTrash,
-          onClick: () => console.log('Delete budget', budgetId),
+          onClick: () => {
+            deleteBudget(budgetId || '')
+            router.back()
+          },
         },
       ],
     }

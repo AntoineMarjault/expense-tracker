@@ -45,3 +45,15 @@ export function useBudgetUpdate(id: string) {
     },
   })
 }
+
+export function useBudgetDelete() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: string) => api.delete(`/budgets/${id}`),
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: ['budgets'] })
+      queryClient.invalidateQueries({ queryKey: ['budgets', id] })
+    },
+  })
+}
