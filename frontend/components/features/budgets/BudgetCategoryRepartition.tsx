@@ -15,6 +15,41 @@ interface BudgetCategoryRepartition {
   budget: Budget
 }
 
+interface RenderCustomizedLabelParams {
+  cx: number
+  cy: number
+  midAngle: number
+  innerRadius: number
+  outerRadius: number
+  percent: number
+}
+
+const RADIAN = Math.PI / 180
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+}: RenderCustomizedLabelParams) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5
+  const x = cx + radius * Math.cos(-midAngle * RADIAN)
+  const y = cy + radius * Math.sin(-midAngle * RADIAN)
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor={x > cx ? 'start' : 'end'}
+      dominantBaseline="central"
+    >
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  )
+}
+
 const BudgetCategoryRepartition = ({ budget }: BudgetCategoryRepartition) => {
   const data = budget.expenses_per_category || []
 
@@ -27,12 +62,10 @@ const BudgetCategoryRepartition = ({ budget }: BudgetCategoryRepartition) => {
               data={data}
               dataKey="total_expense"
               nameKey="category_name"
-              cx="50%"
-              cy="50%"
-              innerRadius={40}
-              outerRadius={80}
+              outerRadius={100}
               labelLine={false}
-              label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+              activeShape={false}
+              label={renderCustomizedLabel}
             >
               {data.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.category_color} />
@@ -43,12 +76,7 @@ const BudgetCategoryRepartition = ({ budget }: BudgetCategoryRepartition) => {
                 `${total_expense.toLocaleString('fr-FR')}€`
               }
             />
-            <Legend
-              formatter={(total_expense) => {
-                const item = data.find((d) => d.category_name === total_expense)
-                return `${item?.category_emoji} ${total_expense}`
-              }}
-            />
+            <Legend />
           </PieChart>
         </ResponsiveContainer>
       </div>
