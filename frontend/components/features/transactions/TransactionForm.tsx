@@ -66,7 +66,6 @@ export default function TransactionForm<
   }
   onSubmitAction: (values: T) => void
 }) {
-  const [isOpen, setIsOpen] = useState(false)
   const { data: categories = [] } = useCategoryIndex()
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),

@@ -29,6 +29,13 @@ const budgetSchema = z.object({
 
 export type BudgetFormValues = z.infer<typeof budgetSchema>
 
+const toUtcDate = (date: Date) => {
+  const localDate = new Date(date)
+  return new Date(
+    Date.UTC(localDate.getFullYear(), localDate.getMonth(), localDate.getDate())
+  )
+}
+
 export default function BudgetForm<
   T extends Partial<Omit<Budget, 'id'>> | Omit<Budget, 'id'>,
 >({
@@ -36,7 +43,7 @@ export default function BudgetForm<
   onSubmitAction,
 }: {
   initialData?: Partial<Omit<Budget, 'id'>>
-  onSubmitAction: (data: T) => Promise<void>
+  onSubmitAction: (values: T) => void
 }) {
   const form = useForm<BudgetFormValues>({
     resolver: zodResolver(budgetSchema),
@@ -52,16 +59,19 @@ export default function BudgetForm<
     },
   })
 
+  const handleSubmit = form.handleSubmit((values) => {
+    onSubmitAction({
+      ...values,
+      start_date: toUtcDate(values.start_date).toISOString(),
+      end_date: toUtcDate(values.end_date).toISOString(),
+    } as T)
+  })
+
   // todo: refactor the forms (common fields with transaction form, I think I can improve that)
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((values) =>
-          onSubmitAction(values as unknown as T)
-        )}
-        className="space-y-4"
-      >
+      <form onSubmit={handleSubmit} className="space-y-4">
         <FormField
           control={form.control}
           name="name"
