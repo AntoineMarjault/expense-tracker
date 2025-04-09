@@ -10,27 +10,31 @@ interface BudgetSummaryProps {
 
 export const BudgetSummarySkeleton = () => (
   <Card className="p-6">
-    <div className="grid grid-cols-2 gap-4 mb-6">
+    <div className="flex justify-between items-center mb-4">
       <div>
         <Skeleton className="h-4 w-20 mb-2" />
-        <Skeleton className="h-5 w-36" />
+        <Skeleton className="h-5 w-32" />
       </div>
-      <div>
+      <div className="text-right">
         <Skeleton className="h-4 w-20 mb-2" />
         <Skeleton className="h-5 w-24" />
       </div>
-      <div>
-        <Skeleton className="h-4 w-24 mb-2" />
-        <Skeleton className="h-5 w-32" />
-      </div>
     </div>
-    <Skeleton className="h-3 w-full mb-4" />
-    <div className="flex justify-between">
+
+    <Skeleton className="h-2.5 w-full mb-3" />
+
+    <div className="grid grid-cols-3 text-sm">
       <div>
-        <Skeleton className="h-4 w-28" />
+        <Skeleton className="h-4 w-16 mb-2" />
+        <Skeleton className="h-5 w-24" />
       </div>
-      <div>
-        <Skeleton className="h-4 w-28" />
+      <div className="text-center">
+        <Skeleton className="h-4 w-16 mx-auto mb-2" />
+        <Skeleton className="h-5 w-32 mx-auto" />
+      </div>
+      <div className="text-right">
+        <Skeleton className="h-4 w-16 ml-auto mb-2" />
+        <Skeleton className="h-5 w-24 ml-auto" />
       </div>
     </div>
   </Card>
