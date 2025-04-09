@@ -28,10 +28,9 @@ import {
 import { Calendar } from '@/components/ui/calendar'
 import { BiCalendar } from 'react-icons/bi'
 import { cn } from '@/lib/utils'
-import { PopoverClose } from '@radix-ui/react-popover'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
 import { useCategoryIndex } from '@/hooks/categories'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 
 const DEFAULT_CATEGORY_ID = 6 // Divers
 
@@ -83,6 +82,7 @@ export default function TransactionForm<
   }
   onSubmitAction: (values: T) => void
 }) {
+  const [isOpen, setIsOpen] = useState(false)
   const { data: categories = [] } = useCategoryIndex()
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -184,7 +184,7 @@ export default function TransactionForm<
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Date</FormLabel>
-              <Popover>
+              <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
@@ -200,15 +200,14 @@ export default function TransactionForm<
                   </FormControl>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
-                  <PopoverClose asChild>
-                    <div>
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                      />
-                    </div>
-                  </PopoverClose>
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={(date) => {
+                      field.onChange(date)
+                      setIsOpen(false)
+                    }}
+                  />
                 </PopoverContent>
               </Popover>
               <FormMessage />
