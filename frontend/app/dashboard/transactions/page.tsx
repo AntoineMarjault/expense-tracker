@@ -58,7 +58,7 @@ const TransactionsPage = () => {
 
   const groupedTransactions = transactionsWithCategory.reduce(
     (groups, transaction) => {
-      const date = new Date(transaction.date).toLocaleDateString()
+      const date = new Date(transaction.date).toISOString()
       if (!groups[date]) {
         groups[date] = []
       }
