@@ -24,6 +24,9 @@ export const BudgetProgressSkeleton = () => (
   </Card>
 )
 
+const targetColor = '#E89F76'
+const spentColor = '#6BBED6'
+
 const BudgetProgress = ({ budget }: BudgetTargetVersusRealityChartProps) => {
   const today = new Date().toISOString().split('T')[0]
   const data = budget.daily_cumulative_spending?.map((day) => {
@@ -62,8 +65,8 @@ const BudgetProgress = ({ budget }: BudgetTargetVersusRealityChartProps) => {
           >
             <defs>
               <linearGradient id="colorSpent" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3181FF" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#3181FF" stopOpacity={0.1} />
+                <stop offset="5%" stopColor={spentColor} stopOpacity={0.8} />
+                <stop offset="95%" stopColor={spentColor} stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" />
@@ -85,7 +88,7 @@ const BudgetProgress = ({ budget }: BudgetTargetVersusRealityChartProps) => {
             <Line
               type="monotone"
               dataKey="target"
-              stroke="#E37900"
+              stroke={targetColor}
               strokeWidth={2}
               name="Objectif"
               dot={false}
@@ -93,7 +96,7 @@ const BudgetProgress = ({ budget }: BudgetTargetVersusRealityChartProps) => {
             <Line
               type="monotone"
               dataKey="spent"
-              stroke="#3181FF"
+              stroke={spentColor}
               strokeWidth={2}
               dot={false}
               name="Dépenses"
@@ -101,7 +104,7 @@ const BudgetProgress = ({ budget }: BudgetTargetVersusRealityChartProps) => {
             <Line
               type="monotone"
               dataKey="prediction"
-              stroke="#3181FF"
+              stroke={spentColor}
               strokeWidth={2}
               strokeDasharray="5 5"
               dot={false}
@@ -110,7 +113,7 @@ const BudgetProgress = ({ budget }: BudgetTargetVersusRealityChartProps) => {
             <Line
               type="monotone"
               dataKey="today"
-              stroke="#3181FF"
+              stroke={spentColor}
               strokeWidth={2}
               dot={{ r: 4 }}
               name="Aujourd'hui"
