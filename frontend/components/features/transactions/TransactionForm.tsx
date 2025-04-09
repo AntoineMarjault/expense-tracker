@@ -22,7 +22,7 @@ import {
 import { DatePicker } from '@/components/ui/custom/DatePicker'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
 import { useCategoryIndex } from '@/hooks/categories'
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 
 const DEFAULT_CATEGORY_ID = 6 // Divers
 
@@ -79,18 +79,9 @@ export default function TransactionForm<
   })
 
   const handleSubmit = form.handleSubmit((values) => {
-    const localDate = new Date(values.date)
-    const utcDate = new Date(
-      Date.UTC(
-        localDate.getFullYear(),
-        localDate.getMonth(),
-        localDate.getDate()
-      )
-    )
-
     onSubmitAction({
       ...values,
-      date: utcDate.toISOString(),
+      date: values.date?.toISOString(),
     } as T)
   })
 
