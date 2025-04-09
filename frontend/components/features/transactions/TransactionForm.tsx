@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -20,27 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { BiCalendar } from 'react-icons/bi'
-import { cn } from '@/lib/utils'
+import { DatePicker } from '@/components/ui/custom/DatePicker'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
 import { useCategoryIndex } from '@/hooks/categories'
 import { ReactNode, useState } from 'react'
 
 const DEFAULT_CATEGORY_ID = 6 // Divers
-
-const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat('fr-FR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(date)
-}
 
 const formSchema = z.object({
   amount: z
@@ -178,42 +162,7 @@ export default function TransactionForm<
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="date"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Date</FormLabel>
-              <Popover open={isOpen} onOpenChange={setIsOpen}>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        'w-full pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {formatDate(field.value)}
-                      <BiCalendar className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={(date) => {
-                      field.onChange(date)
-                      setIsOpen(false)
-                    }}
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <DatePicker form={form} name="date" label="Date" />
         {children}
       </form>
     </Form>

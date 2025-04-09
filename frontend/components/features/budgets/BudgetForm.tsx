@@ -14,15 +14,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Budget } from '@/types/domain'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { cn } from '@/lib/utils'
-import { BiCalendar } from 'react-icons/bi'
-import { PopoverClose } from '@radix-ui/react-popover'
-import { Calendar } from '@/components/ui/calendar'
+import { DatePicker } from '@/components/ui/custom/DatePicker'
 
 const budgetSchema = z.object({
   name: z.string().min(1, 'Le nom est obligatoire'),
@@ -35,17 +27,7 @@ const budgetSchema = z.object({
   }),
 })
 
-type BudgetFormValues = z.infer<typeof budgetSchema>
-
-const formatDate = (date: Date | string | null | undefined) => {
-  if (!date) return ''
-  const dateObject = typeof date === 'string' ? new Date(date) : date
-  return new Intl.DateTimeFormat('fr-FR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(dateObject)
-}
+export type BudgetFormValues = z.infer<typeof budgetSchema>
 
 export default function BudgetForm<
   T extends Partial<Omit<Budget, 'id'>> | Omit<Budget, 'id'>,
@@ -112,84 +94,8 @@ export default function BudgetForm<
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="start_date"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Date de début</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        'w-full pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value
-                        ? formatDate(field.value)
-                        : 'Sélectionner une date'}
-                      <BiCalendar className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <PopoverClose asChild>
-                    <div>
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                      />
-                    </div>
-                  </PopoverClose>
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="end_date"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Date de fin</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        'w-full pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      {field.value
-                        ? formatDate(field.value)
-                        : 'Sélectionner une date'}
-                      <BiCalendar className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <PopoverClose asChild>
-                    <div>
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                      />
-                    </div>
-                  </PopoverClose>
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <DatePicker form={form} name="start_date" label="Date de début" />
+        <DatePicker form={form} name="end_date" label="Date de fin" />
         <Button type="submit" className="w-full">
           {initialData ? 'Modifier' : 'Créer'}
         </Button>
