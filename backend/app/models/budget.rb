@@ -60,6 +60,7 @@ class Budget < ApplicationRecord
       .where(user_id: user_id, date: start_date..end_date)
       .joins(:category)
       .group('categories.id', 'categories.name', 'categories.emoji', 'categories.color')
+      .order('SUM(transactions.amount) DESC')
       .sum(:amount)
       .map { |key, total|
         id, name, emoji, color = key
