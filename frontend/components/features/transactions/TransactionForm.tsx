@@ -96,9 +96,18 @@ export default function TransactionForm<
   })
 
   const handleSubmit = form.handleSubmit((values) => {
+    const localDate = new Date(values.date)
+    const utcDate = new Date(
+      Date.UTC(
+        localDate.getFullYear(),
+        localDate.getMonth(),
+        localDate.getDate()
+      )
+    )
+
     onSubmitAction({
       ...values,
-      date: values.date?.toISOString(),
+      date: utcDate.toISOString(),
     } as T)
   })
 
