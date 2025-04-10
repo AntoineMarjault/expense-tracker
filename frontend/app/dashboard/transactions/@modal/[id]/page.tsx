@@ -8,7 +8,7 @@ import {
   useTransactionUpdate,
 } from '@/hooks/transactions'
 import { useRouter } from 'next/navigation'
-import { MouseEvent, use } from 'react'
+import { MouseEvent, use, useState } from 'react'
 import TransactionForm from '@/components/features/transactions/TransactionForm'
 import { Button } from '@/components/ui/button'
 
@@ -24,10 +24,12 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
   const { mutate: updateTransaction } = useTransactionUpdate(id)
   const { mutate: deleteTransaction } = useTransactionDelete()
   const router = useRouter()
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   if (!transaction) return null
 
   const handleOnSubmit = (values: TransactionUpdate) => {
+    setIsSubmitted(true)
     updateTransaction(values, {
       onSuccess: () => {
         router.back()
@@ -39,6 +41,7 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
   }
 
   const handleOnDelete = () => {
+    setIsSubmitted(true)
     deleteTransaction(id, {
       onSuccess: () => {
         router.back()
@@ -68,10 +71,13 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
               event.preventDefault()
               handleOnDelete()
             }}
+            disabled={isSubmitted}
           >
             Supprimer
           </Button>
-          <Button type="submit">Modifier</Button>
+          <Button type="submit" disabled={isSubmitted}>
+            Modifier
+          </Button>
         </div>
       </TransactionForm>
     </TransactionDrawer>
