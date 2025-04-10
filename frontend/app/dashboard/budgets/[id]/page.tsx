@@ -32,7 +32,7 @@ const BudgetDetailSkeleton = () => (
 
 const BudgetDetailPage = ({ params }: BudgetDetailPageProps) => {
   const { id } = use(params)
-  const { data: budget, isLoading } = useBudgetShow(id)
+  const { data: budget, isLoading } = useBudgetShow(parseInt(id))
 
   return (
     <>
