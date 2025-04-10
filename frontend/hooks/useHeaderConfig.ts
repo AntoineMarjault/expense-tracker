@@ -9,7 +9,7 @@ export const useHeaderConfig = (): HeaderConfig => {
   const { mutate: deleteBudget } = useBudgetDelete()
 
   if (pathname.match(/^\/dashboard\/budgets\/\d+$/)) {
-    const budgetId = pathname.split('/').pop()
+    const budgetId = pathname.split('/').pop() || ''
     return {
       title: 'Détails du budget',
       showBack: true,
@@ -23,7 +23,7 @@ export const useHeaderConfig = (): HeaderConfig => {
           label: 'Supprimer',
           icon: BiTrash,
           onClick: () => {
-            deleteBudget(budgetId || '')
+            deleteBudget(parseInt(budgetId))
             router.back()
           },
         },

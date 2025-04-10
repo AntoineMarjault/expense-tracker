@@ -14,8 +14,7 @@ export function useBudgetIndex(): UseQueryResult<Budget[]> {
   })
 }
 
-// todo: fix id type (and in transaction hooks as well)
-export function useBudgetShow(id: string): UseQueryResult<Budget> {
+export function useBudgetShow(id: number): UseQueryResult<Budget> {
   return useQuery({
     queryKey: ['budgets', id],
     queryFn: async () => api.get(`/budgets/${id}`),
@@ -33,7 +32,7 @@ export function useBudgetCreate() {
   })
 }
 
-export function useBudgetUpdate(id: string) {
+export function useBudgetUpdate(id: number) {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -50,7 +49,7 @@ export function useBudgetDelete() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (id: string) => api.delete(`/budgets/${id}`),
+    mutationFn: (id: number) => api.delete(`/budgets/${id}`),
     onSuccess: (_, id) => {
       queryClient.invalidateQueries({ queryKey: ['budgets'] })
       queryClient.invalidateQueries({ queryKey: ['budgets', id] })

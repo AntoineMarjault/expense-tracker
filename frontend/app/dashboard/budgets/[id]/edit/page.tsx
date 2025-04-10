@@ -16,8 +16,8 @@ interface EditBudgetPageProps {
 export default function EditBudgetPage({ params }: EditBudgetPageProps) {
   const { id } = use(params)
   const router = useRouter()
-  const { data: budget, isLoading } = useBudgetShow(id)
-  const { mutate: updateBudget } = useBudgetUpdate(id)
+  const { data: budget, isLoading } = useBudgetShow(parseInt(id))
+  const { mutate: updateBudget } = useBudgetUpdate(parseInt(id))
 
   if (isLoading) return null
 

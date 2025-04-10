@@ -15,7 +15,7 @@ export function useTransactionIndex(): UseQueryResult<Transaction[]> {
   })
 }
 
-export function useTransactionShow(id: string) {
+export function useTransactionShow(id: number) {
   return useQuery({
     queryKey: ['transactions', id],
     queryFn: () => api.get(`/transactions/${id}`),
@@ -34,7 +34,7 @@ export function useTransactionCreate() {
   })
 }
 
-export function useTransactionUpdate(id: string) {
+export function useTransactionUpdate(id: number) {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -51,7 +51,7 @@ export function useTransactionDelete() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (id: string) => api.delete(`/transactions/${id}`),
+    mutationFn: (id: number) => api.delete(`/transactions/${id}`),
     onSuccess: (_, id) => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
       queryClient.invalidateQueries({ queryKey: ['transactions', id] })

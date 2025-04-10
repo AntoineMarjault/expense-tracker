@@ -20,8 +20,8 @@ interface EditTransactionDrawerProps {
 
 const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
   const { id } = use(params)
-  const { data: transaction } = useTransactionShow(id)
-  const { mutate: updateTransaction } = useTransactionUpdate(id)
+  const { data: transaction } = useTransactionShow(parseInt(id))
+  const { mutate: updateTransaction } = useTransactionUpdate(parseInt(id))
   const { mutate: deleteTransaction } = useTransactionDelete()
   const router = useRouter()
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -42,7 +42,7 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
 
   const handleOnDelete = () => {
     setIsSubmitted(true)
-    deleteTransaction(id, {
+    deleteTransaction(parseInt(id), {
       onSuccess: () => {
         router.back()
         setTimeout(() => {

@@ -67,8 +67,6 @@ export default function BudgetForm<
     } as T)
   })
 
-  // todo: refactor the forms (common fields with transaction form, I think I can improve that)
-
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="space-y-4">
