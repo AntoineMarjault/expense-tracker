@@ -29,21 +29,21 @@ const DEFAULT_CATEGORY_ID = 6 // Divers
 const formSchema = z.object({
   amount: z
     .number({
-      required_error: 'Amount is required.',
+      required_error: 'Le montant est obligatoire.',
     })
     .positive({
-      message: 'Amount must be a positive number.',
+      message: 'Le montant doit être positif.',
     }),
   name: z.string({
-    required_error: 'Name is required.',
+    required_error: 'Le nom est obligatoire.',
   }),
   category_id: z
     .number({
-      required_error: 'Category is required.',
+      required_error: 'La catégorie est obligatoire.',
     })
     .int(),
   date: z.date({
-    required_error: 'Date is required.',
+    required_error: 'La date est obligatoire.',
   }),
   currency: z.literal('EUR').default('EUR'),
 })
