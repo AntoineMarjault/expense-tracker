@@ -38,6 +38,14 @@ const TransactionGroupSkeleton = () => (
   </div>
 )
 
+const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+}
+
 const TransactionsPage = () => {
   const { data: transactions = [], isLoading: transactionsLoading } =
     useTransactionIndex()
@@ -58,7 +66,7 @@ const TransactionsPage = () => {
 
   const groupedTransactions = transactionsWithCategory.reduce(
     (groups, transaction) => {
-      const date = new Date(transaction.date).toISOString()
+      const date = formatDate(transaction.date)
       if (!groups[date]) {
         groups[date] = []
       }
@@ -67,14 +75,6 @@ const TransactionsPage = () => {
     },
     {} as Record<string, typeof transactionsWithCategory>
   )
-
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    })
-  }
 
   return (
     <div className="space-y-4">
@@ -87,9 +87,7 @@ const TransactionsPage = () => {
       {!isLoading &&
         Object.entries(groupedTransactions).map(([date, transactions]) => (
           <div key={date}>
-            <h3 className="text-sm font-medium text-gray-500 mb-2">
-              {formatDate(date)}
-            </h3>
+            <h3 className="text-sm font-medium text-gray-500 mb-2">{date}</h3>
             {transactions.map((transaction) => (
               <Link
                 key={transaction.id}
