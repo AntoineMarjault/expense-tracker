@@ -15,11 +15,11 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-export default async function RootLayout({
-  children,
-}: {
+interface RootLayoutProps {
   children: ReactNode
-}) {
+}
+
+export default async function RootLayout({ children }: RootLayoutProps) {
   const session = await getServerSession(authOptions)
 
   if (!session) {

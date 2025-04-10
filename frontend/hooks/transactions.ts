@@ -8,22 +8,20 @@ import { api } from '@/lib/api-client'
 import { Transaction } from '@/types/domain'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
 
-export function useTransactionIndex(): UseQueryResult<Transaction[]> {
-  return useQuery({
+export const useTransactionIndex = (): UseQueryResult<Transaction[]> =>
+  useQuery({
     queryKey: ['transactions'],
     queryFn: async () => api.get('/transactions'),
   })
-}
 
-export function useTransactionShow(id: number) {
-  return useQuery({
+export const useTransactionShow = (id: number) =>
+  useQuery({
     queryKey: ['transactions', id],
     queryFn: () => api.get(`/transactions/${id}`),
     enabled: !!id,
   })
-}
 
-export function useTransactionCreate() {
+export const useTransactionCreate = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -34,7 +32,7 @@ export function useTransactionCreate() {
   })
 }
 
-export function useTransactionUpdate(id: number) {
+export const useTransactionUpdate = (id: number) => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -47,7 +45,7 @@ export function useTransactionUpdate(id: number) {
   })
 }
 
-export function useTransactionDelete() {
+export const useTransactionDelete = () => {
   const queryClient = useQueryClient()
 
   return useMutation({

@@ -1,18 +1,17 @@
 import { ReactNode } from 'react'
 import FloatingActionButton from '@/components/ui/custom/FloatingActionButton'
 
-export default function TransactionsLayout({
-  children,
-  modal,
-}: {
+interface TransactionLayoutProps {
   children: ReactNode
   modal: ReactNode
-}) {
-  return (
-    <>
-      {children}
-      <FloatingActionButton href="/dashboard/transactions/new" />
-      {modal}
-    </>
-  )
 }
+
+const TransactionsLayout = ({ children, modal }: TransactionLayoutProps) => (
+  <>
+    {children}
+    <FloatingActionButton href="/dashboard/transactions/new" />
+    {modal}
+  </>
+)
+
+export default TransactionsLayout

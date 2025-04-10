@@ -14,21 +14,16 @@ const NewTransactionDrawer = () => {
   const { mutate: createTransaction } = useTransactionCreate()
 
   // todo: handle errors (enable valitate button, display error message)
-  const handleOnSubmit = (values: TransactionCreate) => {
+  const handleSubmit = (values: TransactionCreate) => {
     setIsSubmitted(true)
     createTransaction(values, {
-      onSuccess: () => {
-        router.back()
-        setTimeout(() => {
-          router.replace('/dashboard/transactions')
-        }, 100)
-      },
+      onSuccess: () => router.back(),
     })
   }
 
   return (
     <TransactionDrawer title="Ajouter une dépense">
-      <TransactionForm onSubmitAction={handleOnSubmit}>
+      <TransactionForm onSubmitAction={handleSubmit}>
         <div className="flex justify-center">
           <Button type="submit" disabled={isSubmitted}>
             Ajouter

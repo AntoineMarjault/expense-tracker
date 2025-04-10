@@ -8,7 +8,7 @@ import {
   useTransactionUpdate,
 } from '@/hooks/transactions'
 import { useRouter } from 'next/navigation'
-import { MouseEvent, use, useState } from 'react'
+import { use, useState } from 'react'
 import TransactionForm from '@/components/features/transactions/TransactionForm'
 import { Button } from '@/components/ui/button'
 
@@ -31,24 +31,14 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
   const handleOnSubmit = (values: TransactionUpdate) => {
     setIsSubmitted(true)
     updateTransaction(values, {
-      onSuccess: () => {
-        router.back()
-        setTimeout(() => {
-          router.replace('/dashboard/transactions')
-        }, 100)
-      },
+      onSuccess: () => router.back(),
     })
   }
 
   const handleOnDelete = () => {
     setIsSubmitted(true)
     deleteTransaction(parseInt(id), {
-      onSuccess: () => {
-        router.back()
-        setTimeout(() => {
-          router.replace('/dashboard/transactions')
-        }, 100)
-      },
+      onSuccess: () => router.back(),
     })
   }
 
@@ -67,7 +57,7 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
           <Button
             type="submit"
             variant="destructive"
-            onClick={(event: MouseEvent<HTMLButtonElement>) => {
+            onClick={(event) => {
               event.preventDefault()
               handleOnDelete()
             }}

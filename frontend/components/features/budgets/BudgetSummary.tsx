@@ -4,10 +4,6 @@ import { Budget } from '@/types/domain'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card } from '@/components/ui/card'
 
-interface BudgetSummaryProps {
-  budget: Budget
-}
-
 export const BudgetSummarySkeleton = () => (
   <Card className="p-6">
     <div className="flex justify-between items-center mb-4">
@@ -47,14 +43,18 @@ const formatAmount = (amount: number) => {
   }).format(amount)
 }
 
+const formatDate = (date: Date) =>
+  new Date(date).toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+  })
+
+interface BudgetSummaryProps {
+  budget: Budget
+}
+
 const BudgetSummary = ({ budget }: BudgetSummaryProps) => {
   const remaining = budget?.remaining_amount || 0
-
-  const formatDate = (date: Date) =>
-    new Date(date).toLocaleDateString('fr-FR', {
-      day: '2-digit',
-      month: '2-digit',
-    })
 
   return (
     <BudgetDetailCard>

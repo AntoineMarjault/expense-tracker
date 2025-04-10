@@ -19,10 +19,10 @@ const TransactionDrawer = ({ title, children }: TransactionDrawerProps) => {
 
   return (
     <Drawer
-      open={true}
       onOpenChange={(open) => {
         if (!open) router.back()
       }}
+      open
     >
       <DrawerContent>
         <DrawerHeader>

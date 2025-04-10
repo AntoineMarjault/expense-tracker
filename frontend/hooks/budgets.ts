@@ -7,21 +7,19 @@ import {
 import { api } from '@/lib/api-client'
 import { Budget } from '@/types/domain'
 
-export function useBudgetIndex(): UseQueryResult<Budget[]> {
-  return useQuery({
+export const useBudgetIndex = (): UseQueryResult<Budget[]> =>
+  useQuery({
     queryKey: ['budgets'],
     queryFn: async () => api.get('/budgets'),
   })
-}
 
-export function useBudgetShow(id: number): UseQueryResult<Budget> {
-  return useQuery({
+export const useBudgetShow = (id: number): UseQueryResult<Budget> =>
+  useQuery({
     queryKey: ['budgets', id],
     queryFn: async () => api.get(`/budgets/${id}`),
   })
-}
 
-export function useBudgetCreate() {
+export const useBudgetCreate = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -32,7 +30,7 @@ export function useBudgetCreate() {
   })
 }
 
-export function useBudgetUpdate(id: number) {
+export const useBudgetUpdate = (id: number) => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -45,7 +43,7 @@ export function useBudgetUpdate(id: number) {
   })
 }
 
-export function useBudgetDelete() {
+export const useBudgetDelete = () => {
   const queryClient = useQueryClient()
 
   return useMutation({

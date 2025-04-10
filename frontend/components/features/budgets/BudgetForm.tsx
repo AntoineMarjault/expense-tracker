@@ -94,7 +94,7 @@ export default function BudgetForm<
                   type="number"
                   min="0"
                   step="0.01"
-                  placeholder="500"
+                  placeholder="20"
                   {...field}
                 />
               </FormControl>

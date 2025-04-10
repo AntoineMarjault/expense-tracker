@@ -14,9 +14,8 @@ import BudgetDetailCard from '@/components/features/budgets/BudgetDetailCard'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card } from '@/components/ui/card'
 
-interface BudgetTargetVersusRealityChartProps {
-  budget: Budget
-}
+const targetColor = '#E89F76'
+const spentColor = '#6BBED6'
 
 export const BudgetProgressSkeleton = () => (
   <Card className="p-6">
@@ -24,10 +23,11 @@ export const BudgetProgressSkeleton = () => (
   </Card>
 )
 
-const targetColor = '#E89F76'
-const spentColor = '#6BBED6'
+interface BudgetProgressProps {
+  budget: Budget
+}
 
-const BudgetProgress = ({ budget }: BudgetTargetVersusRealityChartProps) => {
+const BudgetProgress = ({ budget }: BudgetProgressProps) => {
   const today = new Date().toISOString().split('T')[0]
   const data = budget.daily_cumulative_spending?.map((day) => {
     const isToday = day.date >= today

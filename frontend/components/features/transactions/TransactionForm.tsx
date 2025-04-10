@@ -24,7 +24,7 @@ import { TransactionCreate, TransactionUpdate } from '@/types/api'
 import { useCategoryIndex } from '@/hooks/categories'
 import { ReactNode } from 'react'
 
-const DEFAULT_CATEGORY_ID = 6 // Divers
+const DEFAULT_CATEGORY_ID = 6 // "Divers"
 
 const formSchema = z.object({
   amount: z
