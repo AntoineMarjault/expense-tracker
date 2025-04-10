@@ -112,8 +112,10 @@ export default function TransactionForm<
                   type="number"
                   placeholder="100"
                   {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                  onFocus={() => field.onChange('')}
+                  onChange={(event) =>
+                    field.onChange(Number(event.target.value))
+                  }
+                  onFocus={(event) => event.target.select()}
                   className="pr-6"
                 />
                 <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground">
