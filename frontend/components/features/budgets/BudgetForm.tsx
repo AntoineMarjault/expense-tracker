@@ -96,6 +96,7 @@ export default function BudgetForm<
                   step="0.01"
                   placeholder="20"
                   {...field}
+                  onFocus={(event) => event.target.select()}
                 />
               </FormControl>
               <FormMessage />
