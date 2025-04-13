@@ -59,6 +59,9 @@ export const useHeaderConfig = (): HeaderConfig => {
     '/dashboard/budgets': {
       title: 'Budgets',
     },
+    '/dashboard/settings': {
+      title: 'Réglages',
+    },
   }
 
   return configs[pathname] || { title: 'Dashboard' }

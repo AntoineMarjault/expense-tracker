@@ -1,7 +1,6 @@
 'use client'
 
-import { BiHomeAlt2 } from 'react-icons/bi'
-import { BiPieChartAlt2 } from 'react-icons/bi'
+import { BiPieChartAlt2, BiHomeAlt2, BiCog } from 'react-icons/bi'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
@@ -30,6 +29,12 @@ const Nav = ({ className }: NavProps) => {
         name="Budgets"
         href="/dashboard/budgets"
         active={pathname === '/dashboard/budgets'}
+      />
+      <NavItem
+        icon={<BiCog size={iconSize} />}
+        name="Réglages"
+        href="/dashboard/settings"
+        active={pathname === '/dashboard/settings'}
       />
     </nav>
   )
