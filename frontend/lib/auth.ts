@@ -74,6 +74,9 @@ export const authOptions = {
       return session
     },
   },
+  pages: {
+    signIn: '/login',
+  },
 }
 
-export const publicPages = ['/api/auth/signin', '/api/auth/signup']
+export const publicPages = ['/login', '/api/auth/signin', '/api/auth/signup']
