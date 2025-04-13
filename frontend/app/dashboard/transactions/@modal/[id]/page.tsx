@@ -55,12 +55,9 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
       >
         <div className="flex justify-center gap-4">
           <Button
-            type="submit"
+            type="button"
             variant="destructive"
-            onClick={(event) => {
-              event.preventDefault()
-              handleOnDelete()
-            }}
+            onClick={handleOnDelete}
             disabled={isSubmitted}
           >
             Supprimer
