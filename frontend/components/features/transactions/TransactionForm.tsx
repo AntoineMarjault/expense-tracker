@@ -75,7 +75,7 @@ export default function TransactionForm<
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: defaultValues?.amount ?? '',
+      amount: defaultValues?.amount ?? 0,
       name: defaultValues?.name ?? '',
       category_id: defaultValues?.category_id ?? DEFAULT_CATEGORY_ID,
       date: defaultValues?.date ? new Date(defaultValues.date) : new Date(),
