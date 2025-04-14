@@ -1,4 +1,5 @@
 import { Card } from '@/components/ui/card'
+import { formatAmount } from '@/lib/utils'
 
 interface TransactionCardProps {
   amount: number
@@ -22,7 +23,7 @@ const TransactionCard = ({
           <span className="text-xs text-gray-500">{categoryName}</span>
         </div>
       </div>
-      <span className="font-bold">{amount}€</span>
+      <span className="font-bold">{formatAmount(amount)}€</span>
     </div>
   </Card>
 )

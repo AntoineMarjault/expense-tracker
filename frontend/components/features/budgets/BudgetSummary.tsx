@@ -3,6 +3,7 @@ import { Progress } from '@/components/ui/progress'
 import { Budget } from '@/types/domain'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card } from '@/components/ui/card'
+import { formatAmount } from '@/lib/utils'
 
 export const BudgetSummarySkeleton = () => (
   <Card className="p-6">
@@ -35,13 +36,6 @@ export const BudgetSummarySkeleton = () => (
     </div>
   </Card>
 )
-
-const formatAmount = (amount: number) => {
-  return new Intl.NumberFormat('fr-FR', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  }).format(amount)
-}
 
 const formatDate = (date: Date) =>
   new Date(date).toLocaleDateString('fr-FR', {

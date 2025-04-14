@@ -2,6 +2,7 @@ import { Card } from '@/components/ui/card'
 import { BiChevronRight } from 'react-icons/bi'
 import Link from 'next/link'
 import { Progress } from '@/components/ui/progress'
+import { formatAmount } from '@/lib/utils'
 
 interface BudgetCardProps {
   name: string
@@ -29,13 +30,12 @@ const BudgetCard = ({
       <Progress value={progress_percentage} className="h-2 mb-2" />
       <div className="flex justify-between text-sm text-gray-600">
         <span>
-          {spent_amount.toLocaleString('fr-FR')} € /{' '}
-          {target_amount.toLocaleString('fr-FR')} €
+          {formatAmount(spent_amount)} € / {formatAmount(target_amount)} €
         </span>
         <span
           className={remaining_amount >= 0 ? 'text-green-600' : 'text-red-600'}
         >
-          {remaining_amount.toLocaleString('fr-FR')} €
+          {formatAmount(remaining_amount)} €
         </span>
       </div>
     </Card>
