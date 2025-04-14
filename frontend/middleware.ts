@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
   const isPublicPage = publicPages.includes(request.nextUrl.pathname)
 
   if (!token && !isPublicPage) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL('/auth/login', request.url))
   }
 
   return NextResponse.next()

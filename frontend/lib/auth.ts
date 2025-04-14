@@ -75,8 +75,13 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: '/login',
+    signIn: '/auth/login',
   },
 }
 
-export const publicPages = ['/login', '/api/auth/signin', '/api/auth/signup']
+export const publicPages = [
+  '/auth/login',
+  '/auth/signup',
+  '/api/auth/signin',
+  '/api/auth/signup',
+]

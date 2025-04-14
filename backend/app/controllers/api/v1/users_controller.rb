@@ -4,14 +4,13 @@ module Api
             skip_before_action :authenticate_request, only: :create
 
             def create
-               user = User.new(user_params)
+                user = User.new(user_params)
 
-               if user.save
-                   token = JwtService.encode(user_id: user.id)
-                   render json: { token: token }, status: :created
-               else
-                  render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
-               end
+                if user.save
+                    head :created
+                else
+                    render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+                end
             end
 
             private

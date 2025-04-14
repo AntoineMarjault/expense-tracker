@@ -11,13 +11,12 @@ RSpec.describe 'Users', type: :request do
       }
     end
 
-    it 'returns 201 and creates a new user with JWT token' do
+    it 'returns 201 and creates a new user' do
       expect {
         post '/api/v1/signup', params: valid_params
       }.to change(User, :count).by(1)
 
       expect(response).to have_http_status(:created)
-      expect(JSON.parse(response.body)).to have_key('token')
     end
 
     it 'returns 422 when email is missing' do
