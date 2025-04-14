@@ -28,12 +28,17 @@ const DEFAULT_CATEGORY_ID = 6 // "Divers"
 
 const formSchema = z.object({
   amount: z
-    .number({
-      required_error: 'Le montant est obligatoire.',
-    })
-    .positive({
-      message: 'Le montant doit être positif.',
-    }),
+    .union([z.number(), z.string().trim()])
+    .transform((val) => (val === '' ? undefined : Number(val)))
+    .pipe(
+      z
+        .number({
+          required_error: 'Le montant est obligatoire.',
+        })
+        .positive({
+          message: 'Le montant doit être positif.',
+        })
+    ),
   name: z.string({
     required_error: 'Le nom est obligatoire.',
   }),
@@ -70,7 +75,7 @@ export default function TransactionForm<
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: defaultValues?.amount ?? 0,
+      amount: defaultValues?.amount ?? '',
       name: defaultValues?.name ?? '',
       category_id: defaultValues?.category_id ?? DEFAULT_CATEGORY_ID,
       date: defaultValues?.date ? new Date(defaultValues.date) : new Date(),
@@ -112,9 +117,10 @@ export default function TransactionForm<
                   type="number"
                   placeholder="100"
                   {...field}
-                  onChange={(event) =>
-                    field.onChange(Number(event.target.value))
-                  }
+                  onChange={(event) => {
+                    const value = event.target.value
+                    field.onChange(value === '' ? '' : Number(value))
+                  }}
                   onFocus={(event) => event.target.select()}
                   className="pr-6"
                 />
