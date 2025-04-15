@@ -6,7 +6,7 @@ RSpec.describe "Api::V1::Categories", type: :request do
 
     describe "GET /index" do
         it "returns 200 and all categories" do
-            2.times{FactoryBot.create(:category)}
+            2.times { FactoryBot.create(:category) }
 
             get '/api/v1/categories'
 

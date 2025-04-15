@@ -19,7 +19,7 @@ class Budget < ApplicationRecord
   end
 
   def average_daily_spending
-    today_or_end_date = [end_date, Date.today].min
+    today_or_end_date = [ end_date, Date.today ].min
     (spent_amount / (today_or_end_date - start_date).to_i).round(2)
   end
 
@@ -59,8 +59,8 @@ class Budget < ApplicationRecord
     Transaction
       .where(user_id: user_id, date: start_date..end_date)
       .joins(:category)
-      .group('categories.id', 'categories.name', 'categories.emoji', 'categories.color')
-      .order('SUM(transactions.amount) DESC')
+      .group("categories.id", "categories.name", "categories.emoji", "categories.color")
+      .order("SUM(transactions.amount) DESC")
       .sum(:amount)
       .map { |key, total|
         id, name, emoji, color = key

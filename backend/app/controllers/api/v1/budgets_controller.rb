@@ -1,7 +1,7 @@
 module Api
     module V1
         class BudgetsController < ApplicationController
-          before_action :set_budget, only: [:show, :update, :destroy]
+          before_action :set_budget, only: [ :show, :update, :destroy ]
 
           def index
             @budgets = current_user.budgets.all
@@ -39,7 +39,7 @@ module Api
 
           def set_budget
             @budget = current_user.budgets.find_by(id: params[:id])
-            return render json: @budget, status: :not_found unless @budget
+            render json: @budget, status: :not_found unless @budget
           end
 
           def budget_params

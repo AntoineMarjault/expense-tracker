@@ -8,13 +8,13 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     if Rails.env.development?
-      origins 'http://localhost:3001'
+      origins "http://localhost:3001"
     else
-      origins 'https://expense-tracker-three-ivory.vercel.app'
+      origins "https://expense-tracker-three-ivory.vercel.app"
     end
 
     resource "*",
       headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      methods: [ :get, :post, :put, :patch, :delete, :options, :head ]
   end
 end

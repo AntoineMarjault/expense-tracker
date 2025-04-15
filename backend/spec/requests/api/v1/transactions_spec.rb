@@ -6,7 +6,7 @@ RSpec.describe 'Transactions', type: :request do
 
     describe 'GET /transactions' do
         it 'returns 200 and all transactions' do
-            2.times{FactoryBot.create(:transaction, user: user)}
+            2.times { FactoryBot.create(:transaction, user: user) }
 
             get '/api/v1/transactions'
 
@@ -40,7 +40,7 @@ RSpec.describe 'Transactions', type: :request do
             expect(Transaction.count).to eq(0)
 
             headers = { "CONTENT_TYPE" => "application/json" }
-            post "/api/v1/transactions", :params => transaction_params.to_json, :headers => headers
+            post "/api/v1/transactions", params: transaction_params.to_json, headers: headers
 
             expect(response).to have_http_status(:created)
             expect(Transaction.count).to eq(1)
@@ -56,7 +56,7 @@ RSpec.describe 'Transactions', type: :request do
             expect(Transaction.count).to eq(0)
 
             headers = { "CONTENT_TYPE" => "application/json" }
-            post "/api/v1/transactions", :params => transaction_params_without_amount.to_json, :headers => headers
+            post "/api/v1/transactions", params: transaction_params_without_amount.to_json, headers: headers
 
             expect(response).to have_http_status(:unprocessable_entity)
             expect(Transaction.count).to eq(0)
@@ -73,7 +73,7 @@ RSpec.describe 'Transactions', type: :request do
             expect(Transaction.count).to eq(0)
 
             headers = { "CONTENT_TYPE" => "application/json" }
-            post "/api/v1/transactions", :params => transaction_params.to_json, :headers => headers
+            post "/api/v1/transactions", params: transaction_params.to_json, headers: headers
 
             expect(response).to have_http_status(:created)
             expect(Transaction.count).to eq(1)
@@ -106,7 +106,7 @@ RSpec.describe 'Transactions', type: :request do
             transaction_params = { name: 'New name' }
 
             headers = { "CONTENT_TYPE" => "application/json" }
-            put "/api/v1/transactions/#{transaction.id}", :params => transaction_params.to_json, :headers => headers
+            put "/api/v1/transactions/#{transaction.id}", params: transaction_params.to_json, headers: headers
 
             expect(response).to have_http_status(:success)
             expect(JSON.parse(response.body)['name']).to eq('New name')
@@ -117,7 +117,7 @@ RSpec.describe 'Transactions', type: :request do
             transaction_params = { invalid: 'field' }
 
             headers = { "CONTENT_TYPE" => "application/json" }
-            put "/api/v1/transactions/#{transaction.id}", :params => transaction_params.to_json, :headers => headers
+            put "/api/v1/transactions/#{transaction.id}", params: transaction_params.to_json, headers: headers
 
             expect(response).to have_http_status(:bad_request)
         end
@@ -126,7 +126,7 @@ RSpec.describe 'Transactions', type: :request do
             transaction_params = { name: 'new name' }
 
             headers = { "CONTENT_TYPE" => "application/json" }
-            put "/api/v1/transactions/999", :params => transaction_params.to_json, :headers => headers
+            put "/api/v1/transactions/999", params: transaction_params.to_json, headers: headers
 
             expect(response).to have_http_status(:not_found)
             expect(JSON.parse(response.body)).to eq(nil)
