@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import { use, useState } from 'react'
 import TransactionForm from '@/components/features/transactions/TransactionForm'
 import { Button } from '@/components/ui/button'
+import ConfirmationModal from '@/components/ui/custom/ConfirmationModal'
 
 interface EditTransactionDrawerProps {
   params: Promise<{
@@ -25,6 +26,7 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
   const { mutate: deleteTransaction } = useTransactionDelete()
   const router = useRouter()
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
   if (!transaction) return null
 
@@ -37,6 +39,7 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
 
   const handleOnDelete = () => {
     setIsSubmitted(true)
+    setIsDeleteDialogOpen(false)
     deleteTransaction(parseInt(id), {
       onSuccess: () => router.back(),
     })
@@ -54,14 +57,19 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
         onSubmitAction={handleOnSubmit}
       >
         <div className="flex justify-center gap-4">
-          <Button
-            type="button"
-            variant="destructive"
-            onClick={handleOnDelete}
-            disabled={isSubmitted}
+          <ConfirmationModal
+            open={isDeleteDialogOpen}
+            onOpenChange={setIsDeleteDialogOpen}
+            onConfirm={handleOnDelete}
+            title="Êtes-vous sûr ?"
+            description="Cette action ne peut pas être annulée."
+            confirmText="Supprimer la dépense"
+            cancelText="Annuler"
           >
-            Supprimer
-          </Button>
+            <Button type="button" variant="destructive" disabled={isSubmitted}>
+              Supprimer
+            </Button>
+          </ConfirmationModal>
           <Button type="submit" disabled={isSubmitted}>
             Modifier
           </Button>
