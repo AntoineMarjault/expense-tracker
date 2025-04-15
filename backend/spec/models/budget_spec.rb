@@ -49,4 +49,20 @@ RSpec.describe Budget, type: :model do
       expect(budget.spent_amount).to eq(10)
     end
   end
+
+
+  describe '#daily_cumulative_spending' do
+    it 'returns the cumulative spending for each day in the budget period' do
+      budget = FactoryBot.create(:budget, user: user, start_date: Date.today, end_date: Date.today + 2.days, target_amount: 100)
+      FactoryBot.create(:transaction, user: user, amount: 10, date: Date.today)
+      FactoryBot.create(:transaction, user: user, amount: 20, date: Date.today + 1.day)
+
+      result = budget.daily_cumulative_spending
+
+      expect(result.length).to eq(3)
+      expect(result[0][:cumulative_amount]).to eq(10)
+      expect(result[1][:cumulative_amount]).to eq(30)
+      expect(result[2][:cumulative_amount]).to eq(30) # No transaction on the last day
+    end
+  end
 end

@@ -20,19 +20,18 @@ class Budget < ApplicationRecord
 
   def average_daily_spending
     today_or_end_date = [ end_date, Date.today ].min
-    (spent_amount / (today_or_end_date - start_date).to_i).round(2)
+    (spent_amount / number_of_days(from_date: start_date, to_date: today_or_end_date)).round(2)
   end
 
   def target_daily_amount
-    ((target_amount || 0) / (end_date - start_date).to_i).round(2).to_f
+    (target_amount / total_days_in_budget).round(2).to_f
   end
 
   def daily_cumulative_spending
     daily_amounts = Transaction
       .where(user_id: user_id, date: start_date..end_date)
-      .group(:date)
+      .group("DATE(date)")
       .sum(:amount)
-      .transform_keys { |date| date.to_date }
 
       cumulative_amounts = 0
       cumulative_spending = []
@@ -42,7 +41,7 @@ class Budget < ApplicationRecord
           cumulative_amounts += daily_amounts[date].to_f
         end
 
-        days_elapsed = (date - start_date).to_i + 1
+        days_elapsed = number_of_days(from_date: start_date, to_date: date)
         target_at_date = (target_daily_amount * days_elapsed).round(2)
 
         cumulative_spending << {
@@ -79,6 +78,14 @@ class Budget < ApplicationRecord
   end
 
   private
+
+  def total_days_in_budget
+    number_of_days(from_date: start_date, to_date: end_date)
+  end
+
+  def number_of_days(from_date:, to_date:)
+    (to_date - from_date).to_i + 1
+  end
 
   def end_date_after_start_date
     return if end_date.blank? || start_date.blank?
