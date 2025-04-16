@@ -15,6 +15,7 @@ Rails.application.routes.draw do
             post "/login", to: "authentications#create"
             post "/signup", to: "users#create"
 
+            resources :users, only: :destroy
             resources :budgets, only: %i[index show create update destroy]
             resources :categories, only: %i[index show]
             resources :transactions, only: %i[index show create update destroy]

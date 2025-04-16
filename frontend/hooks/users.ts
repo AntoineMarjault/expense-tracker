@@ -14,3 +14,6 @@ export const useUserCreate = () =>
   useMutation({
     mutationFn: (data: UserCreateRequest) => api.post('/signup', data),
   })
+
+export const useUserDelete = () =>
+  useMutation({ mutationFn: (id: number) => api.delete(`/users/${id}`) })

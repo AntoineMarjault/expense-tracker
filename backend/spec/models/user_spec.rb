@@ -22,5 +22,16 @@ RSpec.describe User, type: :model do
       user = User.new(email: 'test@example.com', password: 'password123')
       expect(user).not_to be_valid
     end
+
+    describe 'associations' do
+      it 'deletes associated transactions and budgets when user is destroyed' do
+        user = User.create!(email: 'test@example.com', password: 'password123')
+        transaction = FactoryBot.create(:transaction, user: user)
+        budget = FactoryBot.create(:budget, user: user)
+
+        expect { user.destroy }.to change { Transaction.count }.by(-1)
+          .and change { Budget.count }.by(-1)
+      end
+    end
   end
 end
