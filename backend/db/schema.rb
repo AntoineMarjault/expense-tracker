@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_24_171155) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_18_115115) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -31,6 +31,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_171155) do
     t.string "emoji"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tags_on_user_id"
+  end
+
+  create_table "tags_transactions", id: false, force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["tag_id", "transaction_id"], name: "index_tags_transactions_on_tag_id_and_transaction_id"
+    t.index ["transaction_id", "tag_id"], name: "index_tags_transactions_on_transaction_id_and_tag_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -54,6 +69,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_171155) do
   end
 
   add_foreign_key "budgets", "users"
+  add_foreign_key "tags", "users"
   add_foreign_key "transactions", "categories"
   add_foreign_key "transactions", "users"
 end

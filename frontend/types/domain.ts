@@ -5,6 +5,7 @@ export interface Transaction {
   currency: string
   date: string
   category_id: number
+  tags: string[]
 }
 
 export interface Category {

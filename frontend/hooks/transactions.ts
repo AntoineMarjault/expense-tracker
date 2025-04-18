@@ -25,7 +25,8 @@ export const useTransactionCreate = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: TransactionCreate) => api.post('/transactions', data),
+    mutationFn: (transaction: TransactionCreate) =>
+      api.post('/transactions', { transaction }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
     },
@@ -36,8 +37,8 @@ export const useTransactionUpdate = (id: number) => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: TransactionUpdate) =>
-      api.patch(`/transactions/${id}`, data),
+    mutationFn: (transaction: TransactionUpdate) =>
+      api.patch(`/transactions/${id}`, { transaction }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
       queryClient.invalidateQueries({ queryKey: ['transactions', id] })

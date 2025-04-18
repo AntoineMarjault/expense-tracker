@@ -23,6 +23,8 @@ import { DatePicker } from '@/components/ui/custom/DatePicker'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
 import { useCategoryIndex } from '@/hooks/categories'
 import { ReactNode } from 'react'
+import { Badge } from '@/components/ui/badge'
+import { BiX } from 'react-icons/bi'
 
 const DEFAULT_CATEGORY_ID = 6 // "Divers"
 
@@ -51,6 +53,7 @@ const formSchema = z.object({
     required_error: 'La date est obligatoire.',
   }),
   currency: z.literal('EUR').default('EUR'),
+  tags: z.array(z.string()).default([]),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -68,6 +71,7 @@ export default function TransactionForm<
     name: string
     category_id: number
     date: string
+    tags: string[]
   }
   onSubmitAction: (values: T) => void
 }) {
@@ -80,6 +84,7 @@ export default function TransactionForm<
       category_id: defaultValues?.category_id ?? DEFAULT_CATEGORY_ID,
       date: defaultValues?.date ? new Date(defaultValues.date) : new Date(),
       currency: 'EUR',
+      tags: defaultValues?.tags ?? [],
     },
   })
 
@@ -156,6 +161,55 @@ export default function TransactionForm<
                   ))}
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tags</FormLabel>
+              <FormControl>
+                <div className="space-y-2">
+                  <div className="flex flex-wrap gap-2">
+                    {field.value.map((tag) => (
+                      <Badge key={tag} variant="secondary">
+                        {tag}
+                        <button
+                          type="button"
+                          className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                          onClick={() =>
+                            field.onChange(field.value.filter((t) => t !== tag))
+                          }
+                        >
+                          <BiX className="h-3 w-3" />
+                          <span className="sr-only">Supprimer {tag}</span>
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="relative">
+                    <Input
+                      placeholder="Ajouter un tag..."
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && e.currentTarget.value) {
+                          e.preventDefault()
+                          const newTag = e.currentTarget.value.trim()
+                          if (newTag && !field.value.includes(newTag)) {
+                            field.onChange([...field.value, newTag])
+                            e.currentTarget.value = ''
+                          }
+                        }
+                      }}
+                    />
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+                      Appuyer sur Entrée ↵
+                    </span>
+                  </div>
+                </div>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
