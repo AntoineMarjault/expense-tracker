@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_18_115115) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_18_132450) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,6 +23,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_18_115115) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_budgets_on_user_id"
+  end
+
+  create_table "budgets_categories", id: false, force: :cascade do |t|
+    t.bigint "budget_id", null: false
+    t.bigint "category_id", null: false
+    t.index ["budget_id", "category_id"], name: "index_budgets_categories_on_budget_id_and_category_id"
+    t.index ["category_id", "budget_id"], name: "index_budgets_categories_on_category_id_and_budget_id"
+  end
+
+  create_table "budgets_tags", id: false, force: :cascade do |t|
+    t.bigint "budget_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["budget_id", "tag_id"], name: "index_budgets_tags_on_budget_id_and_tag_id"
+    t.index ["tag_id", "budget_id"], name: "index_budgets_tags_on_tag_id_and_budget_id"
   end
 
   create_table "categories", force: :cascade do |t|

@@ -1,5 +1,7 @@
 class Budget < ApplicationRecord
   belongs_to :user
+  has_and_belongs_to_many :tags
+  has_and_belongs_to_many :categories
 
   validates :name, presence: true
   validates :target_amount, presence: true, numericality: { greater_than: 0 }
@@ -7,7 +9,7 @@ class Budget < ApplicationRecord
   validate :end_date_after_start_date
 
   def spent_amount
-    Transaction.where(user_id: user_id, date: start_date..end_date).sum(:amount).to_f
+    filtered_transactions.sum(:amount).to_f
   end
 
   def remaining_amount
@@ -28,8 +30,7 @@ class Budget < ApplicationRecord
   end
 
   def daily_cumulative_spending
-    daily_amounts = Transaction
-      .where(user_id: user_id, date: start_date..end_date)
+    daily_amounts = filtered_transactions
       .group("DATE(date)")
       .sum(:amount)
 
@@ -55,8 +56,7 @@ class Budget < ApplicationRecord
   end
 
   def expenses_per_category
-    Transaction
-      .where(user_id: user_id, date: start_date..end_date)
+    filtered_transactions
       .joins(:category)
       .group("categories.id", "categories.name", "categories.emoji", "categories.color")
       .order("SUM(transactions.amount) DESC")
@@ -74,10 +74,30 @@ class Budget < ApplicationRecord
   end
 
   def as_json(options = {})
-    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending target_daily_amount daily_cumulative_spending expenses_per_category]))
+    super(options.merge(methods: %i[tags categories spent_amount remaining_amount progress_percentage average_daily_spending target_daily_amount daily_cumulative_spending expenses_per_category]))
   end
 
   private
+
+  def filtered_transactions
+    tag_ids = tags.pluck(:id)
+    category_ids = categories.pluck(:id)
+
+    base_query = Transaction.where(user_id: user_id, date: start_date..end_date)
+
+    return base_query if tag_ids.empty? && category_ids.empty?
+
+    filtered_by_tags = tag_ids.any? ? base_query.filter_by_tags(tag_ids) : nil
+    filtered_by_categories = category_ids.any? ? base_query.filter_by_categories(category_ids) : nil
+
+    if filtered_by_tags && filtered_by_categories
+      filtered_by_tags.or(filtered_by_categories)
+    elsif filtered_by_tags
+      filtered_by_tags
+    else
+      filtered_by_categories
+    end
+  end
 
   def total_days_in_budget
     number_of_days(from_date: start_date, to_date: end_date)

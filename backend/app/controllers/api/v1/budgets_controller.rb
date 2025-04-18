@@ -43,7 +43,7 @@ module Api
           end
 
           def budget_params
-            params.require(:budget).permit(:name, :target_amount, :start_date, :end_date, :user_id)
+            params.require(:budget).permit(:name, :target_amount, :start_date, :end_date, :user_id, tag_ids: [], category_ids: [])
           end
         end
     end

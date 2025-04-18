@@ -29,12 +29,19 @@ export interface ExpenseForCategory {
   total_expense: number
 }
 
+export interface Tag {
+  id: number
+  name: string
+}
+
 export interface Budget {
   id: number
   name: string
   target_amount: number
   start_date: string
   end_date: string
+  tags: Tag[]
+  categories: Category[]
   spent_amount?: number
   remaining_amount?: number
   progress_percentage?: number

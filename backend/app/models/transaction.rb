@@ -5,6 +5,13 @@ class Transaction < ApplicationRecord
 
     validates :amount, presence: true
 
+    scope :filter_by_tags, ->(tag_ids) {
+        joins(:tags).where(tags: { id: tag_ids }).distinct
+    }
+    scope :filter_by_categories, ->(category_ids) {
+        joins(:category).where(categories: { id: category_ids }).distinct
+    }
+
     def as_json(options = {})
         super(only: [ :id, :amount, :name, :date, :currency, :category_id ]).tap do |hash|
           hash["amount"] = amount.to_f if amount.present?
