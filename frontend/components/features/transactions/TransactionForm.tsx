@@ -165,12 +165,13 @@ export default function TransactionForm<
             </FormItem>
           )}
         />
+        <DatePicker form={form} name="date" label="Date" />
         <FormField
           control={form.control}
           name="tags"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tags</FormLabel>
+              <FormLabel>Tags (optionnel)</FormLabel>
               <FormControl>
                 <div className="space-y-2">
                   <div className="flex flex-wrap gap-2">
@@ -214,7 +215,6 @@ export default function TransactionForm<
             </FormItem>
           )}
         />
-        <DatePicker form={form} name="date" label="Date" />
         {children}
       </form>
     </Form>

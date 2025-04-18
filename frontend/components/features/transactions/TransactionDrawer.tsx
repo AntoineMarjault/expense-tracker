@@ -22,6 +22,7 @@ const TransactionDrawer = ({ title, children }: TransactionDrawerProps) => {
       onOpenChange={(open) => {
         if (!open) router.back()
       }}
+      repositionInputs={false}
       open
     >
       <DrawerContent>
