@@ -7,7 +7,5 @@ class CreateLocations < ActiveRecord::Migration[8.0]
       t.decimal :longitude, precision: 10, scale: 6
       t.timestamps
     end
-
-    add_reference :transactions, :location, foreign_key: true, null: true
   end
 end
