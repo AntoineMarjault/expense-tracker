@@ -26,7 +26,7 @@ const Nav = ({ className }: NavProps) => {
       />
       <NavItem
         icon={<BiPieChartAlt2 size={iconSize} />}
-        name="Travels"
+        name="Voyage"
         href="/dashboard/travels"
         active={pathname === '/dashboard/travels'}
       />
