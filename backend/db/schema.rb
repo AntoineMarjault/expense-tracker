@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_24_184205) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_24_185630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_184205) do
     t.bigint "category_id", null: false
     t.index ["category_id", "travel_id"], name: "index_budgets_categories_on_category_id_and_budget_id"
     t.index ["travel_id", "category_id"], name: "index_budgets_categories_on_budget_id_and_category_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "country_code", limit: 2
+    t.string "place_name"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tags", force: :cascade do |t|
@@ -60,7 +69,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_184205) do
     t.datetime "updated_at", null: false
     t.bigint "category_id", null: false
     t.bigint "user_id", null: false
+    t.bigint "location_id"
     t.index ["category_id"], name: "index_transactions_on_category_id"
+    t.index ["location_id"], name: "index_transactions_on_location_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
@@ -84,6 +95,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_184205) do
 
   add_foreign_key "tags", "users"
   add_foreign_key "transactions", "categories"
+  add_foreign_key "transactions", "locations"
   add_foreign_key "transactions", "users"
   add_foreign_key "travels", "users"
 end

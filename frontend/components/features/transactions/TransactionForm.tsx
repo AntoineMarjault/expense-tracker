@@ -22,7 +22,7 @@ import {
 import { DatePicker } from '@/components/ui/custom/DatePicker'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
 import { useCategoryIndex } from '@/hooks/categories'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { BiX } from 'react-icons/bi'
 
@@ -54,6 +54,8 @@ const formSchema = z.object({
   }),
   currency: z.literal('EUR').default('EUR'),
   tags: z.array(z.string()).default([]),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -87,6 +89,23 @@ export default function TransactionForm<
       tags: defaultValues?.tags ?? [],
     },
   })
+
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          form.setValue('latitude', position.coords.latitude)
+          form.setValue('longitude', position.coords.longitude)
+        },
+        (error) => console.error('Error getting location:', error),
+        {
+          enableHighAccuracy: true, // Force use of GPS
+          timeout: 10000, // 10 seconds timeout
+          maximumAge: 0, // Don't use cached position
+        }
+      )
+    }
+  }, [])
 
   const handleSubmit = form.handleSubmit((values) => {
     onSubmitAction({

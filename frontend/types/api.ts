@@ -10,6 +10,8 @@ export interface BaseTransaction {
 
 export type TransactionCreate = Omit<BaseTransaction, 'id' | 'currency'> & {
   currency: 'EUR'
+  longitude?: number
+  latitude?: number
 }
 
 export type TransactionUpdate = Partial<
