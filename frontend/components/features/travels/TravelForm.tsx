@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Budget } from '@/types/domain'
+import { Travel } from '@/types/domain'
 import { DatePicker } from '@/components/ui/custom/DatePicker'
 import { useTagIndex } from '@/hooks/tags'
 import { useCategoryIndex } from '@/hooks/categories'
@@ -34,7 +34,7 @@ import {
 import { BiCheck } from 'react-icons/bi'
 import { cn } from '@/lib/utils'
 
-const budgetSchema = z.object({
+const travelSchema = z.object({
   name: z.string().min(1, 'Le nom est obligatoire'),
   target_amount: z.string().transform((val) => parseFloat(val)),
   start_date: z.date({
@@ -63,7 +63,7 @@ const budgetSchema = z.object({
     .optional(),
 })
 
-export type BudgetFormValues = z.infer<typeof budgetSchema>
+export type TravelFormValues = z.infer<typeof travelSchema>
 
 const toUtcDate = (date: Date) => {
   const localDate = new Date(date)
@@ -74,13 +74,13 @@ const toUtcDate = (date: Date) => {
 
 //todo: extract the tags and categories multiselect into a dedicated component
 
-export default function BudgetForm<
-  T extends Partial<Omit<Budget, 'id'>> | Omit<Budget, 'id'>,
+export default function TravelForm<
+  T extends Partial<Omit<Travel, 'id'>> | Omit<Travel, 'id'>,
 >({
   initialData,
   onSubmitAction,
 }: {
-  initialData?: Partial<Omit<Budget, 'id'>>
+  initialData?: Partial<Omit<Travel, 'id'>>
   onSubmitAction: (values: T) => void
 }) {
   const { data: availableTags, isLoading: isLoadingTags } = useTagIndex()
@@ -91,8 +91,8 @@ export default function BudgetForm<
 
   console.log({ initialData })
 
-  const form = useForm<BudgetFormValues>({
-    resolver: zodResolver(budgetSchema),
+  const form = useForm<TravelFormValues>({
+    resolver: zodResolver(travelSchema),
     defaultValues: {
       name: initialData?.name || '',
       target_amount: initialData?.target_amount,
@@ -136,7 +136,7 @@ export default function BudgetForm<
           name="target_amount"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Budget</FormLabel>
+              <FormLabel>Travel</FormLabel>
               <FormControl>
                 <Input
                   type="number"

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Progress } from '@/components/ui/progress'
 import { formatAmount } from '@/lib/utils'
 
-interface BudgetCardProps {
+interface TravelCardProps {
   name: string
   id: number
   target_amount: number
@@ -13,15 +13,15 @@ interface BudgetCardProps {
   remaining_amount: number
 }
 
-const BudgetCard = ({
+const TravelCard = ({
   name,
   id,
   target_amount,
   spent_amount,
   progress_percentage,
   remaining_amount,
-}: BudgetCardProps) => (
-  <Link href={`/dashboard/budgets/${id}`}>
+}: TravelCardProps) => (
+  <Link href={`/dashboard/travels/${id}`}>
     <Card className="cursor-pointer hover:shadow-md transition-all duration-200 mb-2 p-4">
       <div className="flex items-center justify-between mb-2">
         <span className="font-medium">{name}</span>
@@ -42,4 +42,4 @@ const BudgetCard = ({
   </Link>
 )
 
-export default BudgetCard
+export default TravelCard

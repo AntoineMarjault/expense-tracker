@@ -1,4 +1,4 @@
-class Budget < ApplicationRecord
+class Travel < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :categories
@@ -26,7 +26,7 @@ class Budget < ApplicationRecord
   end
 
   def target_daily_amount
-    (target_amount / total_days_in_budget).round(2).to_f
+    (target_amount / total_days_in_travel).round(2).to_f
   end
 
   def daily_cumulative_spending
@@ -99,7 +99,7 @@ class Budget < ApplicationRecord
     end
   end
 
-  def total_days_in_budget
+  def total_days_in_travel
     number_of_days(from_date: start_date, to_date: end_date)
   end
 

@@ -1,29 +1,29 @@
 import { useRouter, usePathname } from 'next/navigation'
 import { HeaderConfig } from '@/types/header'
 import { BiEdit, BiTrash } from 'react-icons/bi'
-import { useBudgetDelete } from '@/hooks/budgets'
+import { useTravelDelete } from '@/hooks/travels'
 
 export const useHeaderConfig = (): HeaderConfig => {
   const router = useRouter()
   const pathname = usePathname()
-  const { mutate: deleteBudget } = useBudgetDelete()
+  const { mutate: deleteTravel } = useTravelDelete()
 
-  if (pathname.match(/^\/dashboard\/budgets\/\d+$/)) {
-    const budgetId = pathname.split('/').pop() || ''
+  if (pathname.match(/^\/dashboard\/travels\/\d+$/)) {
+    const travelId = pathname.split('/').pop() || ''
     return {
-      title: 'Détails du budget',
+      title: 'Détails du voyage',
       showBack: true,
       menuActions: [
         {
           label: 'Modifier',
           icon: BiEdit,
-          onClick: () => router.push(`/dashboard/budgets/${budgetId}/edit`),
+          onClick: () => router.push(`/dashboard/travels/${travelId}/edit`),
         },
         {
           label: 'Supprimer',
           icon: BiTrash,
           onClick: () => {
-            deleteBudget(parseInt(budgetId))
+            deleteTravel(parseInt(travelId))
             router.back()
           },
         },
@@ -31,18 +31,18 @@ export const useHeaderConfig = (): HeaderConfig => {
     }
   }
 
-  // Budget edit page
-  if (pathname.match(/^\/dashboard\/budgets\/\d+\/edit$/)) {
+  // Travel edit page
+  if (pathname.match(/^\/dashboard\/travels\/\d+\/edit$/)) {
     return {
-      title: 'Modifier le budget',
+      title: 'Modifier le voyage',
       showBack: true,
     }
   }
 
-  // Budget new page
-  if (pathname.match(/^\/dashboard\/budgets\/new/)) {
+  // Travel new page
+  if (pathname.match(/^\/dashboard\/travels\/new/)) {
     return {
-      title: 'Créer un budget',
+      title: 'Créer un voyage',
       showBack: true,
     }
   }
@@ -56,8 +56,8 @@ export const useHeaderConfig = (): HeaderConfig => {
 
   // Default configs
   const configs: Record<string, HeaderConfig> = {
-    '/dashboard/budgets': {
-      title: 'Budgets',
+    '/dashboard/travels': {
+      title: 'Voyages',
     },
     '/dashboard/settings': {
       title: 'Réglages',

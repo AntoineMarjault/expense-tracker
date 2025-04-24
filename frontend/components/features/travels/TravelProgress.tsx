@@ -1,6 +1,6 @@
 'use client'
 
-import { Budget } from '@/types/domain'
+import { Travel } from '@/types/domain'
 import {
   LineChart,
   Line,
@@ -10,26 +10,26 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts'
-import BudgetDetailCard from '@/components/features/budgets/BudgetDetailCard'
+import TravelDetailCard from '@/components/features/travels/TravelDetailCard'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card } from '@/components/ui/card'
 
 const targetColor = '#E89F76'
 const spentColor = '#6BBED6'
 
-export const BudgetProgressSkeleton = () => (
+export const TravelProgressSkeleton = () => (
   <Card className="p-6">
     <Skeleton className="h-[300px] w-full" />
   </Card>
 )
 
-interface BudgetProgressProps {
-  budget: Budget
+interface TravelProgressProps {
+  travel: Travel
 }
 
-const BudgetProgress = ({ budget }: BudgetProgressProps) => {
+const TravelProgress = ({ travel }: TravelProgressProps) => {
   const today = new Date().toISOString().split('T')[0]
-  const data = budget.daily_cumulative_spending?.map((day) => {
+  const data = travel.daily_cumulative_spending?.map((day) => {
     const isToday = day.date >= today
     const daysFromToday = isToday
       ? Math.floor(
@@ -46,17 +46,17 @@ const BudgetProgress = ({ budget }: BudgetProgressProps) => {
       target: day.target_amount,
       spent: isToday ? null : day.cumulative_amount,
       prediction:
-        day.date >= today && budget?.average_daily_spending
+        day.date >= today && travel?.average_daily_spending
           ? day.cumulative_amount +
-            budget.average_daily_spending * daysFromToday
+            travel.average_daily_spending * daysFromToday
           : null,
-      isOverBudget: day.cumulative_amount > day.target_amount,
+      isOverTravel: day.cumulative_amount > day.target_amount,
       today: isToday && daysFromToday === 0 ? day.cumulative_amount : null,
     }
   })
 
   return (
-    <BudgetDetailCard title="Progression">
+    <TravelDetailCard title="Progression">
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
@@ -121,8 +121,8 @@ const BudgetProgress = ({ budget }: BudgetProgressProps) => {
           </LineChart>
         </ResponsiveContainer>
       </div>
-    </BudgetDetailCard>
+    </TravelDetailCard>
   )
 }
 
-export default BudgetProgress
+export default TravelProgress

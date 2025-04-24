@@ -1,7 +1,7 @@
 'use client'
 
-import BudgetDetailCard from '@/components/features/budgets/BudgetDetailCard'
-import { Budget } from '@/types/domain'
+import TravelDetailCard from '@/components/features/travels/TravelDetailCard'
+import { Travel } from '@/types/domain'
 import {
   PieChart,
   Pie,
@@ -13,8 +13,8 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card } from '@/components/ui/card'
 
-interface BudgetCategoryRepartition {
-  budget: Budget
+interface TravelCategoryRepartition {
+  travel: Travel
 }
 
 interface RenderCustomizedLabelParams {
@@ -52,7 +52,7 @@ const renderCustomizedLabel = ({
   )
 }
 
-export const BudgetCategoryRepartitionSkeleton = () => (
+export const TravelCategoryRepartitionSkeleton = () => (
   <Card className="p-6">
     <Skeleton className="h-5 w-36 mb-6" />
     <div className="flex justify-center">
@@ -65,11 +65,11 @@ export const BudgetCategoryRepartitionSkeleton = () => (
   </Card>
 )
 
-const BudgetCategoryRepartition = ({ budget }: BudgetCategoryRepartition) => {
-  const data = budget.expenses_per_category || []
+const TravelCategoryRepartition = ({ travel }: TravelCategoryRepartition) => {
+  const data = travel.expenses_per_category || []
 
   return (
-    <BudgetDetailCard title="Répartition">
+    <TravelDetailCard title="Répartition">
       <div className="h-[350px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -95,8 +95,8 @@ const BudgetCategoryRepartition = ({ budget }: BudgetCategoryRepartition) => {
           </PieChart>
         </ResponsiveContainer>
       </div>
-    </BudgetDetailCard>
+    </TravelDetailCard>
   )
 }
 
-export default BudgetCategoryRepartition
+export default TravelCategoryRepartition

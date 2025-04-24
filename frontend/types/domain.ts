@@ -34,7 +34,7 @@ export interface Tag {
   name: string
 }
 
-export interface Budget {
+export interface Travel {
   id: number
   name: string
   target_amount: number

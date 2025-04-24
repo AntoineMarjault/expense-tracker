@@ -4,14 +4,14 @@ import { ReactNode } from 'react'
 import FloatingActionButton from '@/components/ui/custom/FloatingActionButton'
 import { usePathname } from 'next/navigation'
 
-export default function BudgetsLayout({ children }: { children: ReactNode }) {
+export default function TravelsLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
-  const isListPage = pathname === '/dashboard/budgets'
+  const isListPage = pathname === '/dashboard/travels'
 
   return (
     <>
       {children}
-      {isListPage && <FloatingActionButton href="/dashboard/budgets/new" />}
+      {isListPage && <FloatingActionButton href="/dashboard/travels/new" />}
     </>
   )
 }
