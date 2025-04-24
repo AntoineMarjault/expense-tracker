@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_24_175400) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_24_184205) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,8 +25,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_175400) do
   create_table "categories_travels", id: false, force: :cascade do |t|
     t.bigint "travel_id", null: false
     t.bigint "category_id", null: false
-    t.index ["category_id", "travel_id"], name: "index_categories_travels_on_category_id_and_travel_id"
-    t.index ["travel_id", "category_id"], name: "index_categories_travels_on_travel_id_and_category_id"
+    t.index ["category_id", "travel_id"], name: "index_budgets_categories_on_category_id_and_budget_id"
+    t.index ["travel_id", "category_id"], name: "index_budgets_categories_on_budget_id_and_category_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -47,8 +47,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_175400) do
   create_table "tags_travels", id: false, force: :cascade do |t|
     t.bigint "travel_id", null: false
     t.bigint "tag_id", null: false
-    t.index ["tag_id", "travel_id"], name: "index_tags_travels_on_tag_id_and_travel_id"
-    t.index ["travel_id", "tag_id"], name: "index_tags_travels_on_travel_id_and_tag_id"
+    t.index ["tag_id", "travel_id"], name: "index_budgets_tags_on_tag_id_and_budget_id"
+    t.index ["travel_id", "tag_id"], name: "index_budgets_tags_on_budget_id_and_tag_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -64,7 +64,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_175400) do
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
-  create_table "travels", force: :cascade do |t|
+  create_table "travels", id: :bigint, default: -> { "nextval('budgets_id_seq'::regclass)" }, force: :cascade do |t|
     t.string "name"
     t.decimal "target_amount", precision: 10, scale: 2
     t.date "start_date"
@@ -72,7 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_175400) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_travels_on_user_id"
+    t.index ["user_id"], name: "index_budgets_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
