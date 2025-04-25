@@ -43,7 +43,7 @@ module Api
           end
 
           def travel_params
-            params.require(:travel).permit(:name, :target_amount, :start_date, :end_date, :user_id, tag_ids: [], category_ids: [])
+            params.require(:travel).permit(:name, :target_amount, :start_date, :end_date, :user_id)
           end
         end
     end
