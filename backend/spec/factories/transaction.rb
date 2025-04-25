@@ -5,5 +5,6 @@ FactoryBot.define do
         currency { 'EUR' }
         association :category
         date { Time.now }
+        country_code { 'FR' }
     end
 end

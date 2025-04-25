@@ -5,12 +5,11 @@ export interface BaseTransaction {
   currency: string
   date: string
   category_id: number
+  country_code?: string
 }
 
 export type TransactionCreate = Omit<BaseTransaction, 'id' | 'currency'> & {
   currency: 'EUR'
-  longitude?: number
-  latitude?: number
 }
 
 export type TransactionUpdate = Partial<

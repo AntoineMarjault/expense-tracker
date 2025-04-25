@@ -22,7 +22,9 @@ import {
 import { DatePicker } from '@/components/ui/custom/DatePicker'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
 import { useCategoryIndex } from '@/hooks/categories'
-import { ReactNode, useEffect } from 'react'
+import { useCountryIndex } from '@/hooks/countries'
+import { ReactNode } from 'react'
+import CountryCombobox from '@/components/features/transactions/CountryCombobox'
 
 const DEFAULT_CATEGORY_ID = 6 // "Divers"
 
@@ -51,8 +53,7 @@ const formSchema = z.object({
     required_error: 'La date est obligatoire.',
   }),
   currency: z.literal('EUR').default('EUR'),
-  latitude: z.number().optional(),
-  longitude: z.number().optional(),
+  country_code: z.string().optional(),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -70,10 +71,12 @@ export default function TransactionForm<
     name: string
     category_id: number
     date: string
+    country_code?: string
   }
   onSubmitAction: (values: T) => void
 }) {
   const { data: categories = [] } = useCategoryIndex()
+  const { data: countries = [] } = useCountryIndex()
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -82,25 +85,9 @@ export default function TransactionForm<
       category_id: defaultValues?.category_id ?? DEFAULT_CATEGORY_ID,
       date: defaultValues?.date ? new Date(defaultValues.date) : new Date(),
       currency: 'EUR',
+      country_code: defaultValues?.country_code,
     },
   })
-
-  useEffect(() => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          form.setValue('latitude', position.coords.latitude)
-          form.setValue('longitude', position.coords.longitude)
-        },
-        (error) => console.error('Error getting location:', error),
-        {
-          enableHighAccuracy: true, // Force use of GPS
-          timeout: 10000, // 10 seconds timeout
-          maximumAge: 0, // Don't use cached position
-        }
-      )
-    }
-  }, [form])
 
   const handleSubmit = form.handleSubmit((values) => {
     onSubmitAction({
@@ -180,6 +167,23 @@ export default function TransactionForm<
           )}
         />
         <DatePicker form={form} name="date" label="Date" />
+        <FormField
+          control={form.control}
+          name="country_code"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Pays</FormLabel>
+              <FormControl>
+                <CountryCombobox
+                  countries={countries}
+                  value={field.value}
+                  onSelect={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         {children}
       </form>
     </Form>

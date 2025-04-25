@@ -18,10 +18,6 @@ module Api
       def create
         transaction = current_user.transactions.build(transaction_params)
 
-        if location_params[:latitude].present? && location_params[:longitude].present?
-          transaction.build_location(location_params)
-        end
-
         if transaction.save
           render json: transaction, status: :created
         else
@@ -52,7 +48,7 @@ module Api
       private
 
       def transaction_params
-        params.require(:transaction).permit(:amount, :category_id, :currency, :date, :name)
+        params.require(:transaction).permit(:amount, :category_id, :currency, :date, :name, :country_code)
       end
 
       def location_params

@@ -1,21 +1,13 @@
 class Transaction < ApplicationRecord
-    belongs_to :user
-    belongs_to :category
-    belongs_to :location, optional: true, dependent: :destroy
+  belongs_to :user
+  belongs_to :category
 
-    validates :amount, presence: true
+  validates :amount, presence: true
+  validates :country_code, length: { is: 2 }, allow_nil: true
 
-    def as_json(options = {})
-        super(only: [ :id, :amount, :name, :date, :currency, :category_id ]).tap do |hash|
-          hash["amount"] = amount.to_f if amount.present?
-          if location
-            hash["location"] = {
-              place_name: location.place_name,
-              country_code: location.country_code,
-              country_name: location.country_name,
-              flag: location.country_flag
-            }
-          end
-        end
+  def as_json(options = {})
+    super(only: [ :id, :amount, :name, :date, :currency, :category_id, :country_code ]).tap do |hash|
+      hash["amount"] = amount.to_f if amount.present?
     end
+  end
 end

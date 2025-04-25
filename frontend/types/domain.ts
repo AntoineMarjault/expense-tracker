@@ -5,6 +5,7 @@ export interface Transaction {
   currency: string
   date: string
   category_id: number
+  country_code: string
 }
 
 export interface Category {
@@ -41,4 +42,10 @@ export interface Travel {
   target_daily_amount?: number
   daily_cumulative_spending?: DailyCumulativeSpending[]
   expenses_per_category?: ExpenseForCategory[]
+}
+
+export interface Country {
+  code: string
+  name: string
+  flag: string
 }
