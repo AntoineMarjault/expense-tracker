@@ -5,7 +5,6 @@ export interface BaseTransaction {
   currency: string
   date: string
   category_id: number
-  tags: string[]
 }
 
 export type TransactionCreate = Omit<BaseTransaction, 'id' | 'currency'> & {

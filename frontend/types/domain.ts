@@ -5,7 +5,6 @@ export interface Transaction {
   currency: string
   date: string
   category_id: number
-  tags: string[]
 }
 
 export interface Category {
@@ -29,19 +28,12 @@ export interface ExpenseForCategory {
   total_expense: number
 }
 
-export interface Tag {
-  id: number
-  name: string
-}
-
 export interface Travel {
   id: number
   name: string
   target_amount: number
   start_date: string
   end_date: string
-  tags: Tag[]
-  categories: Category[]
   spent_amount?: number
   remaining_amount?: number
   progress_percentage?: number
