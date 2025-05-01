@@ -39,7 +39,7 @@ export interface Travel {
   remaining_amount?: number
   progress_percentage?: number
   average_daily_spending?: number
-  target_daily_amount?: number
+  daily_spending_target?: number
   daily_cumulative_spending?: DailyCumulativeSpending[]
   expenses_per_category?: ExpenseForCategory[]
 }

@@ -7,7 +7,7 @@ class Travel < ApplicationRecord
   validate :end_date_after_start_date
 
   def spent_amount
-    filtered_transactions.sum(:amount).to_f
+    user_transactions_within_travel_period.sum(:amount).to_f
   end
 
   def remaining_amount
@@ -23,38 +23,39 @@ class Travel < ApplicationRecord
     (spent_amount / number_of_days(from_date: start_date, to_date: today_or_end_date)).round(2)
   end
 
-  def target_daily_amount
-    (target_amount / total_days_in_travel).round(2).to_f
+  def daily_spending_target
+    (target_amount / travel_duration_in_days).round(2).to_f
   end
 
   def daily_cumulative_spending
-    daily_amounts = filtered_transactions
+    spending_per_day = user_transactions_within_travel_period
       .group("DATE(date)")
       .sum(:amount)
 
-      cumulative_amounts = 0
-      cumulative_spending = []
+    cumulative_spending = 0
+    cumulative_spending_per_day = []
 
-      (start_date..end_date).each do |date|
-        if daily_amounts[date]
-          cumulative_amounts += daily_amounts[date].to_f
-        end
+    (start_date..end_date).each do |current_date|
+      spending_at_current_date = spending_per_day[current_date]
+      number_of_days_elapsed = number_of_days(from_date: start_date, to_date: current_date)
 
-        days_elapsed = number_of_days(from_date: start_date, to_date: date)
-        target_at_date = (target_daily_amount * days_elapsed).round(2)
+      if spending_at_current_date
+        cumulative_spending += spending_at_current_date.to_f
+      end
+      spending_target_for_current_date = (daily_spending_target * number_of_days_elapsed).round(2)
 
-        cumulative_spending << {
-          date: date,
-          cumulative_amount: cumulative_amounts,
-          target_amount: target_at_date
-        }
+      cumulative_spending_per_day << {
+        date: current_date,
+        cumulative_amount: cumulative_spending,
+        target_amount: spending_target_for_current_date
+      }
     end
 
-    cumulative_spending
+    cumulative_spending_per_day
   end
 
   def expenses_per_category
-    filtered_transactions
+    user_transactions_within_travel_period
       .joins(:category)
       .group("categories.id", "categories.name", "categories.emoji", "categories.color")
       .order("SUM(transactions.amount) DESC")
@@ -72,16 +73,16 @@ class Travel < ApplicationRecord
   end
 
   def as_json(options = {})
-    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending target_daily_amount daily_cumulative_spending expenses_per_category]))
+    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending daily_spending_target daily_cumulative_spending expenses_per_category]))
   end
 
   private
 
-  def filtered_transactions
+  def user_transactions_within_travel_period
     Transaction.where(user_id: user_id, date: start_date..end_date)
   end
 
-  def total_days_in_travel
+  def travel_duration_in_days
     number_of_days(from_date: start_date, to_date: end_date)
   end
 

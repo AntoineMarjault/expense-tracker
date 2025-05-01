@@ -83,14 +83,14 @@ const TravelSummary = ({ travel }: TravelSummaryProps) => {
             <span
               className={`font-medium ${
                 (travel.average_daily_spending || 0) >
-                (travel.target_daily_amount || 0)
+                (travel.daily_spending_target || 0)
                   ? 'text-red-600'
                   : 'text-green-600'
               }`}
             >
               {formatAmount(travel.average_daily_spending || 0)} €
             </span>
-            {` / ${formatAmount(travel.target_daily_amount || 0)} €`}
+            {` / ${formatAmount(travel.daily_spending_target || 0)} €`}
           </p>
         </div>
         <div className="text-right">
