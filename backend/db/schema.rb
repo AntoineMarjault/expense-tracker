@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_10_190632) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_10_190928) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,6 +32,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_10_190632) do
     t.bigint "category_id", null: false
     t.bigint "user_id", null: false
     t.string "country_code", limit: 2
+    t.decimal "amount_in_default_currency", precision: 10, scale: 2, null: false
     t.index ["category_id"], name: "index_transactions_on_category_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
