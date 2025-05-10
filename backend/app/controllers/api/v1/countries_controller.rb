@@ -5,7 +5,7 @@ module Api
         countries = ISO3166::Country.all.map do |country|
           {
             code: country.alpha2,
-            name: country.common_name,
+            name: I18nData.countries('FR')[country.alpha2] || country.common_name,
             flag: country.emoji_flag
           }
         end
