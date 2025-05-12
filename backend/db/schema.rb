@@ -37,7 +37,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_10_190928) do
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
-  create_table "travels", id: :bigint, default: -> { "nextval('budgets_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "travels", force: :cascade do |t|
     t.string "name"
     t.decimal "target_amount", precision: 10, scale: 2
     t.date "start_date"
@@ -45,7 +45,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_10_190928) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_budgets_on_user_id"
+    t.index ["user_id"], name: "index_travels_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
