@@ -7,7 +7,7 @@ class Travel < ApplicationRecord
   validate :end_date_after_start_date
 
   def spent_amount
-    user_transactions_within_travel_period.sum(:amount).to_f
+    user_transactions_within_travel_period.sum(:amount_in_default_currency).to_f
   end
 
   def remaining_amount
@@ -30,7 +30,7 @@ class Travel < ApplicationRecord
   def daily_cumulative_spending
     spending_per_day = user_transactions_within_travel_period
       .group("DATE(date)")
-      .sum(:amount)
+      .sum(:amount_in_default_currency)
 
     cumulative_spending = 0
     cumulative_spending_per_day = []
@@ -58,8 +58,8 @@ class Travel < ApplicationRecord
     user_transactions_within_travel_period
       .joins(:category)
       .group("categories.id", "categories.name", "categories.emoji", "categories.color")
-      .order("SUM(transactions.amount) DESC")
-      .sum(:amount)
+      .order("SUM(transactions.amount_in_default_currency) DESC")
+      .sum(:amount_in_default_currency)
       .map { |key, total|
         id, name, emoji, color = key
         {

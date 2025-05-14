@@ -11,6 +11,7 @@ class Transaction < ApplicationRecord
   def as_json(options = {})
     super(only: [ :id, :amount, :amount_in_default_currency, :name, :date, :currency, :category_id, :country_code ]).tap do |hash|
       hash["amount"] = amount.to_f if amount.present?
+      hash["amount_in_default_currency"] = amount_in_default_currency.to_f if amount_in_default_currency.present?
     end
   end
 
@@ -22,7 +23,10 @@ class Transaction < ApplicationRecord
   end
 
   def set_amount_in_default_currency
-    return if currency == user.default_currency
+    if currency == user.default_currency
+      self.amount_in_default_currency = amount
+      return
+    end
 
     self.amount_in_default_currency = currency_converter.convert(
       amount: amount,

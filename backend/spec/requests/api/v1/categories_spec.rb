@@ -11,7 +11,7 @@ RSpec.describe "Api::V1::Categories", type: :request do
             get '/api/v1/categories'
 
             expect(response).to have_http_status(:success)
-            expect(JSON.parse(response.body).size).to eq(2)
+            expect(JSON.parse(response.body).size).to eq(14)
         end
     end
 
