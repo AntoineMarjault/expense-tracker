@@ -23,8 +23,10 @@ import { DatePicker } from '@/components/ui/custom/DatePicker'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
 import { useCategoryIndex } from '@/hooks/categories'
 import { useCountryIndex } from '@/hooks/countries'
+import { useCurrencyIndex } from '@/hooks/currencies'
 import { ReactNode } from 'react'
 import CountryCombobox from '@/components/features/transactions/CountryCombobox'
+import CurrencyCombobox from '@/components/features/transactions/CurrencyCombobox'
 
 const DEFAULT_CATEGORY_ID = 6 // "Divers"
 
@@ -52,7 +54,11 @@ const formSchema = z.object({
   date: z.date({
     required_error: 'La date est obligatoire.',
   }),
-  currency: z.literal('EUR').default('EUR'),
+  currency: z
+    .string({
+      required_error: 'La devise est obligatoire.',
+    })
+    .default('EUR'),
   country_code: z.string().optional(),
 })
 
@@ -72,11 +78,14 @@ export default function TransactionForm<
     category_id: number
     date: string
     country_code?: string
+    currency: string
   }
   onSubmitAction: (values: T) => void
 }) {
   const { data: categories = [] } = useCategoryIndex()
   const { data: countries = [] } = useCountryIndex()
+  const { data: currencies = [] } = useCurrencyIndex()
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -84,7 +93,7 @@ export default function TransactionForm<
       name: defaultValues?.name ?? '',
       category_id: defaultValues?.category_id ?? DEFAULT_CATEGORY_ID,
       date: defaultValues?.date ? new Date(defaultValues.date) : new Date(),
-      currency: 'EUR',
+      currency: defaultValues?.currency ?? 'EUR',
       country_code: defaultValues?.country_code,
     },
   })
@@ -112,32 +121,46 @@ export default function TransactionForm<
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="amount"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Montant</FormLabel>
-              <div className="relative">
-                <Input
-                  type="number"
-                  placeholder="100"
-                  {...field}
-                  onChange={(event) => {
-                    const value = event.target.value
-                    field.onChange(value === '' ? '' : Number(value))
-                  }}
-                  onFocus={(event) => event.target.select()}
-                  className="pr-6"
-                />
-                <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  €
-                </span>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex gap-2">
+          <FormField
+            control={form.control}
+            name="amount"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Montant</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="100"
+                    {...field}
+                    onChange={(event) => {
+                      const value = event.target.value
+                      field.onChange(value === '' ? '' : Number(value))
+                    }}
+                    onFocus={(event) => event.target.select()}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="currency"
+            render={({ field }) => (
+              <FormItem className="flex flex-col justify-end">
+                <FormControl>
+                  <CurrencyCombobox
+                    currencies={currencies}
+                    value={field.value}
+                    onSelect={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="category_id"

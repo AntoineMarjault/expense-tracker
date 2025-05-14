@@ -54,6 +54,7 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
           category_id: transaction.category_id,
           date: transaction.date,
           country_code: transaction.country_code,
+          currency: transaction.currency,
         }}
         onSubmitAction={handleOnSubmit}
       >

@@ -95,9 +95,13 @@ const TransactionsPage = () => {
               >
                 <TransactionCard
                   amount={transaction.amount}
+                  amountInDefaultCurrency={
+                    transaction.amount_in_default_currency
+                  }
                   name={transaction.name}
                   categoryName={transaction.category.name}
                   categoryEmoji={transaction.category.emoji}
+                  currency={transaction.currency}
                 />
               </Link>
             ))}

@@ -1,6 +1,7 @@
 export interface Transaction {
   id: number
   amount: number
+  amount_in_default_currency: number
   name: string
   currency: string
   date: string

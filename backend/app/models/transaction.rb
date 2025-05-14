@@ -9,7 +9,7 @@ class Transaction < ApplicationRecord
   before_validation :set_amount_in_default_currency, if: :should_convert_amount?
 
   def as_json(options = {})
-    super(only: [ :id, :amount, :name, :date, :currency, :category_id, :country_code ]).tap do |hash|
+    super(only: [ :id, :amount, :amount_in_default_currency, :name, :date, :currency, :category_id, :country_code ]).tap do |hash|
       hash["amount"] = amount.to_f if amount.present?
     end
   end
@@ -22,12 +22,16 @@ class Transaction < ApplicationRecord
   end
 
   def set_amount_in_default_currency
-    # Here you would use a currency conversion service
-    self.amount_in_default_currency = if currency == user.default_currency
-      amount
-    else
-      # Implement actual conversion using user.default_currency as target
-      amount # placeholder
-    end
+    return if currency == user.default_currency
+
+    self.amount_in_default_currency = currency_converter.convert(
+      amount: amount,
+      from: currency,
+      to: user.default_currency
+    )
+  end
+
+  def currency_converter
+    @currency_converter ||= CurrencyConverter.new
   end
 end
