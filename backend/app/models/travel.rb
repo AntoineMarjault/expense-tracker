@@ -72,8 +72,15 @@ class Travel < ApplicationRecord
       }
   end
 
+  def average_daily_spending_per_country
+    user_transactions_within_travel_period
+      .group(:country_code)
+      .sum(:amount_in_default_currency)
+      .transform_values { |amount| amount.round(2) }
+  end
+
   def as_json(options = {})
-    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending daily_spending_target daily_cumulative_spending expenses_per_category]))
+    super(options.merge(methods: %i[spent_amount remaining_amount progress_percentage average_daily_spending average_daily_spending_per_country daily_spending_target daily_cumulative_spending expenses_per_category]))
   end
 
   private

@@ -12,6 +12,9 @@ import TravelSummary, {
 import TravelCategoryRepartition, {
   TravelCategoryRepartitionSkeleton,
 } from '@/components/features/travels/TravelCategoryRepartition'
+import TravelSpendingPerCountry, {
+  TravelSpendingPerCountrySkeleton,
+} from '@/components/features/travels/TravelSpendingPerCountry'
 
 interface TravelDetailPageProps {
   params: Promise<{
@@ -26,6 +29,7 @@ const TravelDetailSkeleton = () => (
       <TravelSummarySkeleton />
       <TravelProgressSkeleton />
       <TravelCategoryRepartitionSkeleton />
+      <TravelSpendingPerCountrySkeleton />
     </div>
   </>
 )
@@ -44,6 +48,7 @@ const TravelDetailPage = ({ params }: TravelDetailPageProps) => {
             <TravelSummary travel={travel} />
             <TravelProgress travel={travel} />
             <TravelCategoryRepartition travel={travel} />
+            <TravelSpendingPerCountry travel={travel} />
           </div>
         </>
       )}
