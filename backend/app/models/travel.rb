@@ -100,10 +100,33 @@ class Travel < ApplicationRecord
   end
 
   def travel_duration_in_days_per_country
-    user_transactions_within_travel_period
-      .group(:country_code)
-      .pluck(:country_code, Arel.sql("COUNT(DISTINCT DATE(date))"))
-      .to_h
+    # Get all transactions within the travel period
+    transactions = user_transactions_within_travel_period.order(:date)
+    return {} if transactions.empty?
+
+    # Split transactions into periods based on country changes
+    periods = []
+    current_country_code = transactions.first.country_code
+    start_date = transactions.first.date.to_date
+
+    transactions.each do |transaction|
+      if transaction.country_code != current_country_code
+        periods << { country: current_country_code, period: (start_date..transaction.date.to_date) }
+        current_country_code = transaction.country_code
+        start_date = transaction.date.to_date
+      end
+    end
+    periods << { country: current_country_code, period: (start_date..transactions.last.date.to_date) } if start_date
+
+    # Regroup periods by country and calculate the total days for each country
+    days_per_country = Hash.new(0)
+    periods.each do |entry|
+      country = entry[:country]
+      period = entry[:period]
+      days_per_country[country] += (period.end - period.begin).to_i + 1
+    end
+
+    days_per_country
   end
 
   def number_of_days(from_date:, to_date:)
