@@ -73,10 +73,17 @@ class Travel < ApplicationRecord
   end
 
   def average_daily_spending_per_country
-    user_transactions_within_travel_period
+    spending_per_country = user_transactions_within_travel_period
       .group(:country_code)
       .sum(:amount_in_default_currency)
-      .transform_values { |amount| amount.round(2) }
+
+    days_per_country = travel_duration_in_days_per_country
+
+    spending_per_country.transform_values.with_index do |spending, index|
+      country_code = spending_per_country.keys[index]
+      number_of_days = days_per_country[country_code] || 1
+      (spending / number_of_days).round(2)
+    end
   end
 
   def as_json(options = {})
@@ -91,6 +98,13 @@ class Travel < ApplicationRecord
 
   def travel_duration_in_days
     number_of_days(from_date: start_date, to_date: end_date)
+  end
+
+  def travel_duration_in_days_per_country
+    user_transactions_within_travel_period
+      .group(:country_code)
+      .pluck(:country_code, Arel.sql("COUNT(DISTINCT DATE(date))"))
+      .to_h
   end
 
   def number_of_days(from_date:, to_date:)
