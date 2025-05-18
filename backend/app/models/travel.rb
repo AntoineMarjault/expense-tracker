@@ -79,11 +79,10 @@ class Travel < ApplicationRecord
 
     days_per_country = travel_duration_in_days_per_country
 
-    spending_per_country.transform_values.with_index do |spending, index|
-      country_code = spending_per_country.keys[index]
+    spending_per_country.map do |country_code, spending|
       number_of_days = days_per_country[country_code] || 1
-      (spending / number_of_days).round(2)
-    end
+      [country_code, (spending / number_of_days).round(2)]
+    end.to_h
   end
 
   def as_json(options = {})
