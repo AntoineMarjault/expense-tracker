@@ -53,7 +53,7 @@ const renderCustomizedLabel = ({
 }
 
 export const TravelCategoryRepartitionSkeleton = () => (
-  <Card className="p-6">
+  <TravelDetailCard title="Répartition">
     <Skeleton className="h-5 w-36 mb-6" />
     <div className="flex justify-center">
       <div className="relative w-[300px] h-[300px]">
@@ -62,7 +62,7 @@ export const TravelCategoryRepartitionSkeleton = () => (
         </div>
       </div>
     </div>
-  </Card>
+  </TravelDetailCard>
 )
 
 const TravelCategoryRepartition = ({ travel }: TravelCategoryRepartition) => {

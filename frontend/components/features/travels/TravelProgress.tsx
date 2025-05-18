@@ -18,9 +18,9 @@ const targetColor = '#E89F76'
 const spentColor = '#6BBED6'
 
 export const TravelProgressSkeleton = () => (
-  <Card className="p-6">
+  <TravelDetailCard title="Progression">
     <Skeleton className="h-[300px] w-full" />
-  </Card>
+  </TravelDetailCard>
 )
 
 interface TravelProgressProps {
