@@ -4,7 +4,7 @@ class Transaction < ApplicationRecord
 
   validates :amount, presence: true
   validates :amount_in_default_currency, presence: true
-  validates :country_code, length: { is: 2 }, allow_nil: true
+  validates :country_code, presence: true, length: { is: 2 }
 
   before_validation :set_amount_in_default_currency, if: :should_convert_amount?
 

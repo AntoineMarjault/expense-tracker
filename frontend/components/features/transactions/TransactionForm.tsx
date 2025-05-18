@@ -59,7 +59,9 @@ const formSchema = z.object({
       required_error: 'La devise est obligatoire.',
     })
     .default('EUR'),
-  country_code: z.string().optional(),
+  country_code: z.string({
+    required_error: 'Le pays est obligatoire.',
+  }),
 })
 
 type FormValues = z.infer<typeof formSchema>
