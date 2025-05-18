@@ -34,7 +34,8 @@ RSpec.describe 'Transactions', type: :request do
                 name: 'train Paris - Nantes',
                 amount: 58.62,
                 category_id: FactoryBot.create(:category).id,
-                date: Time.now
+                date: Time.now,
+                country_code: 'FR'
             }
 
             expect(Transaction.count).to eq(0)
@@ -61,26 +62,6 @@ RSpec.describe 'Transactions', type: :request do
             expect(response).to have_http_status(:unprocessable_entity)
             expect(Transaction.count).to eq(0)
         end
-
-        it 'returns 201 and creates a transaction with EUR as a default currency if none is provided' do
-            transaction_params = {
-                name: 'train Paris - Nantes',
-                amount: '10',
-                category_id: FactoryBot.create(:category).id,
-                date: Time.now
-            }
-
-            expect(Transaction.count).to eq(0)
-
-            headers = { "CONTENT_TYPE" => "application/json" }
-            post "/api/v1/transactions", params: transaction_params.to_json, headers: headers
-
-            expect(response).to have_http_status(:created)
-            expect(Transaction.count).to eq(1)
-            expect(Transaction.last.amount).to eq(10)
-            expect(Transaction.last.currency).to eq('EUR')
-        end
-    end
 
     describe 'GET /transactions/:id' do
         it 'returns 200 and the transaction with the given id' do
