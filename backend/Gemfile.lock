@@ -381,6 +381,7 @@ DEPENDENCIES
   solid_cache
   solid_queue
   thruster
+  tzinfo
   tzinfo-data
 
 BUNDLED WITH

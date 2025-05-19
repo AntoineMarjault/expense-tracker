@@ -43,6 +43,9 @@ gem "jwt"
 gem 'countries'
 gem 'i18n_data'
 
+# Timezone management
+gem 'tzinfo'
+
 # Currency management
 gem 'money-rails'
 gem 'eu_central_bank'

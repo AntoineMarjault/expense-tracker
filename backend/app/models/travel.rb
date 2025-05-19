@@ -107,16 +107,16 @@ class Travel < ApplicationRecord
     # Split transactions into periods based on country changes
     periods = []
     current_country_code = transactions.first.country_code
-    start_date = transactions.first.date.to_date
+    start_date = local_date(transactions.first)
 
     transactions.each do |transaction|
       if transaction.country_code != current_country_code
-        periods << { country: current_country_code, period: (start_date..transaction.date.to_date) }
+        periods << { country: current_country_code, period: (start_date..local_date(transaction)) }
         current_country_code = transaction.country_code
-        start_date = transaction.date.to_date
+        start_date = local_date(transaction)
       end
     end
-    periods << { country: current_country_code, period: (start_date..transactions.last.date.to_date) } if start_date
+    periods << { country: current_country_code, period: (start_date..local_date(transactions.last)) } if start_date
 
     # Regroup periods by country and calculate the total days for each country
     days_per_country = Hash.new(0)
@@ -127,6 +127,13 @@ class Travel < ApplicationRecord
     end
 
     days_per_country
+  end
+
+  def local_date(transaction)
+    timezone = TZInfo::Country.get(transaction.country_code).zone_info.first.timezone
+    transaction.date.in_time_zone(timezone).to_date
+  rescue TZInfo::InvalidCountryCode
+    transaction.date.to_date
   end
 
   def number_of_days(from_date:, to_date:)
