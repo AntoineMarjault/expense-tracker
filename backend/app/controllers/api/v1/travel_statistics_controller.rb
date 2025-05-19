@@ -4,7 +4,16 @@ module Api
       before_action :set_travel, only: [:show]
 
       def show
-        statistics = TravelStatistics.new(@travel).compute
+        travel_start_date = @travel.start_date
+        travel_end_date = @travel.end_date
+        user_transactions_within_travel_period = Transaction.where(user_id: @travel.user_id, date: travel_start_date..travel_end_date)
+
+        statistics = TravelStatistics.new(
+          start_date: travel_start_date,
+          end_date: travel_end_date,
+          target_amount: @travel.target_amount,
+          transactions: user_transactions_within_travel_period
+        ).compute
         render json: statistics
       end
 

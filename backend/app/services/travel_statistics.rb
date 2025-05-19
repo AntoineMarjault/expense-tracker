@@ -1,7 +1,9 @@
 class TravelStatistics
-  def initialize(travel)
-    @travel = travel
-    @transactions = travel.user_transactions_within_travel_period
+  def initialize(start_date:, end_date:, target_amount:, transactions:)
+    @start_date = start_date
+    @end_date = end_date
+    @target_amount = target_amount
+    @transactions = transactions
   end
 
   def compute
@@ -20,20 +22,20 @@ class TravelStatistics
   private
 
   def remaining_amount
-    (@travel.target_amount - spent_amount).to_f
+    (@target_amount - spent_amount).to_f
   end
 
   def progress_percentage
-    (spent_amount / @travel.target_amount * 100).round(1).to_f
+    (spent_amount / @target_amount * 100).round(1).to_f
   end
 
   def daily_spending_target
-    (@travel.target_amount / travel_duration_in_days).round(2).to_f
+    (@target_amount / travel_duration_in_days).round(2).to_f
   end
 
   def average_daily_spending
-    today_or_end_date = [@travel.end_date, Date.today].min
-    (spent_amount / number_of_days(from_date: @travel.start_date, to_date: today_or_end_date)).round(2)
+    today_or_end_date = [@end_date, Date.today].min
+    (spent_amount / number_of_days(from_date: @start_date, to_date: today_or_end_date)).round(2)
   end
 
   def spent_amount
@@ -46,9 +48,9 @@ class TravelStatistics
     cumulative_spending = 0
     cumulative_spending_per_day = []
 
-    (@travel.start_date..@travel.end_date).each do |current_date|
+    (@start_date..@end_date).each do |current_date|
       spending_at_current_date = spending_per_day[current_date]
-      number_of_days_elapsed = number_of_days(from_date: @travel.start_date, to_date: current_date)
+      number_of_days_elapsed = number_of_days(from_date: @start_date, to_date: current_date)
 
       if spending_at_current_date
         cumulative_spending += spending_at_current_date.to_f
@@ -86,7 +88,7 @@ class TravelStatistics
   end
 
   def travel_duration_in_days
-    number_of_days(from_date: @travel.start_date, to_date: @travel.end_date)
+    number_of_days(from_date: @start_date, to_date: @end_date)
   end
 
   def number_of_days(from_date:, to_date:)

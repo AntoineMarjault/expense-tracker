@@ -9,8 +9,7 @@ module Api
       end
 
       def show
-        statistics = TravelStatistics.new(@travel).compute
-        render json: @travel.as_json.merge(statistics)
+        render json: @travel
       end
 
       def create

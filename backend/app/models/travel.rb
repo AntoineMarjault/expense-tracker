@@ -6,10 +6,6 @@ class Travel < ApplicationRecord
   validates :start_date, :end_date, presence: true
   validate :end_date_after_start_date
 
-  def user_transactions_within_travel_period
-    Transaction.where(user_id: user_id, date: start_date..end_date)
-  end
-
   private
 
   def end_date_after_start_date
