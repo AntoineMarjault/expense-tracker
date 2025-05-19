@@ -37,10 +37,8 @@ const TravelsPage = () => {
             key={travel.id}
             id={travel.id}
             name={travel.name}
-            target_amount={travel.target_amount}
-            spent_amount={travel.spent_amount || 0}
-            progress_percentage={travel.progress_percentage || 0}
-            remaining_amount={travel.remaining_amount || 0}
+            start_date={travel.start_date}
+            end_date={travel.end_date}
           />
         ))}
     </>
