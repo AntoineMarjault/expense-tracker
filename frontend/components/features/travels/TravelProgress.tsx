@@ -12,7 +12,6 @@ import {
 } from 'recharts'
 import TravelDetailCard from '@/components/features/travels/TravelDetailCard'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Card } from '@/components/ui/card'
 
 const targetColor = '#E89F76'
 const spentColor = '#6BBED6'

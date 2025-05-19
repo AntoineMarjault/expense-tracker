@@ -11,7 +11,6 @@ import {
   Legend,
 } from 'recharts'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Card } from '@/components/ui/card'
 
 interface TravelCategoryRepartition {
   travel: Travel
