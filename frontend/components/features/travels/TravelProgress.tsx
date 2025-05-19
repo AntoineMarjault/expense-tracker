@@ -1,6 +1,6 @@
 'use client'
 
-import { Travel } from '@/types/domain'
+import { TravelStatistics } from '@/types/domain'
 import {
   LineChart,
   Line,
@@ -23,12 +23,12 @@ export const TravelProgressSkeleton = () => (
 )
 
 interface TravelProgressProps {
-  travel: Travel
+  statistics: TravelStatistics
 }
 
-const TravelProgress = ({ travel }: TravelProgressProps) => {
+const TravelProgress = ({ statistics }: TravelProgressProps) => {
   const today = new Date().toISOString().split('T')[0]
-  const data = travel.daily_cumulative_spending?.map((day) => {
+  const data = statistics.daily_cumulative_spending?.map((day) => {
     const isToday = day.date >= today
     const daysFromToday = isToday
       ? Math.floor(
@@ -45,9 +45,9 @@ const TravelProgress = ({ travel }: TravelProgressProps) => {
       target: day.target_amount,
       spent: isToday ? null : day.cumulative_amount,
       prediction:
-        day.date >= today && travel?.average_daily_spending
+        day.date >= today && statistics?.average_daily_spending
           ? day.cumulative_amount +
-            travel.average_daily_spending * daysFromToday
+            statistics.average_daily_spending * daysFromToday
           : null,
       isOverTravel: day.cumulative_amount > day.target_amount,
       today: isToday && daysFromToday === 0 ? day.cumulative_amount : null,

@@ -16,7 +16,9 @@ Rails.application.routes.draw do
             post "/signup", to: "users#create"
 
             resources :users, only: :destroy
-            resources :travels, only: %i[index show create update destroy]
+            resources :travels, only: %i[index show create update destroy] do
+              get 'statistics', to: 'travel_statistics#show', on: :member
+            end
             resources :categories, only: %i[index show]
             resources :transactions, only: %i[index show create update destroy]
             resources :countries, only: :index

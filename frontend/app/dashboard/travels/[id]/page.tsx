@@ -1,6 +1,6 @@
 'use client'
 
-import { useTravelShow } from '@/hooks/travels'
+import { useTravelShow, useTravelStatisticsShow } from '@/hooks/travels'
 import { use } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import TravelProgress, {
@@ -36,19 +36,23 @@ const TravelDetailSkeleton = () => (
 
 const TravelDetailPage = ({ params }: TravelDetailPageProps) => {
   const { id } = use(params)
-  const { data: travel, isLoading } = useTravelShow(parseInt(id))
+  const { data: travel, isLoading: travelLoading } = useTravelShow(parseInt(id))
+  const { data: statistics, isLoading: statisticsLoading } =
+    useTravelStatisticsShow(parseInt(id))
+
+  const isLoading = travelLoading || statisticsLoading
 
   return (
     <>
       {isLoading && <TravelDetailSkeleton />}
-      {!isLoading && travel && (
+      {!isLoading && travel && statistics && (
         <>
           <h1 className="text-2xl font-bold mb-2">{travel.name}</h1>
           <div className="flex flex-col gap-4">
-            <TravelSummary travel={travel} />
-            <TravelProgress travel={travel} />
-            <TravelCategoryRepartition travel={travel} />
-            <TravelSpendingPerCountry travel={travel} />
+            <TravelSummary travel={travel} statistics={statistics} />
+            <TravelProgress statistics={statistics} />
+            <TravelCategoryRepartition statistics={statistics} />
+            <TravelSpendingPerCountry statistics={statistics} />
           </div>
         </>
       )}

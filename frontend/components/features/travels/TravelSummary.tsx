@@ -1,6 +1,6 @@
 import TravelDetailCard from '@/components/features/travels/TravelDetailCard'
 import { Progress } from '@/components/ui/progress'
-import { Travel } from '@/types/domain'
+import { Travel, TravelStatistics } from '@/types/domain'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card } from '@/components/ui/card'
 import { formatAmount } from '@/lib/utils'
@@ -45,10 +45,11 @@ const formatDate = (date: Date) =>
 
 interface TravelSummaryProps {
   travel: Travel
+  statistics: TravelStatistics
 }
 
-const TravelSummary = ({ travel }: TravelSummaryProps) => {
-  const remaining = travel?.remaining_amount || 0
+const TravelSummary = ({ travel, statistics }: TravelSummaryProps) => {
+  const remaining = statistics?.remaining_amount || 0
 
   return (
     <TravelDetailCard>
@@ -68,13 +69,13 @@ const TravelSummary = ({ travel }: TravelSummaryProps) => {
         </div>
       </div>
 
-      <Progress value={travel.progress_percentage} className="h-2.5 mb-3" />
+      <Progress value={statistics.progress_percentage} className="h-2.5 mb-3" />
 
       <div className="grid grid-cols-3 text-sm">
         <div>
           <span className="text-gray-500">Dépensé</span>
           <p className="font-medium text-red-600">
-            {formatAmount(travel.spent_amount || 0)} €
+            {formatAmount(statistics.spent_amount || 0)} €
           </p>
         </div>
         <div className="text-center">
@@ -82,15 +83,15 @@ const TravelSummary = ({ travel }: TravelSummaryProps) => {
           <p>
             <span
               className={`font-medium ${
-                (travel.average_daily_spending || 0) >
-                (travel.daily_spending_target || 0)
+                (statistics.average_daily_spending || 0) >
+                (statistics.daily_spending_target || 0)
                   ? 'text-red-600'
                   : 'text-green-600'
               }`}
             >
-              {formatAmount(travel.average_daily_spending || 0)} €
+              {formatAmount(statistics.average_daily_spending || 0)} €
             </span>
-            {` / ${formatAmount(travel.daily_spending_target || 0)} €`}
+            {` / ${formatAmount(statistics.daily_spending_target || 0)} €`}
           </p>
         </div>
         <div className="text-right">

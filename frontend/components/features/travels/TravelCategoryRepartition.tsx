@@ -1,7 +1,7 @@
 'use client'
 
 import TravelDetailCard from '@/components/features/travels/TravelDetailCard'
-import { Travel } from '@/types/domain'
+import { TravelStatistics } from '@/types/domain'
 import {
   PieChart,
   Pie,
@@ -13,7 +13,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface TravelCategoryRepartition {
-  travel: Travel
+  statistics: TravelStatistics
 }
 
 interface RenderCustomizedLabelParams {
@@ -64,8 +64,10 @@ export const TravelCategoryRepartitionSkeleton = () => (
   </TravelDetailCard>
 )
 
-const TravelCategoryRepartition = ({ travel }: TravelCategoryRepartition) => {
-  const data = travel.expenses_per_category || []
+const TravelCategoryRepartition = ({
+  statistics,
+}: TravelCategoryRepartition) => {
+  const data = statistics.expenses_per_category || []
 
   return (
     <TravelDetailCard title="Répartition">

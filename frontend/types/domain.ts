@@ -36,14 +36,17 @@ export interface Travel {
   target_amount: number
   start_date: string
   end_date: string
-  spent_amount?: number
-  remaining_amount?: number
-  progress_percentage?: number
-  average_daily_spending?: number
-  average_daily_spending_per_country?: Record<string, number>
-  daily_spending_target?: number
-  daily_cumulative_spending?: DailyCumulativeSpending[]
-  expenses_per_category?: ExpenseForCategory[]
+}
+
+export interface TravelStatistics {
+  spent_amount: number
+  remaining_amount: number
+  progress_percentage: number
+  average_daily_spending: number
+  average_daily_spending_per_country: Record<string, number>
+  daily_spending_target: number
+  daily_cumulative_spending: DailyCumulativeSpending[]
+  expenses_per_category: ExpenseForCategory[]
 }
 
 export interface Country {

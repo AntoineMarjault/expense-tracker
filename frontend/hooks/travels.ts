@@ -5,7 +5,7 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
-import { Travel } from '@/types/domain'
+import { Travel, TravelStatistics } from '@/types/domain'
 
 export const useTravelIndex = (): UseQueryResult<Travel[]> =>
   useQuery({
@@ -54,3 +54,11 @@ export const useTravelDelete = () => {
     },
   })
 }
+
+export const useTravelStatisticsShow = (
+  id: number
+): UseQueryResult<TravelStatistics> =>
+  useQuery({
+    queryKey: ['travels', id, 'statistics'],
+    queryFn: async () => api.get(`/travels/${id}/statistics`),
+  })

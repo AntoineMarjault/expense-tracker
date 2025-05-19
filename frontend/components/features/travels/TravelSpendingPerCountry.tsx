@@ -1,4 +1,4 @@
-import { Travel } from '@/types/domain'
+import { TravelStatistics } from '@/types/domain'
 import { useCountryIndex } from '@/hooks/countries'
 import TravelDetailCard from '@/components/features/travels/TravelDetailCard'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -6,7 +6,7 @@ import { formatAmount } from '@/lib/utils'
 import { Progress } from '@/components/ui/progress'
 
 interface TravelSpendingPerCountryProps {
-  travel: Travel
+  statistics: TravelStatistics
 }
 
 export const TravelSpendingPerCountrySkeleton = () => (
@@ -20,16 +20,16 @@ export const TravelSpendingPerCountrySkeleton = () => (
 )
 
 const TravelSpendingPerCountry = ({
-  travel,
+  statistics,
 }: TravelSpendingPerCountryProps) => {
   const { data: countries = [] } = useCountryIndex()
 
-  if (!travel.average_daily_spending_per_country) {
+  if (!statistics.average_daily_spending_per_country) {
     return null
   }
 
   const spendingEntries = Object.entries(
-    travel.average_daily_spending_per_country
+    statistics.average_daily_spending_per_country
   )
     .filter(([code]) => code !== 'null')
     .sort(([, a], [, b]) => b - a)
