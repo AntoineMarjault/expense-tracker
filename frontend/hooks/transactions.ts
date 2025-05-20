@@ -1,12 +1,13 @@
 import {
-  useQuery,
   useMutation,
+  useQuery,
   useQueryClient,
   UseQueryResult,
 } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 import { Transaction } from '@/types/domain'
 import { TransactionCreate, TransactionUpdate } from '@/types/api'
+import { useMemo } from 'react'
 
 export const useTransactionIndex = (): UseQueryResult<Transaction[]> =>
   useQuery({
@@ -56,4 +57,10 @@ export const useTransactionDelete = () => {
       queryClient.invalidateQueries({ queryKey: ['transactions', id] })
     },
   })
+}
+
+export const useLastTransaction = () => {
+  const { data: transactions } = useTransactionIndex()
+
+  return transactions?.[0] ?? null
 }

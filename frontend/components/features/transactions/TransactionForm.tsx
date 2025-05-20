@@ -74,13 +74,13 @@ export default function TransactionForm<
   onSubmitAction,
 }: {
   children: ReactNode
-  defaultValues?: {
-    amount: number
-    name: string
-    category_id: number
-    date: string
+  defaultValues: {
+    amount?: number
+    name?: string
+    category_id?: number
+    date?: string
     country_code?: string
-    currency: string
+    currency?: string
   }
   onSubmitAction: (values: T) => void
 }) {
