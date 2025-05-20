@@ -107,11 +107,15 @@ class TravelStatistics
   end
 
   def travel_duration_in_days_per_country
-    # Get all transactions within the travel period
-    transactions = @transactions.order(:date)
-    return {} if transactions.empty?
+    return {} if @transactions.empty?
 
-    # Split transactions into periods based on country changes
+    periods = split_into_periods_per_country(transactions: @transactions.order(:date))
+    compute_total_days_spent_per_country(periods: periods)
+  end
+
+  def split_into_periods_per_country(transactions:)
+    return [] if transactions.empty?
+
     periods = []
     current_country_code = transactions.first.country_code
     start_date = local_date(transactions.first)
@@ -125,15 +129,14 @@ class TravelStatistics
     end
     periods << { country: current_country_code, period: (start_date..local_date(transactions.last)) } if start_date
 
-    # Regroup periods by country and calculate the total days for each country
-    days_per_country = Hash.new(0)
-    periods.each do |entry|
-      country = entry[:country]
-      period = entry[:period]
-      days_per_country[country] += (period.end - period.begin).to_i + 1
-    end
+    periods
+  end
 
-    days_per_country
+  def compute_total_days_spent_per_country(periods:)
+    periods.reduce(Hash.new(0)) do |days_per_country, period|
+      days_per_country[period[:country]] += (period[:period].end - period[:period].begin).to_i + 1
+      days_per_country
+    end
   end
 
   def local_date(transaction)
