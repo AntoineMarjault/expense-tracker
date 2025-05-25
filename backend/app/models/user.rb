@@ -9,4 +9,5 @@ class User < ApplicationRecord
 
   def demo_user?
     email == 'demo@expense-tracker.com'
+  end
 end
