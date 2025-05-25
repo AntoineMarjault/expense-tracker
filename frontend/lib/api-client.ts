@@ -25,7 +25,7 @@ export const api = {
       throw new Error('API request failed')
     }
 
-    if (response.status === 204) {
+    if (response.status === 204 || response.status === 201) {
       return null
     }
 
