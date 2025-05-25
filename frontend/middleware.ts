@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
   const isAuthTokenValid =
     authToken && authToken.exp && Date.now() < authToken.exp * 1000
 
-  if (!isAuthTokenValid) {
+  if (authToken && !isAuthTokenValid) {
     const response = NextResponse.redirect(new URL('/auth/login', request.url))
 
     response.cookies.delete('next-auth.session-token')
