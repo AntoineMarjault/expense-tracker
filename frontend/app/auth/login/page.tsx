@@ -39,6 +39,22 @@ const LoginPage = () => {
     router.push('/dashboard/transactions')
   }
 
+  const handleDemoLogin = async () => {
+    setError('')
+    const response = await signIn('credentials', {
+      email: 'demo@expense-tracker.com',
+      password: 'demoPassword',
+      redirect: false,
+    })
+
+    if (response?.error) {
+      setError('Le compte de démonstration est indisponible')
+      return
+    }
+
+    router.push('/dashboard/transactions')
+  }
+
   return (
     <>
       <h2 className="text-xl font-semibold text-center mb-6">Connexion</h2>
@@ -64,7 +80,15 @@ const LoginPage = () => {
           {isSubmitting ? 'Connexion...' : 'Se connecter'}
         </Button>
       </form>
-      <div className="mt-4 text-center">
+      <div className="mt-4 flex flex-col items-center gap-4">
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          onClick={handleDemoLogin}
+        >
+          Essayer la démo
+        </Button>
         <Link
           href="/auth/signup"
           className="text-sm text-primary hover:underline"
