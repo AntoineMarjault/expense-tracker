@@ -2063,9 +2063,6 @@ packages:
   preact@10.24.3:
     resolution: {integrity: sha512-Z2dPnBnMUfyQfSQ+GBdsGa16hz35YmLmtTLhM169uW944hYL6xzTYkJjC07j+Wosz733pMWx0fgON3JNw1jJQA==}
 
-  preact@10.26.3:
-    resolution: {integrity: sha512-OJCfNTdttkOTCbTN+gCnXn/woDqz1dIjvP+gdCoYGP2kKuX6w79FAP8qgY/r7jgAunvqHVVmEOKzKOFWzrXZdw==}
-
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
@@ -4376,8 +4373,8 @@ snapshots:
       next: 15.3.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       oauth: 0.9.15
       openid-client: 5.7.1
-      preact: 10.26.3
-      preact-render-to-string: 5.2.6(preact@10.26.3)
+      preact: 10.24.3
+      preact-render-to-string: 5.2.6(preact@10.24.3)
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
       uuid: 8.3.2
@@ -4564,9 +4561,9 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  preact-render-to-string@5.2.6(preact@10.26.3):
+  preact-render-to-string@5.2.6(preact@10.24.3):
     dependencies:
-      preact: 10.26.3
+      preact: 10.24.3
       pretty-format: 3.8.0
 
   preact-render-to-string@6.5.11(preact@10.24.3):
@@ -4574,8 +4571,6 @@ snapshots:
       preact: 10.24.3
 
   preact@10.24.3: {}
-
-  preact@10.26.3: {}
 
   prelude-ls@1.2.1: {}
 
