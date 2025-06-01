@@ -69,4 +69,6 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include AuthenticationHelper, type: :request
+  config.include ActiveSupport::Testing::TimeHelpers
+
 end

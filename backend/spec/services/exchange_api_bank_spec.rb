@@ -45,6 +45,38 @@ RSpec.describe ExchangeApiBank do
         expect { bank.update_rates }.to raise_error(RuntimeError, /Failed to fetch rates/)
       end
     end
+
+    context 'with caching' do
+      before(:all) do
+        Rails.cache = ActiveSupport::Cache::MemoryStore.new
+      end
+
+      after(:all) do
+        Rails.cache.clear
+      end
+
+      it 'uses cached rates when available' do
+        cached_rates = { 'USD' => 1.08, 'GBP' => 0.85 }
+        Rails.cache.write(described_class::CACHE_KEY, cached_rates, expires_in: described_class::CACHE_DURATION)
+
+        expect(Net::HTTP).not_to receive(:get_response)
+        bank.update_rates
+
+        expect(bank.get_rate('EUR', 'USD')).to eq(1.08)
+        expect(bank.get_rate('EUR', 'GBP')).to eq(0.85)
+      end
+
+      it 'fetches new rates when cache expires' do
+        cached_rates = { 'USD' => 1.08, 'GBP' => 0.85 }
+        Rails.cache.write(described_class::CACHE_KEY, cached_rates, expires_in: 1.second)
+
+        travel_to(2.seconds.from_now) do
+          bank.update_rates
+          expect(bank.get_rate('EUR', 'USD')).to eq(1.08)
+          expect(WebMock).to have_requested(:get, described_class::BASE_URL)
+        end
+      end
+    end
   end
 
   describe '#parse_rates' do
