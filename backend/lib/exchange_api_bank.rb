@@ -52,7 +52,5 @@ class ExchangeApiBank < Money::Bank::VariableExchange
       store.add_rate('EUR', currency, rate)
       store.add_rate(currency, 'EUR', 1.0 / rate) if rate != 0
     end
-
-    binding.break
   end
 end
