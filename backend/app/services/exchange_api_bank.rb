@@ -4,7 +4,6 @@ require 'json'
 
 # TODO: Add caching
 # TODO: Add error handling
-# TODO: Add tests
 class ExchangeApiBank < Money::Bank::VariableExchange
   BASE_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json'
 
