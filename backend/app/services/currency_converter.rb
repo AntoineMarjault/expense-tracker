@@ -10,10 +10,20 @@ class CurrencyConverter
   def convert(amount:, from:, to:)
     return amount if from == to
 
+    retries = 0
     Money.default_bank = @bank
-    convert_amount(amount, from, to)
-  rescue Money::Bank::UnknownRate => e
-    handle_unknown_rate(e) { convert_amount(amount, from, to) }
+
+    begin
+      convert_amount(amount, from, to)
+    rescue Money::Bank::UnknownRate => e
+      if retries < MAX_RETRIES
+        retries += 1
+        ensure_rates_updated
+        retry
+      else
+        raise ConversionError, "Failed to convert currency after #{MAX_RETRIES} attempts: #{e.message}"
+      end
+    end
   end
 
   private
@@ -24,16 +34,5 @@ class CurrencyConverter
 
   def ensure_rates_updated
     @bank.update_rates
-  end
-
-  def handle_unknown_rate(error)
-    @retries ||= 0
-    if @retries < MAX_RETRIES
-      @retries += 1
-      ensure_rates_updated
-      yield
-    else
-      raise ConversionError, "Failed to convert currency after #{MAX_RETRIES} attempts"
-    end
   end
 end
