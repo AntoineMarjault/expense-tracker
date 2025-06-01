@@ -2,7 +2,7 @@ class CurrencyConverter
   MAX_RETRIES = 1
   ConversionError = Class.new(StandardError)
 
-  def initialize(bank: EuCentralBank.new)
+  def initialize(bank: ExchangeApiBank.new)
     @bank = bank
     ensure_rates_updated
   end
