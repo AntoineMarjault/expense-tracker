@@ -6,19 +6,20 @@ import { TransactionCreate } from '@/types/api'
 import TransactionDrawer from '@/components/features/transactions/TransactionDrawer'
 import TransactionForm from '@/components/features/transactions/TransactionForm'
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
+import { Loader2Icon } from 'lucide-react'
+import { toast } from 'sonner'
 
 const NewTransactionDrawer = () => {
   const router = useRouter()
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const { mutate: createTransaction } = useTransactionCreate()
+  const { mutate: createTransaction, isPending } = useTransactionCreate()
   const lastTransaction = useLastTransaction()
 
-  // todo: handle errors (enable valitate button, display error message)
   const handleSubmit = (values: TransactionCreate) => {
-    setIsSubmitted(true)
     createTransaction(values, {
       onSuccess: () => router.back(),
+      onError: () => {
+        toast.error('Impossible de créer la dépense. Veuillez réessayer.')
+      },
     })
   }
 
@@ -34,8 +35,15 @@ const NewTransactionDrawer = () => {
         defaultValues={defaultValues}
       >
         <div className="flex justify-center">
-          <Button type="submit" disabled={isSubmitted}>
-            Ajouter
+          <Button type="submit" disabled={isPending}>
+            {isPending ? (
+              <>
+                <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                Ajout...
+              </>
+            ) : (
+              'Ajouter'
+            )}
           </Button>
         </div>
       </TransactionForm>

@@ -12,6 +12,8 @@ import { use, useState } from 'react'
 import TransactionForm from '@/components/features/transactions/TransactionForm'
 import { Button } from '@/components/ui/button'
 import ConfirmationModal from '@/components/ui/custom/ConfirmationModal'
+import { Loader2Icon } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface EditTransactionDrawerProps {
   params: Promise<{
@@ -22,26 +24,30 @@ interface EditTransactionDrawerProps {
 const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
   const { id } = use(params)
   const { data: transaction } = useTransactionShow(parseInt(id))
-  const { mutate: updateTransaction } = useTransactionUpdate(parseInt(id))
-  const { mutate: deleteTransaction } = useTransactionDelete()
+  const { mutate: updateTransaction, isPending: isUpdating } =
+    useTransactionUpdate(parseInt(id))
+  const { mutate: deleteTransaction, isPending: isDeleting } =
+    useTransactionDelete()
   const router = useRouter()
-  const [isSubmitted, setIsSubmitted] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
   if (!transaction) return null
 
   const handleOnSubmit = (values: TransactionUpdate) => {
-    setIsSubmitted(true)
     updateTransaction(values, {
       onSuccess: () => router.back(),
+      onError: () => {
+        toast.error('Impossible de modifier la dépense. Veuillez réessayer.')
+      },
     })
   }
 
   const handleOnDelete = () => {
-    setIsSubmitted(true)
-    setIsDeleteDialogOpen(false)
     deleteTransaction(parseInt(id), {
       onSuccess: () => router.back(),
+      onError: () => {
+        toast.error('Impossible de supprimer la dépense. Veuillez réessayer.')
+      },
     })
   }
 
@@ -68,12 +74,26 @@ const EditTransactionDrawer = ({ params }: EditTransactionDrawerProps) => {
             confirmText="Supprimer la dépense"
             cancelText="Annuler"
           >
-            <Button type="button" variant="destructive" disabled={isSubmitted}>
-              Supprimer
+            <Button type="button" variant="destructive" disabled={isDeleting}>
+              {isDeleting ? (
+                <>
+                  <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                  Suppression...
+                </>
+              ) : (
+                'Supprimer'
+              )}
             </Button>
           </ConfirmationModal>
-          <Button type="submit" disabled={isSubmitted}>
-            Modifier
+          <Button type="submit" disabled={isUpdating}>
+            {isUpdating ? (
+              <>
+                <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                Modification...
+              </>
+            ) : (
+              'Modifier'
+            )}
           </Button>
         </div>
       </TransactionForm>
