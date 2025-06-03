@@ -25,7 +25,7 @@ RSpec.describe TravelStatistics do
       FactoryBot.create(:transaction, user: user, amount: 10, date: start_date + 1.day)
       FactoryBot.create(:transaction, user: user, amount: 10, date: start_date + 1.month)
 
-      result = statistics(start_date: start_date, end_date: start_date + 1.week, target_amount: 100).compute
+      result = build_statistics(start_date: start_date, end_date: start_date + 1.week, target_amount: 100).compute
 
       expect(result[:spent_amount]).to eq(20)
     end
@@ -35,7 +35,7 @@ RSpec.describe TravelStatistics do
       FactoryBot.create(:transaction, user: user, amount: 10, date: start_date)
       FactoryBot.create(:transaction, user: other_user, amount: 10, date: start_date)
 
-      result = statistics(start_date: start_date, end_date: start_date + 1.day, target_amount: 100).compute
+      result = build_statistics(start_date: start_date, end_date: start_date + 1.day, target_amount: 100).compute
 
       expect(result[:spent_amount]).to eq(10)
     end
@@ -58,7 +58,7 @@ RSpec.describe TravelStatistics do
       FactoryBot.create(:transaction, user: user, amount: 10, date: start_date)
       FactoryBot.create(:transaction, user: user, amount: 20, date: start_date + 1.day)
 
-      result = statistics(start_date: start_date, end_date: start_date + 2.days, target_amount: 100).compute[:daily_cumulative_spending]
+      result = build_statistics(start_date: start_date, end_date: start_date + 2.days, target_amount: 100).compute[:daily_cumulative_spending]
 
       expect(result.length).to eq(3)
       expect(result[0][:cumulative_amount]).to eq(10)
@@ -74,14 +74,42 @@ RSpec.describe TravelStatistics do
   end
 
   describe '#split_into_periods_per_country' do
-    it 'extends the last period to end_date when travel is finished' do
+    let(:statistics_end_date) { start_date + 7.days }
+
+    shared_examples 'periods calculation' do
+      it 'returns correctly split periods' do
+        FactoryBot.create(:transaction, user: user, amount: 10, date: start_date, country_code: 'FR')
+        FactoryBot.create(:transaction, user: user, amount: 30, date: start_date + 2.days, country_code: 'GR')
+
+        transactions = Transaction.where(user: user, date: start_date..statistics_end_date)
+        result = build_statistics(
+          start_date: start_date,
+          end_date: statistics_end_date,
+          target_amount: 100,
+        ).send(:split_into_periods_per_country, transactions: transactions)
+
+        expect(result.length).to eq(2)
+        expect(result[0][:country]).to eq('FR')
+        expect(result[0][:period]).to eq(start_date..start_date + 2.days)
+        expect(result[1][:country]).to eq('GR')
+        #binding.break
+        expect(result[1][:period]).to eq((start_date + 2.days)..expected_end_date)
+      end
     end
 
-    it 'extends the last period to today when travel is ongoing' do
+    context 'when travel is finished' do
+      let(:expected_end_date) { statistics_end_date }
+      include_examples 'periods calculation'
+    end
+
+    context 'when travel is ongoing' do
+      let(:expected_end_date) { Date.current }
+      around { |example| travel_to(start_date + 5.days) { example.run } }
+      include_examples 'periods calculation'
     end
   end
 
-def statistics(start_date:, end_date:, target_amount:)
+  def build_statistics(start_date:, end_date:, target_amount:)
     transactions = Transaction.where(user: user, date: start_date..end_date)
 
     described_class.new(

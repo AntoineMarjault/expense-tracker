@@ -34,7 +34,6 @@ class TravelStatistics
   end
 
   def average_daily_spending
-    today_or_end_date = [@end_date, Date.today].min
     (spent_amount / number_of_days(from_date: @start_date, to_date: today_or_end_date)).round(2)
   end
 
@@ -127,7 +126,8 @@ class TravelStatistics
         start_date = local_date(transaction)
       end
     end
-    periods << { country: current_country_code, period: (start_date..local_date(transactions.last)) } if start_date
+
+    periods << { country: current_country_code, period: (start_date..today_or_end_date) } if start_date
 
     periods
   end
@@ -144,5 +144,9 @@ class TravelStatistics
     transaction.date.in_time_zone(timezone).to_date
   rescue TZInfo::InvalidCountryCode
     transaction.date.to_date
+  end
+
+  def today_or_end_date
+    [@end_date, Date.today].min
   end
 end
