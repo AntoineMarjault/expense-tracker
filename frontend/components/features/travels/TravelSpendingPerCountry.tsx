@@ -50,7 +50,10 @@ const TravelSpendingPerCountry = ({
                 <div className="flex items-center gap-2">
                   <span className="text-xl">{country?.flag}</span>
                   <div className="font-medium">
-                    {country?.name || code} <span className="text-sm text-muted-foreground">- {daysSpent} jours</span>
+                    {country?.name || code}{' '}
+                    <span className="text-sm text-muted-foreground">
+                      - {daysSpent} jours
+                    </span>
                   </div>
                 </div>
                 <span className="font-mono">{formatAmount(amount)}€</span>
