@@ -62,6 +62,7 @@ RSpec.describe 'Transactions', type: :request do
             expect(response).to have_http_status(:unprocessable_entity)
             expect(Transaction.count).to eq(0)
         end
+    end
 
     describe 'GET /transactions/:id' do
         it 'returns 200 and the transaction with the given id' do

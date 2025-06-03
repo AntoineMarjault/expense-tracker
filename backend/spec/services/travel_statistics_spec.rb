@@ -92,7 +92,6 @@ RSpec.describe TravelStatistics do
         expect(result[0][:country]).to eq('FR')
         expect(result[0][:period]).to eq(start_date..start_date + 2.days)
         expect(result[1][:country]).to eq('GR')
-        #binding.break
         expect(result[1][:period]).to eq((start_date + 2.days)..expected_end_date)
       end
     end
