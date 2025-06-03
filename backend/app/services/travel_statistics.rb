@@ -15,7 +15,8 @@ class TravelStatistics
       average_daily_spending: average_daily_spending,
       daily_cumulative_spending: daily_cumulative_spending,
       expenses_per_category: expenses_per_category,
-      average_daily_spending_per_country: average_daily_spending_per_country
+      average_daily_spending_per_country: average_daily_spending_per_country,
+      days_per_country: travel_duration_in_days_per_country
     }
   end
 

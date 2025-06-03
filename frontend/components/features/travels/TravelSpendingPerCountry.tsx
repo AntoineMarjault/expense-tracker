@@ -42,13 +42,16 @@ const TravelSpendingPerCountry = ({
         {spendingEntries.map(([code, amount]) => {
           const country = countries.find((c) => c.code === code)
           const percentage = (amount / maxAmount) * 100
+          const daysSpent = statistics.days_per_country[code]
 
           return (
             <div key={code} className="space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-xl">{country?.flag}</span>
-                  <span className="font-medium">{country?.name || code}</span>
+                  <div className="font-medium">
+                    {country?.name || code} <span className="text-sm text-muted-foreground">- {daysSpent} jours</span>
+                  </div>
                 </div>
                 <span className="font-mono">{formatAmount(amount)}€</span>
               </div>

@@ -47,6 +47,7 @@ export interface TravelStatistics {
   daily_spending_target: number
   daily_cumulative_spending: DailyCumulativeSpending[]
   expenses_per_category: ExpenseForCategory[]
+  days_per_country: Record<string, number>
 }
 
 export interface Country {
