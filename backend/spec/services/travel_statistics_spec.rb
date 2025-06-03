@@ -7,14 +7,60 @@ RSpec.describe TravelStatistics do
   describe '#compute' do
     context 'with no transactions' do
       it 'returns default values' do
+        result = build_statistics(start_date: start_date, end_date: start_date + 3.days, target_amount: 100).compute
+
+        expect(result[:spent_amount]).to eq(0)
+        expect(result[:remaining_amount]).to eq(100)
+        expect(result[:progress_percentage]).to eq(0.0)
+        expect(result[:daily_spending_target]).to eq(25) # 100 / 4 days
+        expect(result[:average_daily_spending]).to eq(0.0)
+        expect(result[:daily_cumulative_spending]).to eq([
+          { cumulative_amount: 0, date: start_date, target_amount: 25 },
+          { cumulative_amount: 0, date: start_date + 1.day, target_amount: 50 },
+          { cumulative_amount: 0, date: start_date + 2.days, target_amount: 75 },
+          { cumulative_amount: 0, date: start_date + 3.days, target_amount: 100 },
+        ])
+        expect(result[:expenses_per_category]).to eq([])
+        expect(result[:average_daily_spending_per_country]).to eq({})
       end
     end
 
     context 'with transactions in multiple countries' do
       it 'calculates spending statistics correctly' do
-      end
+        food_category = FactoryBot.create(:category, name: 'Food')
+        transport_category = FactoryBot.create(:category, name: 'Transport')
+        FactoryBot.create(:transaction, user: user, amount: 10, date: start_date, country_code: 'FR', category: food_category)
+        FactoryBot.create(:transaction, user: user, amount: 20, date: start_date + 1.day, country_code: 'GR', category: transport_category)
 
-      it 'calculates average daily spending per country correctly' do
+        result = build_statistics(start_date: start_date, end_date: start_date + 3.days, target_amount: 100).compute
+
+        expect(result[:spent_amount]).to eq(30)
+        expect(result[:remaining_amount]).to eq(70)
+        expect(result[:progress_percentage]).to eq(30.0)
+        expect(result[:daily_spending_target]).to eq(25) # 100 / 4 days
+        expect(result[:average_daily_spending]).to eq(7.5) # 30 / 4 days
+        expect(result[:daily_cumulative_spending]).to eq([
+          { cumulative_amount: 10, date: start_date, target_amount: 25 },
+          { cumulative_amount: 30, date: start_date + 1.day, target_amount: 50 },
+          { cumulative_amount: 30, date: start_date + 2.days, target_amount: 75 },
+          { cumulative_amount: 30, date: start_date + 3.days, target_amount: 100 },
+        ])
+
+        expect(result[:expenses_per_category].length).to eq(2)
+        expect(result[:expenses_per_category][0][:category_name]).to eq('Transport')
+        expect(result[:expenses_per_category][0][:total_expense]).to eq(20)
+        expect(result[:expenses_per_category][1][:category_name]).to eq('Food')
+        expect(result[:expenses_per_category][1][:total_expense]).to eq(10)
+
+        expect(result[:average_daily_spending_per_country]).to eq({
+          'FR' => 0.5e1, # 10 / 2 days
+          'GR' => 0.667e1, # 20 / 3 days
+        })
+        expect(result[:daily_cumulative_spending].length).to eq(4)
+        expect(result[:daily_cumulative_spending][0][:cumulative_amount]).to eq(10)
+        expect(result[:daily_cumulative_spending][1][:cumulative_amount]).to eq(30)
+        expect(result[:daily_cumulative_spending][2][:cumulative_amount]).to eq(30) # No transactions
+        expect(result[:daily_cumulative_spending][3][:cumulative_amount]).to eq(30) # No transactions
       end
     end
   end
