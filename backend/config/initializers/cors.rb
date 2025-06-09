@@ -10,7 +10,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     if Rails.env.development?
       origins "http://localhost:3001"
     else
-      origins "https://expense-tracker-three-ivory.vercel.app", "http://w004oo0os4csgsgw00g8gkkg.49.12.192.48.sslip.io"
+      origins "https://expense-tracker-three-ivory.vercel.app", "https://expenses.antoinemarjault.com"
     end
 
     resource "*",
