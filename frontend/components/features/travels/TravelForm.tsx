@@ -98,7 +98,7 @@ export default function TravelForm<
           name="target_amount"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Travel</FormLabel>
+              <FormLabel>Budget</FormLabel>
               <FormControl>
                 <Input
                   type="number"
