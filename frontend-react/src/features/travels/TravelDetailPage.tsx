@@ -24,9 +24,10 @@ const TravelDetailSkeleton = () => (
 
 const TravelDetailPage = () => {
   const { id } = useParams()
-  const { data: travel, isLoading: travelLoading } = useTravelShow(parseInt(id))
+  const parsedId = id ? parseInt(id) : NaN
+  const { data: travel, isLoading: travelLoading } = useTravelShow(parsedId)
   const { data: statistics, isLoading: statisticsLoading } =
-    useTravelStatisticsShow(parseInt(id))
+    useTravelStatisticsShow(parsedId)
 
   const isLoading = travelLoading || statisticsLoading
 

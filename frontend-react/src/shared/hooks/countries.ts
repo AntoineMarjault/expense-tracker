@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
-import { Country } from '@/types/domain'
+import { Country } from '@/shared/types/domain'
 
 export const useCountryIndex = (): UseQueryResult<Country[]> =>
   useQuery({

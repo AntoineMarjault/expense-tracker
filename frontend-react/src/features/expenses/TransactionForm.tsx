@@ -62,8 +62,6 @@ const formSchema = z.object({
   }),
 })
 
-type FormValues = z.infer<typeof formSchema>
-
 export default function TransactionForm<
   T extends TransactionCreate | TransactionUpdate,
 >({
@@ -86,10 +84,10 @@ export default function TransactionForm<
   const { data: countries = [] } = useCountryIndex()
   const { data: currencies = [] } = useCurrencyIndex()
 
-  const form = useForm<FormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: defaultValues?.amount ?? 0,
+      amount: defaultValues?.amount?.toString() ?? '0',
       name: defaultValues?.name ?? '',
       category_id: defaultValues?.category_id ?? DEFAULT_CATEGORY_ID,
       date: defaultValues?.date ? new Date(defaultValues.date) : new Date(),

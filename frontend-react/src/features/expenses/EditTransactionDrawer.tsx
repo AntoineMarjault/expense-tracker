@@ -15,9 +15,11 @@ import { toast } from 'sonner'
 
 const EditTransactionDrawer = () => {
   const { id } = useParams()
-  const { data: transaction } = useTransactionShow(parseInt(id))
+  const parsedId = id ? parseInt(id) : NaN
+
+  const { data: transaction } = useTransactionShow(parsedId)
   const { mutate: updateTransaction, isPending: isUpdating } =
-    useTransactionUpdate(parseInt(id))
+    useTransactionUpdate(parsedId)
   const { mutate: deleteTransaction, isPending: isDeleting } =
     useTransactionDelete()
   const navigate = useNavigate()
@@ -35,7 +37,7 @@ const EditTransactionDrawer = () => {
   }
 
   const handleOnDelete = () => {
-    deleteTransaction(parseInt(id), {
+    deleteTransaction(parsedId, {
       onSuccess: () => navigate(-1),
       onError: () => {
         toast.error('Impossible de supprimer la dépense. Veuillez réessayer.')

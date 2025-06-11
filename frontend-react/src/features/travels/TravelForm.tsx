@@ -16,7 +16,13 @@ import { DatePicker } from '@/shared/components/ui/custom/DatePicker'
 
 const travelSchema = z.object({
   name: z.string().min(1, 'Le nom est obligatoire'),
-  target_amount: z.string().transform((val) => parseFloat(val)),
+  target_amount: z.union([z.string(), z.number()]).transform((val) => {
+    if (typeof val === 'string') {
+      const parsed = parseFloat(val)
+      return isNaN(parsed) ? 0 : parsed
+    }
+    return val
+  }),
   start_date: z.date({
     required_error: 'La date de début est obligatoire',
   }),
@@ -34,8 +40,6 @@ const travelSchema = z.object({
     )
     .optional(),
 })
-
-export type TravelFormValues = z.infer<typeof travelSchema>
 
 const toUtcDate = (date: Date) => {
   const localDate = new Date(date)
@@ -57,11 +61,11 @@ export default function TravelForm<
   initialData?: Partial<Omit<Travel, 'id'>>
   onSubmitAction: (values: T) => void
 }) {
-  const form = useForm<TravelFormValues>({
+  const form = useForm({
     resolver: zodResolver(travelSchema),
     defaultValues: {
       name: initialData?.name || '',
-      target_amount: initialData?.target_amount,
+      target_amount: initialData?.target_amount?.toString() || '',
       start_date: initialData?.start_date
         ? new Date(initialData.start_date)
         : new Date(),

@@ -6,9 +6,10 @@ import { Travel } from '@/shared/types/domain'
 
 export default function EditTravelPage() {
   const { id } = useParams()
+  const parsedId = id ? parseInt(id) : NaN
   const navigate = useNavigate()
-  const { data: travel, isLoading } = useTravelShow(parseInt(id))
-  const { mutate: updateTravel } = useTravelUpdate(parseInt(id))
+  const { data: travel, isLoading } = useTravelShow(parsedId)
+  const { mutate: updateTravel } = useTravelUpdate(parsedId)
 
   if (isLoading) return null
 
