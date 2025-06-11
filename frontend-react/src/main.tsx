@@ -8,12 +8,15 @@ import {
   NewTransactionDrawer,
   EditTransactionDrawer,
 } from '@/features/expenses'
+import {
+  TravelsPage,
+  NewTravelPage,
+  TravelDetailPage,
+} from '@/features/travels'
 import { QueryProvider } from './providers/QueryProvider'
 import DashboardLayout from '@/dashboard/DashboardLayout.tsx'
-import TravelsPage from '@/features/travels/TravelsPage.tsx'
 import SettingsPage from '@/features/settings/SettingsPage.tsx'
 import { Toaster } from '@/shared/components/ui/sonner.tsx'
-import NewTravelPage from '@/features/travels/NewTravelPage.tsx'
 
 const rootElement = document.getElementById('root') as HTMLElement
 const root = createRoot(rootElement)
@@ -34,6 +37,7 @@ root.render(
             </Route>
             <Route path="travels" element={<TravelsPage />} />
             <Route path="travels/new" element={<NewTravelPage />} />
+            <Route path="travels/:id" element={<TravelDetailPage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Routes>
