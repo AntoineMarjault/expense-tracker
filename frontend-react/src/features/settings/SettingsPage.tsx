@@ -1,10 +1,10 @@
-import { Button } from '@/components/ui/button'
+import { Button } from '@/shared/components/ui/button'
 import { BiLogOut } from 'react-icons/bi'
 import { FiTrash2 } from 'react-icons/fi'
 import { useState } from 'react'
 import { api } from '@/lib/api-client'
-import { useUserDelete } from '@/hooks/users'
-import { useAccount } from '@/hooks/account'
+import { useUserDelete } from '@/shared/hooks/users'
+import { useAccount } from '@/shared/hooks/account'
 import ConfirmationModal from './ConfirmationModal'
 
 const SettingsPage = () => {

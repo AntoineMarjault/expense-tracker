@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode'
-import { TOKEN_KEY } from '@/lib/api-client'
+import { TOKEN_KEY } from '@/lib/api-client.ts'
 
 interface Account {
   user_id: number

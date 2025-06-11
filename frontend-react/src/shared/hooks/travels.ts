@@ -4,8 +4,8 @@ import {
   useQueryClient,
   UseQueryResult,
 } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
-import { Travel, TravelStatistics } from '@/types/domain'
+import { api } from '@/lib/api-client.ts'
+import { Travel, TravelStatistics } from '@/shared/types/domain.ts'
 
 export const useTravelIndex = (): UseQueryResult<Travel[]> =>
   useQuery({

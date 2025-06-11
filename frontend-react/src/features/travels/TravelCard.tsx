@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card'
+import { Card } from '@/shared/components/ui/card'
 import { BiChevronRight } from 'react-icons/bi'
 import { Link } from 'react-router'
 

@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
-import { Category } from '@/types/domain'
+import { api } from '@/lib/api-client.ts'
+import { Category } from '@/shared/types/domain.ts'
 
 export const useCategoryIndex = (): UseQueryResult<Category[]> =>
   useQuery({

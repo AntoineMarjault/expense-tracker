@@ -1,11 +1,11 @@
 import { BiDotsVertical } from 'react-icons/bi'
-import { HeaderAction } from '@/types/header'
+import { HeaderAction } from '@/shared/types/header'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@/shared/components/ui/dropdown-menu'
 
 type HeaderMenuProps = {
   actions: HeaderAction[]

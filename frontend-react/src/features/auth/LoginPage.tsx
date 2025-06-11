@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Button } from '@/components/ui/button.tsx'
-import { Input } from '@/components/ui/input.tsx'
+import { Button } from '@/shared/components/ui/button.tsx'
+import { Input } from '@/shared/components/ui/input.tsx'
 import { Link, useNavigate } from 'react-router'
 import { api } from '@/lib/api-client.ts'
 

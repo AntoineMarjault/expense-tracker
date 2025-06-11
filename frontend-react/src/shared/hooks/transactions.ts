@@ -4,9 +4,9 @@ import {
   useQueryClient,
   UseQueryResult,
 } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
-import { Transaction } from '@/types/domain'
-import { TransactionCreate, TransactionUpdate } from '@/types/api'
+import { api } from '@/lib/api-client.ts'
+import { Transaction } from '@/shared/types/domain.ts'
+import { TransactionCreate, TransactionUpdate } from '@/shared/types/api.ts'
 
 export const useTransactionIndex = (): UseQueryResult<Transaction[]> =>
   useQuery({

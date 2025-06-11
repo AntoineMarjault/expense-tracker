@@ -8,6 +8,8 @@ import DashboardLayout from '@/dashboard/DashboardLayout.tsx'
 import TransactionsPage from '@/features/expenses/TransactionsPage.tsx'
 import TravelsPage from '@/features/travels/TravelsPage.tsx'
 import SettingsPage from '@/features/settings/SettingsPage.tsx'
+import NewTransactionDrawer from '@/features/expenses/NewTransactionDrawer.tsx'
+import { Toaster } from '@/shared/components/ui/sonner.tsx'
 
 const rootElement = document.getElementById('root') as HTMLElement
 const root = createRoot(rootElement)
@@ -22,11 +24,14 @@ root.render(
             <Route path="signup" element={<SignUpPage />} />
           </Route>
           <Route path="dashboard" element={<DashboardLayout />}>
-            <Route path="transactions" element={<TransactionsPage />} />
+            <Route path="transactions" element={<TransactionsPage />}>
+              <Route path="new" element={<NewTransactionDrawer />} />
+            </Route>
             <Route path="travels" element={<TravelsPage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Routes>
+        <Toaster position="top-center" />
       </BrowserRouter>
     </QueryProvider>
   </StrictMode>,

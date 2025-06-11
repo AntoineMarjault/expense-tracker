@@ -1,4 +1,4 @@
-import { HeaderConfig } from '@/types/header'
+import { HeaderConfig } from '@/shared/types/header.ts'
 import { BiEdit, BiTrash } from 'react-icons/bi'
 import { useTravelDelete } from './travels.ts'
 import { useNavigate, useLocation } from 'react-router'

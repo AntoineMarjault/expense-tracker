@@ -1,8 +1,9 @@
 import TransactionCard from './TransactionCard'
-import { useTransactionIndex } from '@/hooks/transactions'
-import { useCategoryIndex } from '@/hooks/categories'
-import { Link } from 'react-router'
-import { Skeleton } from '@/components/ui/skeleton'
+import { useTransactionIndex } from '@/shared/hooks/transactions'
+import { useCategoryIndex } from '@/shared/hooks/categories'
+import { Link, Outlet } from 'react-router'
+import { Skeleton } from '@/shared/components/ui/skeleton'
+import FloatingActionButton from '@/shared/components/ui/custom/FloatingActionButton.tsx'
 
 const TransactionGroupSkeleton = () => (
   <div className="space-y-2">
@@ -105,6 +106,8 @@ const TransactionsPage = () => {
             ))}
           </div>
         ))}
+      <FloatingActionButton href="/dashboard/transactions/new" />
+      <Outlet />
     </div>
   )
 }

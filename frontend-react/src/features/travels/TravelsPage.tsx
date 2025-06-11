@@ -1,7 +1,7 @@
-import { useTravelIndex } from '@/hooks/travels'
+import { useTravelIndex } from '@/shared/hooks/travels'
 import TravelCard from './TravelCard'
-import { Card } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Card } from '@/shared/components/ui/card'
+import { Skeleton } from '@/shared/components/ui/skeleton'
 
 const TravelSkeleton = () => (
   <Card className="mb-2 p-4">
