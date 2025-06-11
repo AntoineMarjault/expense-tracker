@@ -3,12 +3,15 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import { AuthLayout, LoginPage, SignUpPage } from '@/features/auth'
+import {
+  TransactionsPage,
+  NewTransactionDrawer,
+  EditTransactionDrawer,
+} from '@/features/expenses'
 import { QueryProvider } from './providers/QueryProvider'
 import DashboardLayout from '@/dashboard/DashboardLayout.tsx'
-import TransactionsPage from '@/features/expenses/TransactionsPage.tsx'
 import TravelsPage from '@/features/travels/TravelsPage.tsx'
 import SettingsPage from '@/features/settings/SettingsPage.tsx'
-import NewTransactionDrawer from '@/features/expenses/NewTransactionDrawer.tsx'
 import { Toaster } from '@/shared/components/ui/sonner.tsx'
 
 const rootElement = document.getElementById('root') as HTMLElement
@@ -26,6 +29,7 @@ root.render(
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route path="transactions" element={<TransactionsPage />}>
               <Route path="new" element={<NewTransactionDrawer />} />
+              <Route path=":id" element={<EditTransactionDrawer />} />
             </Route>
             <Route path="travels" element={<TravelsPage />} />
             <Route path="settings" element={<SettingsPage />} />

@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { api } from '@/lib/api-client'
 import { useUserDelete } from '@/shared/hooks/users'
 import { useAccount } from '@/shared/hooks/account'
-import ConfirmationModal from './ConfirmationModal'
+import ConfirmationModal from '../../shared/components/ui/custom/ConfirmationModal.tsx'
 
 const SettingsPage = () => {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false)
