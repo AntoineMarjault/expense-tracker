@@ -7,6 +7,7 @@ import { QueryProvider } from './providers/QueryProvider'
 import DashboardLayout from '@/dashboard/DashboardLayout.tsx'
 import TransactionsPage from '@/features/expenses/TransactionsPage.tsx'
 import TravelsPage from '@/features/travels/TravelsPage.tsx'
+import SettingsPage from '@/features/settings/SettingsPage.tsx'
 
 const rootElement = document.getElementById('root') as HTMLElement
 const root = createRoot(rootElement)
@@ -23,7 +24,7 @@ root.render(
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route path="transactions" element={<TransactionsPage />} />
             <Route path="travels" element={<TravelsPage />} />
-            <Route path="settings" element={<div>TODO: Settings page</div>} />
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
