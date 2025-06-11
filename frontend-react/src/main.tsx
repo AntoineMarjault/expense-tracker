@@ -12,6 +12,7 @@ import {
   TravelsPage,
   NewTravelPage,
   TravelDetailPage,
+  EditTravelPage,
 } from '@/features/travels'
 import { QueryProvider } from './providers/QueryProvider'
 import DashboardLayout from '@/dashboard/DashboardLayout.tsx'
@@ -38,6 +39,7 @@ root.render(
             <Route path="travels" element={<TravelsPage />} />
             <Route path="travels/new" element={<NewTravelPage />} />
             <Route path="travels/:id" element={<TravelDetailPage />} />
+            <Route path="travels/:id/edit" element={<EditTravelPage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Routes>
