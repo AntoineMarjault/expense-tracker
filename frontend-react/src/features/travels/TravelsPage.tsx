@@ -2,6 +2,7 @@ import { useTravelIndex } from '@/shared/hooks/travels'
 import TravelCard from './TravelCard'
 import { Card } from '@/shared/components/ui/card'
 import { Skeleton } from '@/shared/components/ui/skeleton'
+import FloatingActionButton from '@/shared/components/ui/custom/FloatingActionButton.tsx'
 
 const TravelSkeleton = () => (
   <Card className="mb-2 p-4">
@@ -39,6 +40,7 @@ const TravelsPage = () => {
             end_date={travel.end_date}
           />
         ))}
+      <FloatingActionButton href="/dashboard/travels/new" />
     </>
   )
 }
