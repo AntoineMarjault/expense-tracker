@@ -2,9 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Routes, Route } from 'react-router'
-import AuthLayout from './auth/AuthLayout'
-import LoginPage from './auth/LoginPage'
-import SignUpPage from './auth/SignUpPage'
+import { AuthLayout, LoginPage, SignUpPage } from './auth'
 import { QueryProvider } from './providers/QueryProvider'
 
 const rootElement = document.getElementById('root') as HTMLElement
