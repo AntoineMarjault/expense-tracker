@@ -1,8 +1,4 @@
-export const TOKEN_KEY = 'auth_token'
-
-const getStoredToken = () => localStorage.getItem(TOKEN_KEY)
-const setStoredToken = (token: string) => localStorage.setItem(TOKEN_KEY, token)
-const removeStoredToken = () => localStorage.removeItem(TOKEN_KEY)
+import { getToken } from '@/lib/auth.ts'
 
 export const api = {
   async fetch(endpoint: string, options: RequestInit = {}) {
@@ -11,7 +7,7 @@ export const api = {
       ...(options.headers as Record<string, string>),
     }
 
-    const token = getStoredToken()
+    const token = getToken()
     if (token) {
       headers['Authorization'] = `Bearer ${token}`
     }
@@ -22,9 +18,6 @@ export const api = {
     })
 
     if (!response.ok) {
-      if (response.status === 401) {
-        removeStoredToken()
-      }
       throw new Error('API request failed')
     }
 
@@ -33,18 +26,6 @@ export const api = {
     }
 
     return response.json()
-  },
-  async login(email: string, password: string) {
-    const response = await this.post('/login', {
-      user: { email, password },
-    })
-    if (response?.token) {
-      setStoredToken(response.token)
-    }
-    return response
-  },
-  logout() {
-    removeStoredToken()
   },
   get(endpoint: string) {
     return this.fetch(endpoint)

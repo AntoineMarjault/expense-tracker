@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/shared/components/ui/button.tsx'
 import { Input } from '@/shared/components/ui/input.tsx'
 import { Link, useNavigate } from 'react-router'
-import { api } from '@/lib/api-client.ts'
+import { AuthContext } from '@/providers/AuthProvider.tsx'
 
 interface LoginFormData {
   email: string
@@ -11,6 +11,7 @@ interface LoginFormData {
 }
 
 const LoginPage = () => {
+  const { login } = useContext(AuthContext)
   const navigate = useNavigate()
   const [error, setError] = useState('')
   const {
@@ -22,9 +23,9 @@ const LoginPage = () => {
   async function onSubmit(data: LoginFormData) {
     setError('')
 
-    const response = await api.login(data.email, data.password)
+    const result = await login(data.email, data.password)
 
-    if (response?.error) {
+    if (!result) {
       setError('Identifiants invalides')
       return
     }
@@ -35,9 +36,9 @@ const LoginPage = () => {
   const handleDemoLogin = async () => {
     setError('')
 
-    const response = await api.login('demo@expense-tracker.com', 'demoPassword')
+    const result = await login('demo@expense-tracker.com', 'demoPassword')
 
-    if (response?.error) {
+    if (!result) {
       setError('Le compte de démonstration est indisponible')
       return
     }

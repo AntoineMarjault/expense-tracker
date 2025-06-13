@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@/shared/components/ui/button.tsx'
 import { Input } from '@/shared/components/ui/input.tsx'
 import { Link, useNavigate } from 'react-router'
-import { useUserCreate } from '@/shared/hooks/user.ts'
+import { useUserCreate } from '@/shared/hooks/users.ts'
 
 interface SignUpFormData {
   email: string

@@ -1,29 +1,11 @@
-import { jwtDecode } from 'jwt-decode'
-import { TOKEN_KEY } from '@/lib/api-client.ts'
+import { getDecodedToken } from '@/lib/auth.ts'
 
 interface Account {
-  user_id: number
-}
-
-interface JWTPayload {
-  user_id: number
-  exp: number
+  user_id?: number
 }
 
 export const useAccount = (): Account => {
-  const getStoredToken = () => localStorage.getItem(TOKEN_KEY)
+  const decodedToken = getDecodedToken()
 
-  const token = getStoredToken()
-  if (!token) {
-    return { user_id: 0 }
-  }
-
-  try {
-    const payload = jwtDecode<JWTPayload>(token)
-    return {
-      user_id: payload.user_id,
-    }
-  } catch {
-    return { user_id: 0 }
-  }
+  return { user_id: decodedToken?.user_id }
 }
