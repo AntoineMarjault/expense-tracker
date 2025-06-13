@@ -38,9 +38,7 @@ module.exports = {
     react: {
       version: 'detect',
     },
-    // 因为默认的 eslint-plugin-import 只支持 js 和 jsx，对于 ts 和 tsx 需要加下面这两个配置，
     'import-x/parsers': {
-      // 使用 TypeScript parser
       '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
     // https://devrsi0n.com/articles/eslint-typescript-import-unsolve
@@ -59,7 +57,6 @@ module.exports = {
     'prettier/prettier': 'warn',
     'react-hooks/exhaustive-deps': 'warn',
     'react/no-unstable-nested-components': ['warn', { allowAsProps: true }],
-    // 导入类型时需添加 type 修饰符
     '@typescript-eslint/consistent-type-imports': [
       'error',
       {
