@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/shared/components/ui/button.tsx'
 import { Input } from '@/shared/components/ui/input.tsx'
@@ -11,7 +11,7 @@ interface LoginFormData {
 }
 
 const LoginPage = () => {
-  const { login } = useContext(AuthContext)
+  const { login, isAuthenticated } = useContext(AuthContext)
   const navigate = useNavigate()
   const [error, setError] = useState('')
   const {
@@ -19,6 +19,12 @@ const LoginPage = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<LoginFormData>()
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate('/dashboard/transactions', { replace: true })
+    }
+  }, [isAuthenticated, navigate])
 
   async function onSubmit(data: LoginFormData) {
     setError('')
