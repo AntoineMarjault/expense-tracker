@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useCallback } from 'react'
 import { removeToken, getToken, setToken } from '@/lib/auth.ts'
 import { api } from '@/lib/api-client.ts'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const AuthContext = createContext<{
   isAuthenticated: () => boolean
@@ -17,6 +18,8 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const queryClient = useQueryClient()
+
   const isAuthenticated = () => {
     const token = getToken()
 
@@ -41,7 +44,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = useCallback(() => {
     removeToken()
-  }, [])
+    queryClient.clear()
+  }, [queryClient])
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
