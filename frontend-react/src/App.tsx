@@ -10,7 +10,7 @@ import {
   TravelDetailPage,
   EditTravelPage,
 } from '@/features/travels'
-import DashboardLayout from '@/dashboard/DashboardLayout.tsx'
+import DashboardLayout from '@/features/dashboard/DashboardLayout.tsx'
 import SettingsPage from '@/features/settings/SettingsPage.tsx'
 import { useContext, useEffect } from 'react'
 import { AuthContext } from '@/providers/AuthProvider.tsx'

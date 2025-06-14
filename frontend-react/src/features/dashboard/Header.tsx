@@ -1,6 +1,6 @@
 import { BiArrowBack } from 'react-icons/bi'
-import HeaderMenu from './HeaderMenu'
-import { useHeaderConfig } from '@/shared/hooks/useHeaderConfig'
+import HeaderMenu from './HeaderMenu.tsx'
+import { useHeaderConfig } from '@/shared/hooks/useHeaderConfig.ts'
 import { useNavigate } from 'react-router'
 
 const Header = () => {
